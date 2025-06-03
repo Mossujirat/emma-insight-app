@@ -1,0 +1,24 @@
+/* Ensure the card styles from dashboard.component.css are generally applied,
+   or copy them here if you want statistics cards to be different.
+   For now, we'll assume they are picked up from global styles or dashboard.component.css */
+
+.list-group-item {
+  background-color: var(--background-color) !important; /* Ensure bg matches theme */
+  color: var(--text-color) !important; /* Ensure text matches theme */
+}
+
+/* Specific styles for chart-placeholder if not using an actual chart library */
+.chart-placeholder .progress {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.map-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Ensure image fits */
+}
+
+.map-preview img {
+  border-radius: 8px;
+}

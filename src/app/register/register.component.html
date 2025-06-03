@@ -1,0 +1,82 @@
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh; min-width: 50vw;">
+  <div class="form-container text-white">
+    <h2 class="text-center mb-4">Register</h2>
+    <p class="text-center mb-4">Welcome onboard with us!</p>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="regEmail" class="form-label">Email</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+          <input type="email" class="form-control" id="regEmail" formControlName="email" placeholder="Enter your Email"
+                [ngClass]="{ 'is-invalid': f['email'].touched && f['email'].invalid }">
+        </div>
+        <div *ngIf="f['email'].touched && f['email'].invalid" class="invalid-feedback">
+          <div *ngIf="f['email'].errors?.['required']">Email is required.</div>
+          <div *ngIf="f['email'].errors?.['email']">Email must be a valid email address.</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="regUsername" class="form-label">Username</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-person"></i></span>
+          <input type="text" class="form-control" id="regUsername" formControlName="username" placeholder="Enter your username"
+                [ngClass]="{ 'is-invalid': f['username'].touched && f['username'].invalid }">
+        </div>
+        <div *ngIf="f['username'].touched && f['username'].invalid" class="invalid-feedback">
+          <div *ngIf="f['username'].errors?.['required']">Username is required.</div>
+          <div *ngIf="f['username'].errors?.['minlength']">Username must be at least 3 characters.</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="regPassword" class="form-label">Password</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-lock"></i></span>
+          <input type="password" class="form-control" id="regPassword" formControlName="password" placeholder="Enter your password"
+                [ngClass]="{ 'is-invalid': f['password'].touched && f['password'].invalid }">
+          <button class="btn btn-outline-secondary text-white-50" type="button" id="toggleRegPassword">
+            <i class="bi bi-eye-slash"></i>
+          </button>
+        </div>
+        <div *ngIf="f['password'].touched && f['password'].invalid" class="invalid-feedback">
+          <div *ngIf="f['password'].errors?.['required']">Password is required.</div>
+          <div *ngIf="f['password'].errors?.['minlength']">Password must be at least 6 characters.</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+          <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" placeholder="Enter your password again"
+                [ngClass]="{ 'is-invalid': f['confirmPassword'].touched && (f['confirmPassword'].invalid || registerForm.errors?.['passwordMismatch']) }">
+          <button class="btn btn-outline-secondary text-white-50" type="button" id="toggleConfirmPassword">
+            <i class="bi bi-eye-slash"></i>
+          </button>
+        </div>
+        <div *ngIf="f['confirmPassword'].touched && f['confirmPassword'].invalid" class="invalid-feedback">
+          <div *ngIf="f['confirmPassword'].errors?.['required']">Confirm Password is required.</div>
+        </div>
+        <div *ngIf="f['confirmPassword'].touched && registerForm.errors?.['passwordMismatch']" class="invalid-feedback d-block">
+          Passwords do not match.
+        </div>
+      </div>
+
+      <div *ngIf="successMessage" class="alert alert-success mt-3 text-center">
+        {{ successMessage }}
+      </div>
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center">
+        {{ errorMessage }}
+      </div>
+
+      <div class="d-grid gap-2 mb-3">
+        <button type="submit" class="btn btn-success btn-lg" [disabled]="registerForm.invalid">Register</button>
+      </div>
+
+      <p class="text-center mt-3">
+        Have account? <a routerLink="/login" class="text-white text-decoration-none fw-bold">Sign In</a>
+      </p>
+    </form>
+</div>

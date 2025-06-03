@@ -1,0 +1,30 @@
+/* Styles specific to the dashboard content */
+.card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.2); /* Slightly transparent dark background */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
+}
+
+.table {
+  background-color: transparent !important; /* Ensure table background is transparent for dark theme */
+}
+
+.table-dark th, .table-dark td {
+  border-color: rgba(255, 255, 255, 0.1); /* Lighter borders for dark table */
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important; /* Lighter hover effect */
+}
+
+/* Ensure text is readable in both themes */
+.card h5, .card span, .card p, .card label {
+  color: var(--text-color);
+}
+
+/* Placeholder for map image */
+.card img {
+  border-radius: 5px;
+}

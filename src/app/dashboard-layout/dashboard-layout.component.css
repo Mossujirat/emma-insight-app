@@ -1,0 +1,63 @@
+.dashboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background-color); /* Use theme variable */
+  color: var(--text-color); /* Use theme variable */
+}
+
+.dashboard-header {
+  height: 60px; /* Fixed height for the header */
+  flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+.dashboard-header .navbar-brand span {
+  color: var(--text-color); /* Ensure brand text matches theme */
+}
+
+.sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  transition: width 0.3s ease-in-out;
+  display: flex; /* This is crucial: make sidebar a flex container */
+  flex-direction: column; /* Stack items vertically within sidebar */
+  height: calc(100vh - 60px); /* Ensure sidebar takes available height below header */
+  overflow-y: auto; /* Allow scrolling if content is too long */
+}
+
+.sidebar.collapsed {
+  width: 70px;
+}
+
+.sidebar .nav-link {
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 5px;
+  color: var(--text-color) !important; /* Ensure links follow theme */
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active-link {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff !important; /* White text on hover/active */
+}
+
+.sidebar .nav-link i {
+  min-width: 30px; /* Ensure icon alignment */
+}
+
+.dashboard-content {
+  flex-grow: 1; /* Takes remaining width */
+  overflow-y: auto; /* Enable scrolling if content overflows */
+}
+
+/* Sidebar toggle button styling */
+.sidebar-toggle-btn {
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  align-self: center; /* Center horizontally within the flex column */
+  margin-top: auto; /* Push it to the very bottom */
+  padding: 10px 0; /* Add some vertical padding */
+}

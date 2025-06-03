@@ -1,1 +1,89 @@
-/* You can add global styles to this file, and also import other style files */
+/* You might have some default styles here from Angular CLI */
+
+/* --- Theme Variables --- */
+:root {
+  --background-color: #f8f9fa; /* Light theme background */
+  --text-color: #212529; /* Light theme text */
+  --form-bg-opacity: 0.2; /* Frosted glass transparency */
+  --form-border-color: rgba(255, 255, 255, 0.3);
+}
+
+body.dark-theme {
+  --background-color: #212529; /* Dark theme background */
+  --text-color: #f8f9fa; /* Dark theme text */
+  --form-bg-opacity: 0.2; /* Can be adjusted for dark mode */
+  --form-border-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Apply theme variables */
+body {
+  margin: 0; /* Ensure no default body margin */
+  padding: 0; /* Ensure no default body padding */
+  overflow: hidden; /* Prevent body scrolling when dashboard manages its own */
+  background-color: var(--background-color);
+  color: var(--text-color);
+  background-image: url('/background.png'); /* Keep for public pages */
+  background-size: cover;
+  background-position: center;
+  /* Removed min-height, display: flex, etc. from here for the body itself */
+  backdrop-filter: blur(5px);
+}
+
+/* app-root now acts as the container for public pages, or for the dashboard layout */
+app-root {
+  display: flex; /* Make it a flex container */
+  flex-direction: column; /* Arrange children vertically */
+  min-height: 100vh; /* Ensure it takes full viewport height */
+  width: 100vw; /* Ensure it takes full viewport width */
+  overflow: hidden; /* Prevent scrollbars from app-root */
+}
+
+/* Adjustments for public pages that use the form-container, when the dashboard layout is not active */
+/* These styles are specifically to center the form-container within app-root for landing, login, register */
+app-landing,
+app-login,
+app-register {
+  display: flex;
+  flex-grow: 1; /* Allows them to take available space */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  padding-top: 60px; /* Space for the fixed header */
+  padding-bottom: 20px; /* Some bottom padding */
+}
+
+/* Ensure form-container text color for public pages is dark if theme is light and vice-versa */
+.form-container {
+    background-color: rgba(255, 255, 255, var(--form-bg-opacity));
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--form-border-color);
+    width: 90%;
+    margin: auto;
+    color: var(--text-color); /* Ensure text color matches theme variable */
+}
+
+/* Specific overrides for dark theme on input fields */
+body.dark-theme .form-control {
+    background-color: rgba(255, 255, 255, 0.1); /* Slightly visible input in dark mode */
+    color: var(--text-color);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-theme .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+body.dark-theme .input-group-text {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--text-color);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-theme .form-check-label {
+    color: var(--text-color);
+}
+
+body.dark-theme a {
+    color: var(--text-color); /* Ensure links are visible */
+}

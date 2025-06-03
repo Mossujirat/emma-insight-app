@@ -1,0 +1,57 @@
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh; min-width: 50vw;">
+  <div class="form-container text-white">
+    <h2 class="text-center mb-4">Login</h2>
+    <p class="text-center mb-4">Welcome to EMMA INSIGHT please enter your login details before using</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="email" class="form-label">Email or username</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-person"></i></span>
+          <input type="text" class="form-control" id="email" formControlName="email" placeholder="Enter your username"
+                [ngClass]="{ 'is-invalid': f['email'].touched && f['email'].invalid }">
+        </div>
+        <div *ngIf="f['email'].touched && f['email'].invalid" class="invalid-feedback">
+          <div *ngIf="f['email'].errors?.['required']">Email is required.</div>
+          <div *ngIf="f['email'].errors?.['email']">Email must be a valid email address.</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label d-flex justify-content-between">
+          <span>Password</span>
+          <a routerLink="/forgot-password" class="text-white-50 text-decoration-none">Forgot Password?</a>
+        </label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-lock"></i></span>
+          <input type="password" class="form-control" id="password" formControlName="password" placeholder="Enter your password"
+                [ngClass]="{ 'is-invalid': f['password'].touched && f['password'].invalid }">
+          <button class="btn btn-outline-secondary text-white-50" type="button" id="togglePassword">
+            <i class="bi bi-eye-slash"></i>
+          </button>
+        </div>
+        <div *ngIf="f['password'].touched && f['password'].invalid" class="invalid-feedback">
+          <div *ngIf="f['password'].errors?.['required']">Password is required.</div>
+          <div *ngIf="f['password'].errors?.['minlength']">Password must be at least 6 characters.</div>
+        </div>
+      </div>
+
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="rememberMe">
+        <label class="form-check-label" for="rememberMe">Remember me</label>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center">
+        {{ errorMessage }}
+      </div>
+
+      <div class="d-grid gap-2 mb-3">
+        <button type="submit" class="btn btn-primary btn-lg" [disabled]="loginForm.invalid">Log In</button>
+      </div>
+
+      <p class="text-center mt-3">
+        New to Login? <a routerLink="/register" class="text-white text-decoration-none fw-bold">Register Here</a>
+      </p>
+    </form>
+  </div>
+</div>
