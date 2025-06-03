@@ -1,137 +1,136 @@
-<div class="row">
-  <div class="col-md-3 mb-3">
-    <div class="card bg-dark text-white p-3">
-      <div class="d-flex justify-content-between align-items-center">
-        <span>Online</span>
-        <span class="fs-4 fw-bold text-success">43</span>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3 mb-3">
-    <div class="card bg-dark text-white p-3">
-      <div class="d-flex justify-content-between align-items-center">
-        <span>Warning</span>
-        <span class="fs-4 fw-bold text-warning">39</span>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3 mb-3">
-    <div class="card bg-dark text-white p-3">
-      <div class="d-flex justify-content-between align-items-center">
-        <span>Critical</span>
-        <span class="fs-4 fw-bold text-danger">5</span>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3 mb-3">
-    <div class="card bg-dark text-white p-3">
-      <div class="d-flex justify-content-between align-items-center">
-        <span>Offline</span>
-        <span class="fs-4 fw-bold text-secondary">25</span>
-      </div>
-    </div>
-  </div>
-</div>
+<div class="dashboard-scroll-container">
 
-<div class="row">
-  <div class="col-md-8 mb-3">
-    <div class="card bg-dark text-white p-3" style="min-height: 400px;">
-      <h5><i class="bi bi-geo-alt-fill me-2"></i>Map</h5>
-      <div class="map-section">
-        <app-longdo-map></app-longdo-map>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-12 mt-4">
-    <div class="card bg-dark text-white p-3">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5>Select Vehicles</h5>
-        <div>
-          <button class="btn btn-sm btn-primary me-2">All</button>
-          <button class="btn btn-sm btn-outline-secondary me-2">Bus</button>
-          <button class="btn btn-sm btn-outline-secondary me-2">Cargo</button>
-          <button class="btn btn-sm btn-outline-secondary">Taxi</button>
+  <div class="row custom-map-and-status-row">
+    <div class="col-md-9 mb-3">
+      <div class="card bg-dark text-white p-3" style="min-height: 400px;">
+        <h5><i class="bi bi-geo-alt-fill me-2"></i>Map</h5>
+        <div class="map-section">
+          <app-longdo-map></app-longdo-map>
         </div>
       </div>
+    </div>
 
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-          <button class="btn btn-sm btn-outline-light me-2">All</button>
-          <button class="btn btn-sm btn-outline-success me-2">Online</button>
-          <button class="btn btn-sm btn-outline-warning me-2">Warning</button>
-          <button class="btn btn-sm btn-outline-danger me-2">Critical</button>
-          <button class="btn btn-sm btn-outline-secondary">Offline</button>
+    <div class="col-md-3 mb-3">
+      <div class="d-flex flex-column h-100 justify-content-around">
+        <div class="card bg-dark text-white p-3 mb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <span>Online</span>
+            <span class="fs-4 fw-bold text-success">43</span>
+          </div>
         </div>
-        <div class="input-group w-25">
-          <input type="text" class="form-control form-control-sm" placeholder="Search vehicle, customer and others...">
-          <span class="input-group-text"><i class="bi bi-search"></i></span>
+        <div class="card bg-dark text-white p-3 mb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <span>Warning</span>
+            <span class="fs-4 fw-bold text-warning">39</span>
+          </div>
+        </div>
+        <div class="card bg-dark text-white p-3 mb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <span>Critical</span>
+            <span class="fs-4 fw-bold text-danger">5</span>
+          </div>
+        </div>
+        <div class="card bg-dark text-white p-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <span>Offline</span>
+            <span class="fs-4 fw-bold text-secondary">25</span>
+          </div>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div class="table-responsive">
-        <table class="table table-dark table-striped table-hover">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>License Plate No.</th>
-              <th>Driver</th>
-              <th>Vehicles</th>
-              <th>Updated</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr (click)="viewDriverDetails('B001')" style="cursor: pointer;">
-              <td>B001</td>
-              <td>AD-1234</td>
-              <td>Sarawut</td>
-              <td>Bus</td>
-              <td>5 min ago</td>
-              <td><span class="badge bg-danger">Critical</span> Sleep</td>
-            </tr>
-            <tr>
-              <td>C001</td>
-              <td>AD-1234</td>
-              <td>Moss</td>
-              <td>Cargo</td>
-              <td>35 min ago</td>
-              <td>Normal</td>
-            </tr>
-            <tr>
-              <td>B003</td>
-              <td>AD-1234</td>
-              <td>Kajslee</td>
-              <td>Bus</td>
-              <td>15 min ago</td>
-              <td>Normal</td>
-            </tr>
-            <tr>
-              <td>C004</td>
-              <td>AD-1234</td>
-              <td>Tasaya</td>
-              <td>Cargo</td>
-              <td>2 min ago</td>
-              <td>Normal</td>
-            </tr>
-            <tr>
-              <td>B002</td>
-              <td>AD-1234</td>
-              <td>Aleeya</td>
-              <td>Bus</td>
-              <td>4 day ago</td>
-              <td>Normal</td>
-            </tr>
-            <tr>
-              <td>C003</td>
-              <td>AD-1234</td>
-              <td>Perin</td>
-              <td>Cargo</td>
-              <td>1 day ago</td>
-              <td>Normal</td>
-            </tr>
-          </tbody>
-        </table>
+  <div class="row">
+    <div class="col-md-12 mt-4">
+      <div class="card bg-dark text-white p-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5>Select Vehicles</h5>
+          <div>
+            <button class="btn btn-sm btn-primary me-2">All</button>
+            <button class="btn btn-sm btn-outline-secondary me-2">Bus</button>
+            <button class="btn btn-sm btn-outline-secondary me-2">Cargo</button>
+            <button class="btn btn-sm btn-outline-secondary">Taxi</button>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <button class="btn btn-sm btn-outline-light me-2">All</button>
+            <button class="btn btn-sm btn-outline-success me-2">Online</button>
+            <button class="btn btn-sm btn-outline-warning me-2">Warning</button>
+            <button class="btn btn-sm btn-outline-danger me-2">Critical</button>
+            <button class="btn btn-sm btn-outline-secondary">Offline</button>
+          </div>
+          <div class="input-group w-25">
+            <input type="text" class="form-control form-control-sm" placeholder="Search vehicle, customer and others...">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-dark table-striped table-hover">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>License Plate No.</th>
+                <th>Driver</th>
+                <th>Vehicles</th>
+                <th>Updated</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr (click)="viewDriverDetails('B001')" style="cursor: pointer;">
+                <td>B001</td>
+                <td>AD-1234</td>
+                <td>Sarawut</td>
+                <td>Bus</td>
+                <td>5 min ago</td>
+                <td><span class="badge bg-danger">Critical</span> Sleep</td>
+              </tr>
+              <tr>
+                <td>C001</td>
+                <td>AD-1234</td>
+                <td>Moss</td>
+                <td>Cargo</td>
+                <td>35 min ago</td>
+                <td>Normal</td>
+              </tr>
+              <tr>
+                <td>B003</td>
+                <td>AD-1234</td>
+                <td>Kajslee</td>
+                <td>Bus</td>
+                <td>15 min ago</td>
+                <td>Normal</td>
+              </tr>
+              <tr>
+                <td>C004</td>
+                <td>AD-1234</td>
+                <td>Tasaya</td>
+                <td>Cargo</td>
+                <td>2 min ago</td>
+                <td>Normal</td>
+              </tr>
+              <tr>
+                <td>B002</td>
+                <td>AD-1234</td>
+                <td>Aleeya</td>
+                <td>Bus</td>
+                <td>4 day ago</td>
+                <td>Normal</td>
+              </tr>
+              <tr>
+                <td>C003</td>
+                <td>AD-1234</td>
+                <td>Perin</td>
+                <td>Cargo</td>
+                <td>1 day ago</td>
+                <td>Normal</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>

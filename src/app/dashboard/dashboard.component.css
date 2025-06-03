@@ -28,3 +28,39 @@
 .card img {
   border-radius: 5px;
 }
+
+/* --- New styles for layout and scrolling --- */
+
+/* Styles for the main scrollable container */
+.dashboard-scroll-container {
+  /* Set a maximum height for the container, adjust as needed */
+  /* This height should be less than the viewport height if you want
+     the overall page to scroll the dashboard content, or based on the
+     available space in your layout. */
+  max-height: calc(100vh - 100px); /* Example: 100vh minus some header/footer space */
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
+  padding-right: 15px; /* Add some padding to prevent scrollbar from overlapping content */
+  /* You might need to adjust padding or margin depending on your overall app layout */
+}
+
+/* Optional: Adjust map height if it looks too tall or short after layout changes */
+/* The map section might need its own height to fill its parent card */
+.map-section {
+  height: 100%; /* Make map section take full height of its card */
+  /* If the map itself (app-longdo-map) needs a specific height, you might add it here,
+     e.g., if app-longdo-map relies on a parent with a defined height */
+  /* Example: If the map itself needs to be fixed height within its card: */
+  /* height: 350px; */
+}
+
+/* Add some margin-bottom to the individual status cards if they are too close
+   when stacked vertically in the col-md-3 beside the map.
+   (Already added as 'mb-3' in HTML, but if more space is needed, you can adjust here)
+*/
+.dashboard-scroll-container .col-md-3 > .d-flex.flex-column > .card {
+  margin-bottom: 15px; /* Adjust as needed */
+}
+/* Remove last margin-bottom to prevent extra space at the end */
+.dashboard-scroll-container .col-md-3 > .d-flex.flex-column > .card:last-child {
+  margin-bottom: 0;
+}
