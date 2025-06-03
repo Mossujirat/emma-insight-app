@@ -12,6 +12,7 @@ import { HeaderComponent } from './header/header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { LongdoMapComponent } from './longdo-map/longdo-map.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { StatisticsComponent } from './statistics/statistics.component';
     HeaderComponent,
     DashboardComponent,
     DashboardLayoutComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    LongdoMapComponent
   ],
   imports: [
     BrowserModule,

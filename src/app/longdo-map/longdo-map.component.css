@@ -1,0 +1,6 @@
+#longdo-map-container {
+  /* Ensure the container has a defined size */
+  width: 100%;
+  height: 400px; /* Adjust as needed */
+  border: 1px solid #ccc; /* Optional: for visual reference */
+}
