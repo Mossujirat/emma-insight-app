@@ -1,24 +1,67 @@
-/* Ensure the card styles from dashboard.component.css are generally applied,
-   or copy them here if you want statistics cards to be different.
-   For now, we'll assume they are picked up from global styles or dashboard.component.css */
-
-.list-group-item {
-  background-color: var(--background-color) !important; /* Ensure bg matches theme */
-  color: var(--text-color) !important; /* Ensure text matches theme */
+/* Ensure the card styles from dashboard.component.css are generally applied */
+.card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
 }
 
-/* Specific styles for chart-placeholder if not using an actual chart library */
-.chart-placeholder .progress {
-  background-color: rgba(255, 255, 255, 0.1);
+.table {
+  background-color: transparent !important;
 }
 
-.map-preview {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden; /* Ensure image fits */
+.table-dark th, .table-dark td {
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
-.map-preview img {
-  border-radius: 8px;
+.table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Specific styles for the doughnut chart placeholder and status dots */
+.doughnut-chart-placeholder {
+  /* No specific styles needed here other than img-fluid from Bootstrap */
+}
+
+.dot-normal {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #28a745; /* Green */
+}
+.dot-warning {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #ffc107; /* Yellow */
+}
+.dot-critical {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #dc3545; /* Red */
+}
+
+/* Styling for input fields in dark theme */
+.form-control.bg-dark {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: var(--text-color) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+.form-control.bg-dark::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+.form-select.bg-dark {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: var(--text-color) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+.input-group-text.bg-secondary {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  color: var(--text-color) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
 }

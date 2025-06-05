@@ -1,0 +1,46 @@
+/* Ensure the card styles from dashboard.component.css are generally applied */
+.card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
+}
+
+.table {
+  background-color: transparent !important;
+}
+
+.table-dark th, .table-dark td {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Specific styles for chart-placeholder if not using an actual chart library */
+.list-group-item {
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important; /* Ensure border is visible */
+}
+
+.list-group-item:last-child {
+  border-bottom: none !important; /* No border for the last item */
+}
+
+.chart-placeholder .progress {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.map-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.map-preview img {
+  border-radius: 8px;
+}

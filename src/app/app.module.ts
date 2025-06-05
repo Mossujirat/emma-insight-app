@@ -13,6 +13,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { LongdoMapComponent } from './longdo-map/longdo-map.component';
+import { DriverDetailsComponent } from './driver-details/driver-details.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { LongdoMapComponent } from './longdo-map/longdo-map.component';
     DashboardComponent,
     DashboardLayoutComponent,
     StatisticsComponent,
-    LongdoMapComponent
+    LongdoMapComponent,
+    DriverDetailsComponent
   ],
   imports: [
     BrowserModule,

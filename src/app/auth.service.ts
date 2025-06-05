@@ -20,21 +20,23 @@ export class AuthService {
    */
   login(credentials: any): Observable<any> {
     console.log('AuthService: Attempting login with:', credentials);
-    // Simulate API call with a delay
-    return of(null).pipe(
-      delay(1000), // Simulate network latency
-      tap(() => {
-        // Simple validation: If email is 'test@example.com' and password is 'password123', consider it successful
-        if (credentials.email === 'test@example.com' && credentials.password === 'password123') {
-          const fakeToken = 'fake-jwt-token-12345'; // Simulate receiving a JWT token
+    // This creates an observable that immediately checks the credentials
+    // and then, after a delay, either emits success or throws an error.
+    if (credentials.email === 'test@example.com' && credentials.password === 'password123') {
+      return of({ message: 'Login successful' }).pipe(
+        delay(1000), // Simulate network latency
+        tap(() => {
+          const fakeToken = 'fake-jwt-token-12345';
           this.setToken(fakeToken);
-          console.log('AuthService: Login successful!');
-          // In a real app, you might also store user roles or other info
-        } else {
-          throwError(() => new Error('Invalid email or password')); // Simulate login failure
-        }
-      })
-    );
+          console.log('AuthService: Login successful!'); // This will now log on success
+        })
+      );
+    } else {
+      // If credentials are bad, immediately return an observable that throws an error after a delay
+      return throwError(() => new Error('Invalid email or password')).pipe(
+        delay(1000) // Simulate network latency for failed login too
+      );
+    }
   }
 
   /**

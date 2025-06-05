@@ -20,11 +20,10 @@ export class DashboardComponent implements OnInit {
     // But keeping for context if needed for other actions
   }
 
-  // Navigate to statistics page with driver ID (simulated)
+  // Navigate to driver details page with driver ID as a path parameter
   viewDriverDetails(driverId: string): void {
-    console.log(`Navigating to details for driver: ${driverId}`);
-    // In a real app, you might pass the ID as a route parameter to the statistics page
-    this.router.navigate(['/dashboard/statistics'], { queryParams: { driver: driverId } });
+    console.log(`Navigating to driver details for: ${driverId}`);
+    this.router.navigate(['/dashboard/driver-details', driverId]); // Use path parameter
   }
 
   // The logout method is now in DashboardLayoutComponent, but keeping a placeholder here if ever needed
