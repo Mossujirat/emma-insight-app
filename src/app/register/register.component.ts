@@ -42,6 +42,8 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   successMessage: string = '';
   errorMessage: string = '';
+  hidePassword = true;
+  hideConfirmPassword = true;
 
   constructor(
     private fb: FormBuilder,
@@ -58,6 +60,14 @@ export class RegisterComponent implements OnInit {
     }, {
       validators: passwordMatchValidator('password', 'confirmPassword') // Add custom validator at FormGroup level
     });
+  }
+
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.hideConfirmPassword = !this.hideConfirmPassword;
   }
 
   get f() { return this.registerForm.controls; }

@@ -8,16 +8,19 @@ import { StatisticsComponent } from './statistics/statistics.component'; // New 
 import { DriverDetailsComponent } from './driver-details/driver-details.component'; // New Driver Details Page
 import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
 import { AuthGuard } from './auth.guard';
+import { PublicGuard } from './public.guard';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [PublicGuard]
   },
   {
     path: 'register',
     component: RegisterComponent,
+    canActivate: [PublicGuard]
   },
   {
     path: 'dashboard',
@@ -28,8 +31,6 @@ const routes: Routes = [
       { path: 'home', component: DashboardComponent }, // Main dashboard overview
       { path: 'statistics', component: StatisticsComponent }, // New overall statistics page
       { path: 'driver-details/:id', component: DriverDetailsComponent } // New route for driver details with a parameter
-      // If you prefer query parameters for driver details:
-      // { path: 'driver-details', component: DriverDetailsComponent }
     ]
   },
   { path: '**', redirectTo: '' }

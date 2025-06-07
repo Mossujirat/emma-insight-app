@@ -34,10 +34,10 @@
         <label for="regPassword" class="form-label">Password</label>
         <div class="input-group">
           <span class="input-group-text"><i class="bi bi-lock"></i></span>
-          <input type="password" class="form-control" id="regPassword" formControlName="password" placeholder="Enter your password"
+          <input [type]="hidePassword ? 'password' : 'text'" class="form-control" id="regPassword" formControlName="password" placeholder="Enter your password"
                 [ngClass]="{ 'is-invalid': f['password'].touched && f['password'].invalid }">
-          <button class="btn btn-outline-secondary text-white-50" type="button" id="toggleRegPassword">
-            <i class="bi bi-eye-slash"></i>
+          <button class="btn btn-outline-secondary text-white-50" type="button" (click)="togglePasswordVisibility()">
+            <i class="bi" [ngClass]="hidePassword ? 'bi-eye-slash' : 'bi-eye'"></i>
           </button>
         </div>
         <div *ngIf="f['password'].touched && f['password'].invalid" class="invalid-feedback">
@@ -50,10 +50,10 @@
         <label for="confirmPassword" class="form-label">Confirm Password</label>
         <div class="input-group">
           <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-          <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" placeholder="Enter your password again"
+          <input [type]="hideConfirmPassword ? 'password' : 'text'" class="form-control" id="confirmPassword" formControlName="confirmPassword" placeholder="Enter your password again"
                 [ngClass]="{ 'is-invalid': f['confirmPassword'].touched && (f['confirmPassword'].invalid || registerForm.errors?.['passwordMismatch']) }">
-          <button class="btn btn-outline-secondary text-white-50" type="button" id="toggleConfirmPassword">
-            <i class="bi bi-eye-slash"></i>
+          <button class="btn btn-outline-secondary text-white-50" type="button" (click)="toggleConfirmPasswordVisibility()">
+            <i class="bi" [ngClass]="hideConfirmPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
           </button>
         </div>
         <div *ngIf="f['confirmPassword'].touched && f['confirmPassword'].invalid" class="invalid-feedback">

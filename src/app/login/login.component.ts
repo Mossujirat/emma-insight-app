@@ -12,6 +12,7 @@ import { Router } from '@angular/router'; // Import Router
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup; // Declare loginForm as a FormGroup
   errorMessage: string = '';
+  hidePassword = true; 
 
   constructor(
     private fb: FormBuilder,
@@ -24,6 +25,10 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]], // 'email' control with required and email validators
       password: ['', [Validators.required, Validators.minLength(6)]] // 'password' control with required and minLength(6) validators
     });
+  }
+
+  togglePasswordVisibility(): void {
+    this.hidePassword = !this.hidePassword;
   }
 
   // Getter for easy access to form fields in the template

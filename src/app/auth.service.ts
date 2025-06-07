@@ -2,23 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; // We'll just declare this for future use, not actively use it yet
 import { Observable, of, throwError } from 'rxjs'; // Import Observable, of, throwError
 import { delay, tap } from 'rxjs/operators'; // Import delay and tap
+import { LoginCredentials, RegistrationData, User } from './models/user.model'; // Import the new interfaces
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly TOKEN_KEY = 'authToken'; // Key for storing token in localStorage
+  private readonly TOKEN_KEY = 'authToken';
+  private readonly USER_PROFILE_KEY = 'userProfile';
 
   // We are not actively using HttpClient yet, but it's good to have it ready for a real backend
   constructor(private http: HttpClient) { }
 
-  /**
-   * Simulates a user login API call.
-   * In a real app, this would send credentials to a backend and receive a token.
-   * @param credentials An object containing email/username and password.
-   * @returns An Observable that emits a success or error.
-   */
-  login(credentials: any): Observable<any> {
+  login(credentials: LoginCredentials): Observable<any> {
     console.log('AuthService: Attempting login with:', credentials);
     // This creates an observable that immediately checks the credentials
     // and then, after a delay, either emits success or throws an error.
@@ -27,6 +23,14 @@ export class AuthService {
         delay(1000), // Simulate network latency
         tap(() => {
           const fakeToken = 'fake-jwt-token-12345';
+          const fakeUserId = 'fake-id-1234';
+          const fakeUser: User = {
+            userId: fakeUserId,
+            username: 'Chadchai', // The name you want to display
+            email: credentials.email,
+            password: credentials.password,
+            token: fakeToken,
+          };
           this.setToken(fakeToken);
           console.log('AuthService: Login successful!'); // This will now log on success
         })
@@ -60,36 +64,38 @@ export class AuthService {
     );
   }
 
-  /**
-   * Stores the authentication token in localStorage.
-   * @param token The JWT token received from the backend.
-   */
   private setToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);
   }
 
-  /**
-   * Retrieves the authentication token from localStorage.
-   * @returns The stored token, or null if not found.
-   */
+  private setUserProfile(user: User): void {
+    localStorage.setItem(this.USER_PROFILE_KEY, JSON.stringify(user));
+  }
+
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  /**
-   * Checks if a user is currently logged in based on the presence of a token.
-   * In a real app, you might also validate the token (e.g., check expiration).
-   * @returns True if a token exists, false otherwise.
-   */
+  getUserProfile(): User | null {
+    const userProfileString = localStorage.getItem(this.USER_PROFILE_KEY);
+    if (userProfileString) {
+      try {
+        return JSON.parse(userProfileString) as User; // Cast to User interface
+      } catch (e) {
+        console.error("Error parsing user profile from localStorage", e);
+        return null;
+      }
+    }
+    return null;
+  }
+
   isLoggedIn(): boolean {
     return !!this.getToken(); // Convert to boolean: true if token exists, false if null
   }
 
-  /**
-   * Logs out the user by removing the token from localStorage.
-   */
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem(this.USER_PROFILE_KEY);
     console.log('AuthService: User logged out.');
   }
 }

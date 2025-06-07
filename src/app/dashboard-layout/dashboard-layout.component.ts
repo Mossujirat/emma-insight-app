@@ -1,6 +1,7 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { User } from '../models/user.model'; // Import User model
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -11,6 +12,7 @@ import { AuthService } from '../auth.service';
 export class DashboardLayoutComponent implements OnInit {
   isSidebarCollapsed: boolean = false;
   currentTheme: 'light' | 'dark' = 'light'; // For the dashboard header theme switch
+  loggedInUser: User | null = null; // Changed to User object
 
   constructor(
     private router: Router,
@@ -26,6 +28,7 @@ export class DashboardLayoutComponent implements OnInit {
     } else {
       this.currentTheme = 'light';
     }
+    this.loggedInUser = this.authService.getUserProfile();
     // Also apply to body if not already handled by app-component
     this.applyThemeToBody();
   }
@@ -36,7 +39,6 @@ export class DashboardLayoutComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
-    // Use replaceUrl: true to prevent going back to the dashboard via browser back button
     this.router.navigate(['/login'], { replaceUrl: true });
   }
 
