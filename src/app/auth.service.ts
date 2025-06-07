@@ -16,8 +16,6 @@ export class AuthService {
 
   login(credentials: LoginCredentials): Observable<any> {
     console.log('AuthService: Attempting login with:', credentials);
-    // This creates an observable that immediately checks the credentials
-    // and then, after a delay, either emits success or throws an error.
     if (credentials.email === 'test@example.com' && credentials.password === 'password123') {
       return of({ message: 'Login successful' }).pipe(
         delay(1000), // Simulate network latency
@@ -32,6 +30,7 @@ export class AuthService {
             token: fakeToken,
           };
           this.setToken(fakeToken);
+          this.setUserProfile(fakeUser);
           console.log('AuthService: Login successful!'); // This will now log on success
         })
       );
@@ -43,12 +42,6 @@ export class AuthService {
     }
   }
 
-  /**
-   * Simulates a user registration API call.
-   * In a real app, this would send user details to a backend to create an account.
-   * @param userData An object containing user registration details.
-   * @returns An Observable that emits a success or error.
-   */
   register(userData: any): Observable<any> {
     console.log('AuthService: Attempting registration with:', userData);
     // Simulate API call with a delay
