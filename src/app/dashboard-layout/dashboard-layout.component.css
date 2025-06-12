@@ -1,3 +1,14 @@
+.dashboard-content {
+  flex-grow: 1;
+  overflow-y: auto; /* Enable scrolling if content overflows */
+  padding: 1.5rem 1.5rem 1.5rem 1.5rem; /* Re-apply padding, but you can adjust horizontal padding */
+                                      /* top, right, bottom, left */
+  /* If you want to reduce right padding to be closer to scrollbar: */
+  padding: 1.5rem 5px 1.5rem 1.5rem; /* Example: 10px right padding */
+  /* Or if you want even tighter, reduce to 0px or very small value */
+  /* padding: 1.5rem 5px 1.5rem 1.5rem; */ /* Example: 5px right padding */
+}
+
 .dashboard-wrapper {
   display: flex;
   flex-direction: column;
