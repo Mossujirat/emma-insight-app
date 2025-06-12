@@ -24,43 +24,78 @@
   color: var(--text-color);
 }
 
-/* Placeholder for map image */
-.card img {
-  border-radius: 5px;
-}
-
-/* --- New styles for layout and scrolling --- */
-
 /* Styles for the main scrollable container */
 .dashboard-scroll-container {
-  /* Set a maximum height for the container, adjust as needed */
-  /* This height should be less than the viewport height if you want
-     the overall page to scroll the dashboard content, or based on the
-     available space in your layout. */
   max-height: calc(100vh - 100px); /* Example: 100vh minus some header/footer space */
   overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
   padding-right: 15px; /* Add some padding to prevent scrollbar from overlapping content */
-  /* You might need to adjust padding or margin depending on your overall app layout */
 }
 
-/* Optional: Adjust map height if it looks too tall or short after layout changes */
-/* The map section might need its own height to fill its parent card */
+
 .map-section {
   height: 100%; /* Make map section take full height of its card */
-  /* If the map itself (app-longdo-map) needs a specific height, you might add it here,
-     e.g., if app-longdo-map relies on a parent with a defined height */
-  /* Example: If the map itself needs to be fixed height within its card: */
-  /* height: 350px; */
 }
 
-/* Add some margin-bottom to the individual status cards if they are too close
-   when stacked vertically in the col-md-3 beside the map.
-   (Already added as 'mb-3' in HTML, but if more space is needed, you can adjust here)
-*/
 .dashboard-scroll-container .col-md-3 > .d-flex.flex-column > .card {
   margin-bottom: 15px; /* Adjust as needed */
 }
 /* Remove last margin-bottom to prevent extra space at the end */
 .dashboard-scroll-container .col-md-3 > .d-flex.flex-column > .card:last-child {
   margin-bottom: 0;
+}
+
+/* New rule for the unified status card container */
+.unified-status-card {
+  border: 1px solid rgba(255, 255, 255, 0.1); /* The single border you want */
+  background-color: rgba(0, 0, 0, 0.2); /* Same frosted glass background */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  border-radius: 10px; /* Rounded corners for the entire block */
+  display: flex; /* Make it a flex container */
+  flex-direction: column; /* Stack items vertically inside */
+  padding: 10px; /* Adjust padding inside the unified card */
+  height: 100%; /* Ensure it fills the height of its parent column */
+}
+
+/* Individual status items inside the unified card */
+.unified-status-card .status-item {
+  border: 1px solid rgba(255, 255, 255, 0.1); /* The single border you want */
+  border-radius: 10px; /* Rounded corners for the entire block */
+  padding: 10px; /* Example padding, adjust as needed */
+  margin-top: 5px; /* Minimal margin above the separator */
+  margin-bottom: 5px; /* Minimal margin below the separator */
+}
+
+
+/* Styles for the status separator line (keep as is or fine-tune margins) */
+.status-separator.custom-separator {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.5); /* Very thin, light white line */
+  margin-top: 5px; /* Minimal margin above the separator */
+  margin-bottom: 5px; /* Minimal margin below the separator */
+  width: 100%; /* Make it span the full width of its container */
+}
+
+/* For the circles/dots next to Online, Warning, Critical, Offline (keep as is) */
+.unified-status-card .status-item span:first-child::before { /* Target the span within status-item */
+  content: '\2022';
+  display: inline-block;
+  font-size: 1.5em;
+  line-height: 0.5em;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+/* Color the bullet points (keep as is) */
+.unified-status-card .status-item .text-success::before { /* Target colored text within status-item */
+  color: #28a745;
+}
+.unified-status-card .status-item .text-warning::before {
+  color: #ffc107;
+}
+.unified-status-card .status-item .text-danger::before {
+  color: #dc3545;
+}
+.unified-status-card .status-item .text-secondary::before {
+  color: #6c757d;
 }

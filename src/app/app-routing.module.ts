@@ -7,8 +7,8 @@ import { DashboardComponent } from './dashboard/dashboard.component'; // Dashboa
 import { StatisticsComponent } from './statistics/statistics.component'; // New Overall Statistics Page
 import { DriverDetailsComponent } from './driver-details/driver-details.component'; // New Driver Details Page
 import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
-import { AuthGuard } from './auth.guard';
-import { PublicGuard } from './public.guard';
+import { AuthGuard } from './guards/auth.guard';
+import { PublicGuard } from './guards/public.guard';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },

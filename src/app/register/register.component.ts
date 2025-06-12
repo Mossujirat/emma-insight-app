@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms'; // Import necessary modules
-import { AuthService } from '../auth.service'; // Import AuthService
+import { AuthService } from '../services/auth.service'; // Import AuthService
 import { Router } from '@angular/router'; // Import Router
 
 // Custom validator function for password matching
@@ -80,11 +80,12 @@ export class RegisterComponent implements OnInit {
 
     this.authService.register(this.registerForm.value).subscribe({
       next: () => {
-        console.log('Registration successful!');
-        this.successMessage = 'Registration successful! You can now log in.';
-        this.registerForm.reset(); // Clear the form
-        // Optional: Redirect to login page after successful registration
-        // this.router.navigate(['/login']);
+        // console.log('Registration successful!');
+        // this.successMessage = 'Registration successful! You can now log in.';
+        // this.registerForm.reset(); // Clear the form
+        console.log('Registration successful! Auto-logging in...');
+        // No need for a success message on the page if immediately redirected
+        this.router.navigate(['/dashboard']); // Redirect directly to dashboard
       },
       error: (error) => {
         console.error('Registration failed:', error);

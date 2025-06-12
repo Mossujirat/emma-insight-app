@@ -1,6 +1,7 @@
-#longdo-map-container {
-  /* Ensure the container has a defined size */
+/* Ensure the container fills its parent space */
+#app-longdo-map {
   width: 100%;
-  height: 400px; /* Adjust as needed */
-  border: 1px solid #ccc; /* Optional: for visual reference */
+  height: 100%;
+  border-radius: 8px; /* Match card border-radius */
+  overflow: hidden; /* Ensure map fits within rounded corners */
 }
