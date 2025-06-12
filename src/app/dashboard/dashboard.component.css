@@ -57,8 +57,21 @@
   height: 100%; /* Ensure it fills the height of its parent column */
 }
 
+.unified-status-card .status-item.status-active {
+  background-color: rgba(255, 255, 255, 0.1); /* Slightly lighter background */
+  border-left: 3px solid #007bff; /* Example: blue border on left */
+  padding-left: 17px; /* Adjust padding to make space for border */
+  /* You can use other effects like box-shadow, brighter text, etc. */
+}
+
+.unified-status-card .status-item:not(.status-active):hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
 /* Individual status items inside the unified card */
 .unified-status-card .status-item {
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-left 0.2s ease;
   border: 1px solid rgba(255, 255, 255, 0.1); /* The single border you want */
   border-radius: 10px; /* Rounded corners for the entire block */
   padding: 10px; /* Example padding, adjust as needed */

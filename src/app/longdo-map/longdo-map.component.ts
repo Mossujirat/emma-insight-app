@@ -3,6 +3,12 @@ import { Driver } from '../models/driver.model';
 
 declare const longdo: any;
 
+// Define a type for map coordinates for clarity (should match DashboardComponent's MapCoordinates)
+interface LongdoMapCoordinates {
+  lon: number;
+  lat: number;
+}
+
 @Component({
   selector: 'app-longdo-map',
   standalone: false,
@@ -12,6 +18,9 @@ declare const longdo: any;
 
 export class LongdoMapComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() drivers: Driver[] | null = [];
+  @Input() center: LongdoMapCoordinates | null = null; // NEW: Input for map center
+  @Input() zoom: number = 12; // NEW: Input for map zoom
+
   private map: any;
 
   constructor() { }
@@ -32,11 +41,26 @@ export class LongdoMapComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // When the @Input 'drivers' changes, and if the map is already initialized, update markers.
+    // Check if map is initialized before attempting updates
+    if (!this.map) return;
+
     // We rely on the 'ready' event for initial marker load and just check for map existence here.
     if (changes['drivers'] && this.map) {
       console.log('Drivers data changed, updating map markers...');
       this.updateMarkers();
+    }
+
+    // Handle changes to center or zoom inputs
+    if ( (changes['center'] && this.center) || (changes['zoom'] && this.zoom) ) {
+      // Only update if map is ready and a valid center is provided
+      if (this.map.Event && this.center) {
+        console.log('Map center/zoom changed. Updating map view.');
+        console.log(this.zoom)
+        this.map.zoom(this.zoom, true);
+        this.map.location({ lon: this.center.lon, lat: this.center.lat }, true);
+      } else {
+        console.warn('Map not ready for center/zoom update, or center data missing.');
+      }
     }
   }
 
@@ -50,7 +74,7 @@ export class LongdoMapComponent implements OnInit, AfterViewInit, OnChanges {
     if (!this.map) {
       this.map = new longdo.Map({
         placeholder: mapContainer,
-        zoom: 9,
+        zoom: 12,
         center: { lon: 100.523186, lat: 13.736717 }, // Bangkok, Thailand
       });
 

@@ -4,6 +4,12 @@ import { AuthService } from '../services/auth.service';
 import { DashboardDataService } from '../services/dashboard-data.service'; // Import DashboardDataService
 import { SummaryDriverData, Driver } from '../models/driver.model'; // Import data models
 
+// Define a type for map coordinates for clarity
+interface MapCoordinates {
+  lon: number;
+  lat: number;
+}
+
 @Component({
   selector: 'app-dashboard',
   standalone: false,
@@ -11,20 +17,26 @@ import { SummaryDriverData, Driver } from '../models/driver.model'; // Import da
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  summaryData: SummaryDriverData | null = null; // Property to hold summary data
-  driverList: Driver[] = []; // Property to hold the list of drivers
+  summaryData: SummaryDriverData | null = null; 
+  driverList: Driver[] = []; 
   filteredDriverList: Driver[] = [];
-  loadingData: boolean = true; // For a loading indicator
+  filteredMapDrivers: Driver[] = [];
+  loadingData: boolean = true; 
 
   // Filter state properties
-  vehicleTypes: string[] = ['All', 'Bus', 'Cargo', 'Taxi']; // Available vehicle types
-  selectedVehicleTypes: string[] = ['All']; // Initially 'All' is selected
+  vehicleTypes: string[] = ['All', 'Bus', 'Cargo', 'Taxi']; 
+  selectedVehicleTypes: string[] = ['All']; 
 
   // Filter state properties for Status (now single-select)
   driverStatuses: string[] = ['All', 'Online', 'Warning', 'Critical', 'Offline'];
-  selectedStatus: string = 'All'; // Changed to single string, as only one choice is active
+  selectedStatus: string = 'All'; 
 
   searchTerm: string = '';
+
+  mapCenter: MapCoordinates = { lon: 100.55, lat: 13.75 };
+  mapZoom: number = 12; 
+
+  selectedMapStatus: string = 'All';
 
   constructor(
     private authService: AuthService,
@@ -45,6 +57,7 @@ export class DashboardComponent implements OnInit {
         this.loadingData = false;
         console.log('Dashboard data loaded successfully:', data);
         this.applyFilters();
+        this.filterMapDrivers(this.selectedMapStatus);
       },
       error: (error) => {
         console.error('Failed to load dashboard data:', error);
@@ -137,5 +150,63 @@ export class DashboardComponent implements OnInit {
     }
     
     this.filteredDriverList = tempFilteredList;
+  }
+
+  // Modified: Filter drivers specifically for the map, now uses selectedMapStatus
+  filterMapDrivers(status: string): void {
+    // If status is 'All', return all drivers with coordinates.
+    // Otherwise, filter by the specific status.
+    if (!this.driverList) {
+      this.filteredMapDrivers = [];
+      return;
+    }
+
+    let driversForMap: Driver[] = [];
+    if (status === 'All') {
+      driversForMap = this.driverList.filter(d => d.currentLongitude !== null && d.currentLatitude !== null);
+    } else {
+      driversForMap = this.driverList.filter(driver => {
+        if (driver.currentLongitude === null || driver.currentLatitude === null) return false;
+        if (status === 'Online' && driver.available === 'Online') return true;
+        if (status === 'Warning' && driver.status === 'Warning') return true;
+        if (status === 'Critical' && driver.status === 'Critical') return true;
+        if (status === 'Offline' && driver.available === 'Offline') return true;
+        return false;
+      });
+    }
+    this.filteredMapDrivers = driversForMap;
+  }
+
+  // Modified: Center map based on clicked status, and toggle selectedMapStatus
+  centerMapOnStatus(status: string): void {
+    // Toggle logic: If the same button is clicked again, deselect it (go back to 'All')
+    if (this.selectedMapStatus === status) {
+      this.selectedMapStatus = 'All'; // Deselect current, show all
+    } else {
+      this.selectedMapStatus = status; // Select the new status
+    }
+    
+    this.filterMapDrivers(this.selectedMapStatus); // Filter map drivers based on new selection
+
+    if (this.filteredMapDrivers.length > 0) {
+      let totalLon = 0;
+      let totalLat = 0;
+      this.filteredMapDrivers.forEach(driver => {
+        totalLon += driver.currentLongitude || 0;
+        totalLat += driver.currentLatitude || 0;
+      });
+
+      this.mapCenter = {
+        lon: totalLon / this.filteredMapDrivers.length,
+        lat: totalLat / this.filteredMapDrivers.length
+      };
+      this.mapZoom = 12; // Zoom in a bit when focusing on a specific group
+      console.log(`Map centered on ${this.selectedMapStatus} drivers:`, this.mapCenter);
+    } else {
+      console.log(`No ${this.selectedMapStatus} drivers found to center map.`);
+      // Revert to overall center/zoom if no drivers match selected status
+      this.mapCenter = { lon: this.summaryData?.overallLongitude || 100.55, lat: this.summaryData?.overallLatitude || 13.75 };
+      this.mapZoom = 12; // Revert to broader view
+    }
   }
 }
