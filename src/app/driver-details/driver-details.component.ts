@@ -1,100 +1,109 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router'; // Import ActivatedRoute
+import { ActivatedRoute } from '@angular/router';
+import { TripDataService } from '../services/trip-data.service'; // Import TripDataService
+import { DriverCurrentTrip, TripEventData, TripEventSummary } from '../models/current-trip.model'; // Import models
+import { Driver } from '../models/driver.model'; // Ensure Driver is imported if needed for marker icons
+
+// Define a type for map coordinates for clarity (matching LongdoMapComponent)
+interface LongdoMapCoordinates {
+  lon: number;
+  lat: number;
+}
 
 @Component({
-  selector: 'app-driver-details', // Make sure selector matches new component name
+  selector: 'app-driver-details',
   standalone: false,
   templateUrl: './driver-details.component.html',
   styleUrls: ['./driver-details.component.css']
 })
+
 export class DriverDetailsComponent implements OnInit {
+  driverId: string | null = null;
+  driverTripData: DriverCurrentTrip | null = null;
+  loadingData: boolean = true;
 
-  // Mock Data for demonstration (from old statistics component)
-  tripEvents = [
-    { distance: '89', time: '12:00 PM', duration: '3 hr 15 min', event: 'Micro-sleep' },
-    { distance: '74', time: '11:30 AM', duration: '2 hr 45 min', event: 'Yawning duration' },
-    { distance: '60', time: '11:07 AM', duration: '2 hr 22 min', event: 'Distraction' },
-    { distance: '55', time: '10:45 AM', duration: '2 hr 0 min', event: 'Micro-sleep' },
-    { distance: '40', time: '09:46 AM', duration: '1 hr 1 min', event: 'Sleep' },
-    { distance: '30', time: '09:01 AM', duration: '16 min', event: 'Speeding Detected' },
-    { distance: '0', time: '08:45 AM', duration: '0 min', event: 'Start Device' },
-  ];
+  // For Map
+  mapCenter: LongdoMapCoordinates = { lon: 100.523186, lat: 13.736717 }; // Default to Bangkok
+  mapZoom: number = 9;
+  mapMarkers: Driver[] = []; // Drivers for map markers (using Driver type for simplicity, though it's trip events)
+                            // We will map TripEventData to a temporary Driver-like object for map markers.
 
-  detectedSpeedingCount: number = 2;
-  maxSpeed: number = 50;
-  avgSpeed: number = 50;
-
-  driverName: string = 'Sarawut';
-  driverStatus: 'Critical' | 'Normal' = 'Critical';
-  driverDetails = {
-    accountID: 'B001',
-    telephone: '081-2345709',
-    vehicles: 'Bus',
-    licensePlateNo: 'AD-1234'
-  };
-
-  constructor(private route: ActivatedRoute) { }
+  constructor(
+    private route: ActivatedRoute,
+    private tripDataService: TripDataService // Inject TripDataService
+  ) { }
 
   ngOnInit(): void {
-    // Read route parameters (e.g., driver ID from dashboard table click)
-    this.route.queryParams.subscribe(params => {
-      const driverId = params['driver']; // If using queryParams
-      if (driverId) {
-        console.log(`DriverDetailsComponent: Received driver ID from route: ${driverId}`);
-        this.loadDriverData(driverId); // Load data based on ID
-      }
-    });
-
-    // If using path parameters (e.g., /dashboard/driver-details/B001)
+    // Subscribe to route params to get the driverId
     this.route.paramMap.subscribe(params => {
-      const driverId = params.get('id');
-      if (driverId) {
-        console.log(`DriverDetailsComponent: Received driver ID from path: ${driverId}`);
-        this.loadDriverData(driverId);
+      this.driverId = params.get('id');
+      if (this.driverId) {
+        this.loadDriverTripData(this.driverId);
+      } else {
+        console.error('Driver ID not found in route parameters.');
+        this.loadingData = false;
+        // Optionally, show a message or redirect
       }
     });
   }
 
-  // A method to simulate loading different driver data
-  loadDriverData(driverId: string): void {
-    if (driverId === 'B001') {
-      this.driverName = 'Sarawut';
-      this.driverStatus = 'Critical';
-      this.driverDetails = {
-        accountID: 'B001',
-        telephone: '081-2345709',
-        vehicles: 'Bus',
-        licensePlateNo: 'AD-1234'
-      };
-      this.detectedSpeedingCount = 2;
-      this.maxSpeed = 50;
-      this.avgSpeed = 50;
-      this.tripEvents = [
-        { distance: '89', time: '12:00 PM', duration: '3 hr 15 min', event: 'Micro-sleep' },
-        { distance: '74', time: '11:30 AM', duration: '2 hr 45 min', event: 'Yawning duration' },
-        { distance: '60', time: '11:07 AM', duration: '2 hr 22 min', event: 'Distraction' },
-        { distance: '55', time: '10:45 AM', duration: '2 hr 0 min', event: 'Micro-sleep' },
-        { distance: '40', time: '09:46 AM', duration: '1 hr 1 min', event: 'Sleep' },
-        { distance: '30', time: '09:01 AM', duration: '16 min', event: 'Speeding Detected' },
-        { distance: '0', time: '08:45 AM', duration: '0 min', event: 'Start Device' },
-      ];
-    } else if (driverId === 'C001') {
-      this.driverName = 'Moss Sujirat';
-      this.driverStatus = 'Normal';
-      this.driverDetails = {
-        accountID: 'C001',
-        telephone: '080-9876543',
-        vehicles: 'Cargo',
-        licensePlateNo: 'AD-1234'
-      };
-      this.detectedSpeedingCount = 0;
-      this.maxSpeed = 70;
-      this.avgSpeed = 65;
-      this.tripEvents = [
-        { distance: '50', time: '09:00 AM', duration: '1 hr', event: 'Normal Driving' },
-        { distance: '40', time: '08:00 AM', duration: '45 min', event: 'Normal Driving' },
-      ];
+  loadDriverTripData(id: string): void {
+    this.loadingData = true;
+    this.tripDataService.getDriverCurrentTrip(id).subscribe({
+      next: (data: DriverCurrentTrip) => {
+        this.driverTripData = data;
+        this.loadingData = false;
+        console.log('Driver trip data loaded successfully:', data);
+        this.updateMapForTripEvents(); // Update map after data loads
+      },
+      error: (error) => {
+        console.error('Failed to load driver trip data:', error);
+        this.loadingData = false;
+        // Optionally, display an error message on UI
+      }
+    });
+  }
+
+  updateMapForTripEvents(): void {
+    if (!this.driverTripData || !this.driverTripData.tripEventDataList) {
+      this.mapMarkers = [];
+      return;
     }
-    // Add more conditions for other driver IDs
+
+    // Transform TripEventDataList into a format suitable for LongdoMapComponent's @Input drivers
+    this.mapMarkers = this.driverTripData.tripEventDataList.map(event => ({
+      driverId: this.driverTripData?.driverId || '',
+      driverName: this.driverTripData?.driverName || '',
+      carLicenseNo: this.driverTripData?.carLicenseNo || '',
+      vehicleType: this.driverTripData?.vehicleType || '',
+      updated: event.created, // Use event creation time for 'updated'
+      available: 'Online', // Assuming trip events imply online
+      status: this.getDriverStatusForMap(event.eventStatus), // Map eventStatus to driver status for icon
+      currentLongitude: event.longitude,
+      currentLatitude: event.latitude
+    }));
+
+    // Center map on the first event, or overall center of events
+    if (this.mapMarkers.length > 0) {
+        const firstEvent = this.mapMarkers[0];
+        this.mapCenter = { lon: firstEvent.currentLongitude, lat: firstEvent.currentLatitude };
+        this.mapZoom = 12; // Zoom in for detailed trip
+    } else {
+        // If no events, center on driver's last known location or default
+        this.mapCenter = { lon:  100.523186, lat:  13.736717 };
+        this.mapZoom = 9;
+    }
+  }
+
+  // Helper to map TripEventData's eventStatus to the Driver status for icon logic
+  private getDriverStatusForMap(eventStatus: string): string {
+      switch (eventStatus) {
+          case 'Speeding Detected': return 'Critical';
+          case 'Micro-sleep': return 'Critical';
+          case 'Sleep': return 'Critical';
+          case 'Yawning duration': return 'Warning';
+          case 'Distraction': return 'Warning';
+          default: return 'Normal'; // "Start Device", etc.
+      }
   }
 }

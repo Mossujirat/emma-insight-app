@@ -1,4 +1,5 @@
-/* Ensure the card styles from dashboard.component.css are generally applied */
+/* Ensure the card styles from dashboard.component.css are generally applied,
+   or copy them here if you want statistics cards to be different. */
 .card {
   border: 1px solid rgba(255, 255, 255, 0.1);
   background-color: rgba(0, 0, 0, 0.2);
@@ -7,22 +8,9 @@
   border-radius: 10px;
 }
 
-.table {
-  background-color: transparent !important;
-}
-
-.table-dark th, .table-dark td {
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.table-hover tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-}
-
-/* Specific styles for chart-placeholder if not using an actual chart library */
 .list-group-item {
-  background-color: var(--background-color) !important;
-  color: var(--text-color) !important;
+  background-color: transparent !important; /* Ensure bg matches theme */
+  color: var(--text-color) !important; /* Ensure text matches theme */
   border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important; /* Ensure border is visible */
 }
 
@@ -30,6 +18,7 @@
   border-bottom: none !important; /* No border for the last item */
 }
 
+/* Specific styles for chart-placeholder if not using an actual chart library */
 .chart-placeholder .progress {
   background-color: rgba(255, 255, 255, 0.1);
 }
@@ -38,9 +27,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  overflow: hidden; /* Ensure image fits */
 }
 
-.map-preview img {
-  border-radius: 8px;
+.map-preview #map { /* Target the longdo map container directly */
+  border-radius: 8px; /* Apply border radius to map if not done by Longdo Map itself */
+  overflow: hidden; /* Important for map to respect border-radius */
 }
+
+/* Ensure progress bar colors match */
+.progress-bar.bg-warning { background-color: #ffc107 !important; }
+.progress-bar.bg-info { background-color: #17a2b8 !important; }
+.progress-bar.bg-danger { background-color: #dc3545 !important; }
+.progress-bar.bg-primary { background-color: #007bff !important; }
+.progress-bar.bg-secondary { background-color: #6c757d !important; }
