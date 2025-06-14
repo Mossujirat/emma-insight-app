@@ -25,8 +25,10 @@ export class DriverDetailsComponent implements OnInit {
   // For Map
   mapCenter: LongdoMapCoordinates = { lon: 100.523186, lat: 13.736717 }; // Default to Bangkok
   mapZoom: number = 9;
-  mapMarkers: Driver[] = []; // Drivers for map markers (using Driver type for simplicity, though it's trip events)
-                            // We will map TripEventData to a temporary Driver-like object for map markers.
+  mapMarkers: Driver[] = []; 
+
+  // Property to hold the maximum count for bar graph scaling
+  maxSummaryCount: number = 1;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,7 +44,6 @@ export class DriverDetailsComponent implements OnInit {
       } else {
         console.error('Driver ID not found in route parameters.');
         this.loadingData = false;
-        // Optionally, show a message or redirect
       }
     });
   }
@@ -54,14 +55,31 @@ export class DriverDetailsComponent implements OnInit {
         this.driverTripData = data;
         this.loadingData = false;
         console.log('Driver trip data loaded successfully:', data);
+        this.calculateMaxSummaryCount(); // Calculate max count after data loads
         this.updateMapForTripEvents(); // Update map after data loads
       },
       error: (error) => {
         console.error('Failed to load driver trip data:', error);
         this.loadingData = false;
-        // Optionally, display an error message on UI
       }
     });
+  }
+
+  private calculateMaxSummaryCount(): void {
+    if (this.driverTripData && this.driverTripData.tripEventSummaryData) {
+      const summary = this.driverTripData.tripEventSummaryData;
+      this.maxSummaryCount = Math.max(
+        summary.yawningCount,
+        summary.eyeCount,
+        summary.microSleepCount,
+        summary.sleepCount,
+        summary.distractionCount,
+        1 // Ensure it's at least 1 to avoid division by zero
+      );
+      console.log('Max summary count:', this.maxSummaryCount);
+    } else {
+      this.maxSummaryCount = 1;
+    }
   }
 
   updateMapForTripEvents(): void {

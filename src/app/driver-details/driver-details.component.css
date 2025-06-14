@@ -1,5 +1,10 @@
-/* Ensure the card styles from dashboard.component.css are generally applied,
-   or copy them here if you want statistics cards to be different. */
+/* Styles for the main scrollable container */
+.dashboard-scroll-container {
+  max-height: calc(100vh - 100px); /* Example: 100vh minus some header/footer space */
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
+  padding-right: 15px; /* Add some padding to prevent scrollbar from overlapping content */
+}
+
 .card {
   border: 1px solid rgba(255, 255, 255, 0.1);
   background-color: rgba(0, 0, 0, 0.2);
@@ -41,3 +46,142 @@
 .progress-bar.bg-danger { background-color: #dc3545 !important; }
 .progress-bar.bg-primary { background-color: #007bff !important; }
 .progress-bar.bg-secondary { background-color: #6c757d !important; }
+
+/* --- Current Trip Timeline Styling --- */
+.current-trip-container {
+  max-height: 350px; /* Make this section scrollable */
+  overflow-y: auto;
+  padding-right: 10px; /* Add some padding for the scrollbar */
+}
+
+/* Custom scrollbar for webkit browsers */
+.current-trip-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.current-trip-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05); /* Lighter track for dark theme */
+  border-radius: 4px;
+}
+
+.current-trip-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent thumb */
+  border-radius: 4px;
+}
+
+.current-trip-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+
+.trip-timeline {
+  position: relative;
+  padding-left: 25px; /* Space for the timeline line and dots */
+}
+
+.trip-timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 15px; /* Position the vertical line */
+  width: 2px;
+  background-color: rgba(255, 255, 255, 0.2); /* Light grey line */
+}
+
+.trip-timeline .list-group-item {
+  position: relative;
+  padding-left: 0; /* Remove default list-group-item padding */
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: transparent !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.trip-timeline .list-group-item:last-child {
+  border-bottom: none !important;
+}
+
+.trip-timeline .timeline-dot {
+  position: absolute;
+  left: 10px; /* Position the dot on the line */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #007bff; /* Dot color, e.g., Bootstrap primary blue */
+  border: 2px solid #28a745; /* Green border from your image */
+  z-index: 1; /* Ensure dot is above the line */
+}
+
+.trip-timeline .timeline-content {
+  margin-left: 15px; /* Push content away from the line */
+}
+
+/* --- Detected Event Chart Styling --- */
+.detected-event-chart .d-flex {
+  justify-content: flex-start; /* Align entire row to the start */
+  align-items: center;
+}
+
+.detected-event-chart .chart-graph-area {
+  flex-grow: 1; /* This takes the available space for the graph */
+  display: flex; /* Make it a flex container for the bar */
+  align-items: center; /* Vertically center the bar */
+  justify-content: flex-end; /* Align the bar itself to the left within this area */
+}
+
+.detected-event-chart .progress-bar-right {
+  height: 25px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center; /* Vertically center content (the number) */
+  justify-content: flex-end; /* Align content (the number) to the start of the bar */
+  
+  /* flex-grow is not needed here; width is controlled by [style.width] in HTML */
+  padding: 0 10px; /* Padding inside the bar for the number */
+  min-width: 25px; /* Ensure bar is visible even for small values */
+  color: #212529; /* Default text color for numbers inside bars */
+}
+
+.detected-event-chart .progress-bar-right .chart-count {
+  /* This is the number (3, 8, etc.) *inside* the bar */
+  flex-shrink: 0; /* Prevent number from shrinking */
+  font-weight: bold;
+  color: #212529; /* Ensure text is dark for readability on pastel bars */
+  /* No margin-right or other positioning; padding on parent bar handles spacing */
+}
+
+.detected-event-chart .chart-label-area {
+  flex-shrink: 0; /* Prevent this column from shrinking */
+  width: 100px; /* Adjust this fixed width as needed for your labels */
+  text-align: left; /* Align label text to the left within its fixed column */
+  color: var(--text-color);
+  margin-left: 10px; /* Space between the graph area and the label area */
+  display: flex; /* Make it a flex container */
+  align-items: center; /* Vertically center the label text */
+}
+
+/* Pastel Colors for Progress Bars (applied to progress-bar-right, not .progress-bar) */
+.detected-event-chart .d-flex:nth-child(1) .progress-bar-right { /* Yawning - Orange */
+  background-color: #FFBB4F; /* Deep Orange */
+}
+.detected-event-chart .d-flex:nth-child(2) .progress-bar-right { /* Eye - Yellow */
+  background-color: #FFDA93; /* Amber */
+}
+.detected-event-chart .d-flex:nth-child(3) .progress-bar-right { /* Micro-sleep - Red */
+  background-color: #FF7576; /* Red */
+}
+.detected-event-chart .d-flex:nth-child(4) .progress-bar-right { /* Sleep - Cyan */
+  background-color: #80E0E5; /* Cyan */
+}
+.detected-event-chart .d-flex:nth-child(5) .progress-bar-right { /* Distraction - Purple */
+  background-color: #E1DAFE; /* Deep Purple */
+}
+
+/* Override Bootstrap's default progress bar styles if they interfere */
+.detected-event-chart .progress {
+    background-color: transparent !important; /* Ensure background is clear */
+    height: auto !important; /* Let content define height */
+}

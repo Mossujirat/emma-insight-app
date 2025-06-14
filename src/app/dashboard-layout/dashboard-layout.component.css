@@ -57,11 +57,6 @@
   min-width: 30px; /* Ensure icon alignment */
 }
 
-.dashboard-content {
-  flex-grow: 1; /* Takes remaining width */
-  overflow-y: auto; /* Enable scrolling if content overflows */
-}
-
 /* Sidebar toggle button styling */
 .sidebar-toggle-btn {
   bottom: 10px;

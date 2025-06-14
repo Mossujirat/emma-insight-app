@@ -1,136 +1,171 @@
-<div class="row">
-  <div class="col-12 mb-4">
-    <h5><a routerLink="/dashboard/home" class="text-white-50 text-decoration-none me-3"><i class="bi bi-arrow-left"></i> BACK</a> Current trip</h5>
-  </div>
-</div>
+<div class="dashboard-scroll-container">
 
-<div class="row">
-  <div *ngIf="loadingData" class="col-12 text-center py-5">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
+  <div class="row">
+    <div class="col-12 mb-4">
+      <h5><a routerLink="/dashboard/home" class="text-white-50 text-decoration-none me-3"><i class="bi bi-arrow-left"></i> BACK</a> Current trip</h5>
     </div>
-    <p class="mt-2 text-white-50">Loading driver trip data...</p>
   </div>
 
-  <ng-container *ngIf="!loadingData && driverTripData">
-    <div class="col-md-7 mb-4">
-      <div class="card bg-dark text-white p-4 h-100">
-        <h5 class="mb-4">Trip Events for {{ driverTripData.driverName }} ({{ driverTripData.carLicenseNo }})</h5>
+  <div class="row">
+    <div *ngIf="loadingData" class="col-12 text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2 text-white-50">Loading driver trip data...</p>
+    </div>
 
-        <div class="list-group list-group-flush bg-dark text-white mb-4">
-          <div class="list-group-item bg-transparent text-white border-bottom border-secondary d-flex align-items-center mb-2" *ngFor="let tripEvent of driverTripData.tripEventDataList">
-            <i class="bi bi-geo-alt-fill me-3 fs-5 text-success"></i>
-            <div>
-              <p class="mb-1 fw-bold">
-                {{ tripEvent.distance }} KM
-                <span class="ms-3">{{ tripEvent.created | date:'shortTime' }}</span>
-                <span class="ms-3">{{ tripEvent.diffTime }}</span>
+    <ng-container *ngIf="!loadingData && driverTripData">
+      <div class="col-md-7 mb-4">
+        
+        <div class="card bg-dark text-white p-4 mb-4"> <h5 class="mb-4">Current trip</h5>
+          <div class="current-trip-container" style="max-height: 350px; overflow-y: auto;">
+            <div class="list-group list-group-flush bg-dark text-white mb-4 trip-timeline">
+              <div class="list-group-item bg-transparent text-white border-bottom border-secondary d-flex align-items-center mb-2" *ngFor="let tripEvent of driverTripData.tripEventDataList; let i = index">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content d-flex align-items-center flex-grow-1">
+                  <p class="mb-1 fw-bold me-3 text-end" style="width: 50px;">{{ tripEvent.distance }} KM</p>
+                  <i class="bi bi-geo-alt-fill me-3 fs-5 text-success"></i>
+                  <div>
+                    <p class="mb-1 fw-bold">
+                      {{ tripEvent.created | date:'shortTime' }}
+                      <span class="ms-3">{{ tripEvent.diffTime }}</span>
+                    </p>
+                    <small class="text-white-50">{{ tripEvent.eventStatus }}</small>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="driverTripData.tripEventDataList.length === 0" class="text-center text-white-50 py-3">
+                No trip events found.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card bg-dark text-white p-4">
+          <h5 class="mb-4">Detected Event</h5>
+          <div class="chart-placeholder detected-event-chart d-flex flex-column gap-3">
+            <div class="d-flex align-items-center" *ngIf="driverTripData.tripEventSummaryData.yawningCount > 0">
+              <div class="chart-graph-area d-flex align-items-center flex-grow-1"> <div class="progress-bar-right" 
+                     [style.width]="(driverTripData.tripEventSummaryData.yawningCount / maxSummaryCount) * 100 + '%'">
+                  <span class="chart-count">{{ driverTripData.tripEventSummaryData.yawningCount }}</span>
+                </div>
+              </div>
+              <div class="chart-label-area text-start ms-3"> <span class="chart-label-text">Yawning</span> </div>
+            </div>
+            <div class="d-flex align-items-center" *ngIf="driverTripData.tripEventSummaryData.eyeCount > 0">
+              <div class="chart-graph-area d-flex align-items-center flex-grow-1">
+                <div class="progress-bar-right" 
+                     [style.width]="(driverTripData.tripEventSummaryData.eyeCount / maxSummaryCount) * 100 + '%'">
+                  <span class="chart-count">{{ driverTripData.tripEventSummaryData.eyeCount }}</span>
+                </div>
+              </div>
+              <div class="chart-label-area text-start ms-3">
+                <span class="chart-label-text">Eye</span>
+              </div>
+            </div>
+            <div class="d-flex align-items-center" *ngIf="driverTripData.tripEventSummaryData.microSleepCount > 0">
+              <div class="chart-graph-area d-flex align-items-center flex-grow-1">
+                <div class="progress-bar-right" 
+                     [style.width]="(driverTripData.tripEventSummaryData.microSleepCount / maxSummaryCount) * 100 + '%'">
+                  <span class="chart-count">{{ driverTripData.tripEventSummaryData.microSleepCount }}</span>
+                </div>
+              </div>
+              <div class="chart-label-area text-start ms-3">
+                <span class="chart-label-text">Micro-sleep</span>
+              </div>
+            </div>
+            <div class="d-flex align-items-center" *ngIf="driverTripData.tripEventSummaryData.sleepCount > 0">
+              <div class="chart-graph-area d-flex align-items-center flex-grow-1">
+                <div class="progress-bar-right" 
+                     [style.width]="(driverTripData.tripEventSummaryData.sleepCount / maxSummaryCount) * 100 + '%'">
+                  <span class="chart-count">{{ driverTripData.tripEventSummaryData.sleepCount }}</span>
+                </div>
+              </div>
+              <div class="chart-label-area text-start ms-3">
+                <span class="chart-label-text">Sleep</span>
+              </div>
+            </div>
+            <div class="d-flex align-items-center" *ngIf="driverTripData.tripEventSummaryData.distractionCount > 0">
+              <div class="chart-graph-area d-flex align-items-center flex-grow-1">
+                <div class="progress-bar-right" 
+                     [style.width]="(driverTripData.tripEventSummaryData.distractionCount / maxSummaryCount) * 100 + '%'">
+                  <span class="chart-count">{{ driverTripData.tripEventSummaryData.distractionCount }}</span>
+                </div>
+              </div>
+              <div class="chart-label-area text-start ms-3">
+                <span class="chart-label-text">Distraction</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-5 mb-4">
+        <div class="card bg-dark text-white p-3 mb-3"> <div class="map-preview" style="min-height: 250px;">
+            <div style="width: 100%; height: 100%;">
+              <app-longdo-map [drivers]="mapMarkers" [center]="mapCenter" [zoom]="mapZoom"></app-longdo-map>
+            </div>
+          </div>
+        </div>
+
+        <div class="row"> 
+          <div class="col-6 mb-3">
+          <div class="card bg-dark text-white p-3 h-100 d-flex flex-column justify-content-around"> 
+
+            <div class="text-center mb-3"> 
+              <small class="text-white-50">Speeding Detected</small>
+              <p class="fs-3 fw-bold text-info">{{ driverTripData.noSpeedingDetected }}</p> 
+            </div>
+
+            <div class="text-center mb-3"> 
+              <small class="text-white-50">Max Speed</small>
+              <p class="fs-3 fw-bold text-info">{{ driverTripData.maxSpeed }}
+                <small class="text-white-50"> Km/h</small>
               </p>
-              <small class="text-white-50">{{ tripEvent.eventStatus }}</small>
             </div>
-          </div>
-          <div *ngIf="driverTripData.tripEventDataList.length === 0" class="text-center text-white-50 py-3">
-            No trip events found.
+
+            <div class="text-center"> 
+              <small class="text-white-50">Avg. Speed</small>
+              <p class="fs-3 fw-bold text-info">{{ driverTripData.avgSpeed }}
+                <small class="text-white-50"> Km/h</small>
+              </p>
+            </div>
+
           </div>
         </div>
 
-        <h5 class="mt-5 mb-4">Detected Event Summary</h5>
-        <div class="chart-placeholder d-flex flex-column gap-2">
-          <div class="d-flex align-items-center">
-            <span class="badge bg-warning me-2" style="width: 20px; height: 10px;"></span> {{ driverTripData.tripEventSummaryData.yawningCount }}
-            <div class="progress flex-grow-1 ms-3" style="height: 15px;">
-              <div class="progress-bar bg-warning" role="progressbar" [style.width]="(driverTripData.tripEventSummaryData.yawningCount / (driverTripData.tripEventSummaryData.yawningCount + driverTripData.tripEventSummaryData.eyeCount + driverTripData.tripEventSummaryData.microSleepCount + driverTripData.tripEventSummaryData.sleepCount + driverTripData.tripEventSummaryData.distractionCount || 1)) * 100 + '%'"></div>
+          <div class="col-6 mb-3">
+          <div class="card bg-dark text-white p-3 h-100 d-flex flex-column"> 
+            <div class="text-center mb-4">
+              <small class="text-white-50">Updated </small>
+              <span class="fs-6 fw-bold text-success">{{ driverTripData.updated | date:'shortTime' }}</span> 
             </div>
-            <span class="ms-3">Yawning</span>
-          </div>
-          <div class="d-flex align-items-center">
-            <span class="badge bg-info me-2" style="width: 20px; height: 10px;"></span> {{ driverTripData.tripEventSummaryData.eyeCount }}
-            <div class="progress flex-grow-1 ms-3" style="height: 15px;">
-              <div class="progress-bar bg-info" role="progressbar" [style.width]="(driverTripData.tripEventSummaryData.eyeCount / (driverTripData.tripEventSummaryData.yawningCount + driverTripData.tripEventSummaryData.eyeCount + driverTripData.tripEventSummaryData.microSleepCount + driverTripData.tripEventSummaryData.sleepCount + driverTripData.tripEventSummaryData.distractionCount || 1)) * 100 + '%'"></div>
+            
+            <div class="d-flex flex-column align-items-center mb-3"> 
+              <img src="assets/user_icon.png" alt="Driver Profile" class="rounded-circle mb-2" style="width: 60px; height: 60px;"> 
+              <h5 class="mb-0">{{ driverTripData.driverName }}</h5>
+              <p class="mb-0 text-danger" *ngIf="driverTripData.status === 'Critical'">Critical (Sleep)</p>
+              <p class="mb-0 text-success" *ngIf="driverTripData.status === 'Normal'">Normal</p>
+              <p class="mb-0 text-warning" *ngIf="driverTripData.status === 'Warning'">Warning</p>
             </div>
-            <span class="ms-3">Eye</span>
-          </div>
-          <div class="d-flex align-items-center">
-            <span class="badge bg-danger me-2" style="width: 20px; height: 10px;"></span> {{ driverTripData.tripEventSummaryData.microSleepCount }}
-            <div class="progress flex-grow-1 ms-3" style="height: 15px;">
-              <div class="progress-bar bg-danger" role="progressbar" [style.width]="(driverTripData.tripEventSummaryData.microSleepCount / (driverTripData.tripEventSummaryData.yawningCount + driverTripData.tripEventSummaryData.eyeCount + driverTripData.tripEventSummaryData.microSleepCount + driverTripData.tripEventSummaryData.sleepCount + driverTripData.tripEventSummaryData.distractionCount || 1)) * 100 + '%'"></div>
+            <p class="mb-1"><small class="text-white-50">Account ID:</small> {{ driverTripData.driverId }}</p>
+            <p class="mb-1"><small class="text-white-50">Telephone:</small> {{ driverTripData.telephone }}</p>
+            <p class="mb-1"><small class="text-white-50">Vehicles:</small> {{ driverTripData.vehicleType }}</p>
+            <p class="mb-1"><small class="text-white-50">License Plate No.:</small> {{ driverTripData.carLicenseNo }}</p>
+
+            <div class="d-grid mt-auto">
+              <button class="btn btn-secondary btn-sm"><i class="bi bi-graph-up me-2"></i>Statistics</button>
             </div>
-            <span class="ms-3">Micro-sleep</span>
           </div>
-          <div class="d-flex align-items-center">
-            <span class="badge bg-primary me-2" style="width: 20px; height: 10px;"></span> {{ driverTripData.tripEventSummaryData.sleepCount }}
-            <div class="progress flex-grow-1 ms-3" style="height: 15px;">
-              <div class="progress-bar bg-primary" role="progressbar" [style.width]="(driverTripData.tripEventSummaryData.sleepCount / (driverTripData.tripEventSummaryData.yawningCount + driverTripData.tripEventSummaryData.eyeCount + driverTripData.tripEventSummaryData.microSleepCount + driverTripData.tripEventSummaryData.sleepCount + driverTripData.tripEventSummaryData.distractionCount || 1)) * 100 + '%'"></div>
-            </div>
-            <span class="ms-3">Sleep</span>
-          </div>
-          <div class="d-flex align-items-center">
-            <span class="badge bg-secondary me-2" style="width: 20px; height: 10px;"></span> {{ driverTripData.tripEventSummaryData.distractionCount }}
-            <div class="progress flex-grow-1 ms-3" style="height: 15px;">
-              <div class="progress-bar bg-secondary" role="progressbar" [style.width]="(driverTripData.tripEventSummaryData.distractionCount / (driverTripData.tripEventSummaryData.yawningCount + driverTripData.tripEventSummaryData.eyeCount + driverTripData.tripEventSummaryData.microSleepCount + driverTripData.tripEventSummaryData.sleepCount + driverTripData.tripEventSummaryData.distractionCount || 1)) * 100 + '%'"></div>
-            </div>
-            <span class="ms-3">Distraction</span>
-          </div>
+        </div>
         </div>
       </div>
-    </div>
+    </ng-container>
 
-    <div class="col-md-5 mb-4">
-      <div class="card bg-dark text-white p-4 h-100 d-flex flex-column">
-        <div class="map-preview mb-4" style="min-height: 250px;">
-          <div style="width: 100%; height: 100%;">
-            <app-longdo-map [drivers]="mapMarkers" [center]="mapCenter" [zoom]="mapZoom"></app-longdo-map>
-          </div>
-        </div>
-
-        <div class="row text-center mb-4">
-          <div class="col">
-            <small class="text-white-50">Speeding Detected</small>
-            <p class="fs-3 fw-bold text-danger">{{ driverTripData.noSpeedingDetected }}</p>
-          </div>
-          <div class="col">
-            <small class="text-white-50">Updated</small>
-            <p class="fs-6 text-white-50">{{ driverTripData.updated | date:'shortTime' }}</p>
-          </div>
-        </div>
-
-        <div class="row text-center mb-4">
-          <div class="col">
-            <small class="text-white-50">Max Speed</small>
-            <p class="fs-3 fw-bold">{{ driverTripData.maxSpeed }}<small class="text-white-50"> Km/h</small></p>
-          </div>
-          <div class="col">
-            <small class="text-white-50">Avg. Speed</small>
-            <p class="fs-3 fw-bold">{{ driverTripData.avgSpeed }}<small class="text-white-50"> Km/h</small></p>
-          </div>
-        </div>
-
-        <hr class="border-secondary my-4">
-
-        <div class="d-flex align-items-center mb-3">
-          <img src="assets/driver-placeholder.png" alt="Driver Profile" class="rounded-circle me-3" style="width: 60px; height: 60px;">
-          <div>
-            <h5 class="mb-0">{{ driverTripData.driverName }}</h5>
-            <p class="mb-0 text-danger" *ngIf="driverTripData.status === 'Critical'">Critical (Sleep)</p>
-            <p class="mb-0 text-success" *ngIf="driverTripData.status === 'Normal'">Normal</p>
-            <p class="mb-0 text-warning" *ngIf="driverTripData.status === 'Warning'">Warning</p>
-          </div>
-        </div>
-        <p class="mb-1"><small class="text-white-50">Account ID:</small> {{ driverTripData.driverId }}</p>
-        <p class="mb-1"><small class="text-white-50">Telephone:</small> {{ driverTripData.telephone }}</p>
-        <p class="mb-1"><small class="text-white-50">Vehicles:</small> {{ driverTripData.vehicleType }}</p>
-        <p class="mb-1"><small class="text-white-50">License Plate No.:</small> {{ driverTripData.carLicenseNo }}</p>
-
-        <div class="d-grid mt-auto">
-          <button class="btn btn-secondary btn-sm mt-3"><i class="bi bi-graph-up me-2"></i>Statistics</button>
-        </div>
+    <ng-container *ngIf="!loadingData && !driverTripData">
+      <div class="col-12 text-center py-5">
+        <p class="text-white-50">No trip data found for this driver.</p>
       </div>
-    </div>
-  </ng-container>
-
-  <ng-container *ngIf="!loadingData && !driverTripData">
-    <div class="col-12 text-center py-5">
-      <p class="text-white-50">No trip data found for this driver.</p>
-    </div>
-  </ng-container>
+    </ng-container>
+  </div>
 </div>
