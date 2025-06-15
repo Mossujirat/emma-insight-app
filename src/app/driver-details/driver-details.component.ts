@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TripDataService } from '../services/trip-data.service'; // Import TripDataService
-import { DriverCurrentTrip, TripEventData, TripEventSummary } from '../models/current-trip.model'; // Import models
+import { DriverCurrentTrip, TripEventData, TripEventSummary, LonLatPoint } from '../models/current-trip.model'; // Import models
 import { Driver } from '../models/driver.model'; // Ensure Driver is imported if needed for marker icons
 
 // Define a type for map coordinates for clarity (matching LongdoMapComponent)
@@ -26,6 +26,7 @@ export class DriverDetailsComponent implements OnInit {
   mapCenter: LongdoMapCoordinates = { lon: 100.523186, lat: 13.736717 }; // Default to Bangkok
   mapZoom: number = 9;
   mapMarkers: Driver[] = []; 
+  tripRouteLonLatPoints: LonLatPoint[] = [];
 
   // Property to hold the maximum count for bar graph scaling
   maxSummaryCount: number = 1;
@@ -85,6 +86,7 @@ export class DriverDetailsComponent implements OnInit {
   updateMapForTripEvents(): void {
     if (!this.driverTripData || !this.driverTripData.tripEventDataList) {
       this.mapMarkers = [];
+      this.tripRouteLonLatPoints = [];
       return;
     }
 
@@ -100,6 +102,11 @@ export class DriverDetailsComponent implements OnInit {
       currentLongitude: event.longitude,
       currentLatitude: event.latitude
     }));
+
+    // Extract longitude and latitude for route points
+    this.tripRouteLonLatPoints = this.driverTripData.tripEventDataList
+      .filter(event => event.longitude !== null && event.latitude !== null) // Only include points with valid coords
+      .map(event => ({ lon: event.longitude, lat: event.latitude }));
 
     // Center map on the first event, or overall center of events
     if (this.mapMarkers.length > 0) {

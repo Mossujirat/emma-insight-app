@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { Driver } from '../models/driver.model';
+import { LonLatPoint } from '../models/current-trip.model';
 
 declare const longdo: any;
 
@@ -20,6 +21,7 @@ export class LongdoMapComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() drivers: Driver[] | null = [];
   @Input() center: LongdoMapCoordinates | null = null; // NEW: Input for map center
   @Input() zoom: number = 12; // NEW: Input for map zoom
+  @Input() routePoints: LonLatPoint[] | null = [];
 
   private map: any;
 
@@ -48,6 +50,11 @@ export class LongdoMapComponent implements OnInit, AfterViewInit, OnChanges {
     if (changes['drivers'] && this.map) {
       console.log('Drivers data changed, updating map markers...');
       this.updateMarkers();
+    }
+
+    if (changes['routePoints'] && this.routePoints) {
+      console.log('Route points data changed, drawing route...');
+      this.drawRoute(); // Call drawRoute when points change
     }
 
     // Handle changes to center or zoom inputs
@@ -87,8 +94,29 @@ export class LongdoMapComponent implements OnInit, AfterViewInit, OnChanges {
         if (this.drivers && this.drivers.length > 0) {
           this.updateMarkers();
         }
+        if (this.routePoints && this.routePoints.length > 0) {
+          this.drawRoute();
+        }
       });
     }
+  }
+
+  // Draw Route method for Longdo Map API
+  private drawRoute(): void {
+    if (!this.map || !this.routePoints || this.routePoints.length < 2) {
+      console.warn('Cannot draw route: Map not ready or insufficient route points (need at least 2).');
+      return;
+    }
+
+    this.map.Route.clear(); // Clear any existing routes 
+
+    // Convert LonLatPoint to longdo.LatLng objects as required 
+    this.routePoints.map(p => {
+      var marker = new longdo.Marker({ lon: p.lon, lat: p.lat }); 
+      this.map.Route.add(marker);
+    });
+    this.map.Route.search();
+    console.log('Longdo Map: Attempting to add route with', this.routePoints.length, 'points.');
   }
 
   private updateMarkers(): void {

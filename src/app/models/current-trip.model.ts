@@ -11,6 +11,11 @@ export interface TripEventData {
   eventImages?: string[]; // List of String (URLs)
 }
 
+export interface LonLatPoint { // Simple interface for longitude and latitude
+  lon: number;
+  lat: number;
+}
+
 export interface TripEventSummary {
   yawningCount: number;
   eyeCount: number;

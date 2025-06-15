@@ -17,14 +17,15 @@
     <ng-container *ngIf="!loadingData && driverTripData">
       <div class="col-md-7 mb-4">
         
-        <div class="card bg-dark text-white p-4 mb-4"> <h5 class="mb-4">Current trip</h5>
+        <div class="card bg-dark text-white p-4 mb-4">
+          <h5 class="mb-4">Current trip</h5>
           <div class="current-trip-container" style="max-height: 350px; overflow-y: auto;">
             <div class="list-group list-group-flush bg-dark text-white mb-4 trip-timeline">
               <div class="list-group-item bg-transparent text-white border-bottom border-secondary d-flex align-items-center mb-2" *ngFor="let tripEvent of driverTripData.tripEventDataList; let i = index">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content d-flex align-items-center flex-grow-1">
-                  <p class="mb-1 fw-bold me-3 text-end" style="width: 50px;">{{ tripEvent.distance }} KM</p>
-                  <i class="bi bi-geo-alt-fill me-3 fs-5 text-success"></i>
+                  <p class="mb-1 fw-bold timeline-km-text">{{ tripEvent.distance }} KM</p>
+                  <i class="bi bi-geo-alt-fill mx-3 fs-5 text-success"></i>
                   <div>
                     <p class="mb-1 fw-bold">
                       {{ tripEvent.created | date:'shortTime' }}
@@ -101,9 +102,10 @@
       </div>
 
       <div class="col-md-5 mb-4">
-        <div class="card bg-dark text-white p-3 mb-3"> <div class="map-preview" style="min-height: 250px;">
+        <div class="card bg-dark text-white p-3 mb-3"> 
+          <div class="map-preview mb-4" style="min-height: 250px;">
             <div style="width: 100%; height: 100%;">
-              <app-longdo-map [drivers]="mapMarkers" [center]="mapCenter" [zoom]="mapZoom"></app-longdo-map>
+              <app-longdo-map [drivers]="mapMarkers" [center]="mapCenter" [zoom]="mapZoom" [routePoints]="tripRouteLonLatPoints"></app-longdo-map>
             </div>
           </div>
         </div>

@@ -32,12 +32,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* Ensure image fits */
+  overflow: hidden; /* CRITICAL: Hide anything that overflows, including potential blank borders */
+  height: 250px; /* CRITICAL: Fixed height for the map container (replaces min-height from HTML) */
 }
 
-.map-preview #map { /* Target the longdo map container directly */
-  border-radius: 8px; /* Apply border radius to map if not done by Longdo Map itself */
+.map-preview #map { /* Target the Longdo Map container directly */
+  border-radius: 8px; /* Apply border radius to map container */
   overflow: hidden; /* Important for map to respect border-radius */
+  width: 100%; /* Ensure #map fills its parent's width */
+  height: 100%; /* Ensure #map fills its parent's height (from .map-preview) */
 }
 
 /* Ensure progress bar colors match */
@@ -54,25 +57,28 @@
   padding-right: 10px; /* Add some padding for the scrollbar */
 }
 
+/* --- Current Trip Timeline Styling --- */
+.current-trip-container {
+  max-height: 350px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
 /* Custom scrollbar for webkit browsers */
 .current-trip-container::-webkit-scrollbar {
   width: 8px;
 }
-
 .current-trip-container::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05); /* Lighter track for dark theme */
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 4px;
 }
-
 .current-trip-container::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2); /* Semi-transparent thumb */
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 4px;
 }
-
 .current-trip-container::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
 }
-
 
 .trip-timeline {
   position: relative;
@@ -86,12 +92,12 @@
   bottom: 0;
   left: 15px; /* Position the vertical line */
   width: 2px;
-  background-color: rgba(255, 255, 255, 0.2); /* Light grey line */
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .trip-timeline .list-group-item {
   position: relative;
-  padding-left: 0; /* Remove default list-group-item padding */
+  padding-left: 0;
   padding-top: 5px;
   padding-bottom: 5px;
   background-color: transparent !important;
@@ -104,19 +110,29 @@
 
 .trip-timeline .timeline-dot {
   position: absolute;
-  left: 10px; /* Position the dot on the line */
+  left: 10px;
   top: 50%;
   transform: translateY(-50%);
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #007bff; /* Dot color, e.g., Bootstrap primary blue */
-  border: 2px solid #28a745; /* Green border from your image */
-  z-index: 1; /* Ensure dot is above the line */
+  background-color: #007bff;
+  border: 2px solid #28a745;
+  z-index: 1;
+  margin-right: 15px; /* NEW: Added margin-right to push KM text */
 }
 
 .trip-timeline .timeline-content {
-  margin-left: 15px; /* Push content away from the line */
+  margin-left: 15px; /* Adjust this if needed relative to timeline-dot's margin-right */
+  display: flex; /* Ensure it's a flex container for its internal items */
+  align-items: center; /* Vertically align items within this content area */
+}
+
+.timeline-km-text {
+  /* This is the text "0 KM", "30 KM" */
+  width: 70px; /* Increased width to provide more space for numbers and fixed position */
+  text-align: right; /* Ensure text aligns to the right within its new width */
+  flex-shrink: 0; /* Prevent it from shrinking */
 }
 
 /* --- Detected Event Chart Styling --- */
