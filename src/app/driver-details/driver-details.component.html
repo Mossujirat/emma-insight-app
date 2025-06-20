@@ -2,7 +2,9 @@
 
   <div class="row">
     <div class="col-12 mb-4">
-      <h5><a routerLink="/dashboard/home" class="text-white-50 text-decoration-none me-3"><i class="bi bi-arrow-left"></i> BACK</a> Current trip</h5>
+      <h5>
+        <a routerLink="/dashboard/home" class="text-white-50 text-decoration-none me-3"><i class="bi bi-arrow-left"></i> BACK</a>
+      </h5>
     </div>
   </div>
 
@@ -21,7 +23,10 @@
           <h5 class="mb-4">Current trip</h5>
           <div class="current-trip-container" style="max-height: 350px; overflow-y: auto;">
             <div class="list-group list-group-flush bg-dark text-white mb-4 trip-timeline">
-              <div class="list-group-item bg-transparent text-white border-bottom border-secondary d-flex align-items-center mb-2" *ngFor="let tripEvent of driverTripData.tripEventDataList; let i = index">
+              <div class="list-group-item bg-transparent text-white border-bottom border-secondary d-flex align-items-center mb-2" 
+                          *ngFor="let tripEvent of driverTripData.tripEventDataList; let i = index"
+                          (click)="selectTripEvent(tripEvent)"
+                          [ngClass]="{'timeline-active-event': selectedTripEvent === tripEvent}">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content d-flex align-items-center flex-grow-1">
                   <p class="mb-1 fw-bold timeline-km-text">{{ tripEvent.distance }} KM</p>
@@ -42,63 +47,78 @@
           </div>
         </div>
 
-        <div class="card bg-dark text-white p-4">
-          <h5 class="mb-4">Detected Event</h5>
-          <div class="chart-placeholder detected-event-chart d-flex flex-column gap-3">
-            <div class="d-flex align-items-center" *ngIf="driverTripData.tripEventSummaryData.yawningCount > 0">
-              <div class="chart-graph-area d-flex align-items-center flex-grow-1"> <div class="progress-bar-right" 
-                     [style.width]="(driverTripData.tripEventSummaryData.yawningCount / maxSummaryCount) * 100 + '%'">
-                  <span class="chart-count">{{ driverTripData.tripEventSummaryData.yawningCount }}</span>
+        <ng-container *ngIf="!selectedTripEvent || !selectedTripEvent.eventImages || selectedTripEvent.eventImages.length === 0">
+          <div class="card bg-dark text-white p-4">
+            <h5 class="mb-4">Detected Event</h5>
+            <div class="chart-placeholder detected-event-chart d-flex flex-column gap-3">
+              <div class="d-flex align-items-center" *ngIf="driverTripData.tripEventSummaryData.yawningCount > 0">
+                <div class="chart-graph-area d-flex align-items-center flex-grow-1"> <div class="progress-bar-right" 
+                      [style.width]="(driverTripData.tripEventSummaryData.yawningCount / maxSummaryCount) * 100 + '%'">
+                    <span class="chart-count">{{ driverTripData.tripEventSummaryData.yawningCount }}</span>
+                  </div>
+                </div>
+                <div class="chart-label-area text-start ms-3"> <span class="chart-label-text">Yawning</span> </div>
+              </div>
+              <div class="d-flex align-items-center" *ngIf="driverTripData.tripEventSummaryData.eyeCount > 0">
+                <div class="chart-graph-area d-flex align-items-center flex-grow-1">
+                  <div class="progress-bar-right" 
+                      [style.width]="(driverTripData.tripEventSummaryData.eyeCount / maxSummaryCount) * 100 + '%'">
+                    <span class="chart-count">{{ driverTripData.tripEventSummaryData.eyeCount }}</span>
+                  </div>
+                </div>
+                <div class="chart-label-area text-start ms-3">
+                  <span class="chart-label-text">Eye</span>
                 </div>
               </div>
-              <div class="chart-label-area text-start ms-3"> <span class="chart-label-text">Yawning</span> </div>
-            </div>
-            <div class="d-flex align-items-center" *ngIf="driverTripData.tripEventSummaryData.eyeCount > 0">
-              <div class="chart-graph-area d-flex align-items-center flex-grow-1">
-                <div class="progress-bar-right" 
-                     [style.width]="(driverTripData.tripEventSummaryData.eyeCount / maxSummaryCount) * 100 + '%'">
-                  <span class="chart-count">{{ driverTripData.tripEventSummaryData.eyeCount }}</span>
+              <div class="d-flex align-items-center" *ngIf="driverTripData.tripEventSummaryData.microSleepCount > 0">
+                <div class="chart-graph-area d-flex align-items-center flex-grow-1">
+                  <div class="progress-bar-right" 
+                      [style.width]="(driverTripData.tripEventSummaryData.microSleepCount / maxSummaryCount) * 100 + '%'">
+                    <span class="chart-count">{{ driverTripData.tripEventSummaryData.microSleepCount }}</span>
+                  </div>
+                </div>
+                <div class="chart-label-area text-start ms-3">
+                  <span class="chart-label-text">Micro-sleep</span>
                 </div>
               </div>
-              <div class="chart-label-area text-start ms-3">
-                <span class="chart-label-text">Eye</span>
-              </div>
-            </div>
-            <div class="d-flex align-items-center" *ngIf="driverTripData.tripEventSummaryData.microSleepCount > 0">
-              <div class="chart-graph-area d-flex align-items-center flex-grow-1">
-                <div class="progress-bar-right" 
-                     [style.width]="(driverTripData.tripEventSummaryData.microSleepCount / maxSummaryCount) * 100 + '%'">
-                  <span class="chart-count">{{ driverTripData.tripEventSummaryData.microSleepCount }}</span>
+              <div class="d-flex align-items-center" *ngIf="driverTripData.tripEventSummaryData.sleepCount > 0">
+                <div class="chart-graph-area d-flex align-items-center flex-grow-1">
+                  <div class="progress-bar-right" 
+                      [style.width]="(driverTripData.tripEventSummaryData.sleepCount / maxSummaryCount) * 100 + '%'">
+                    <span class="chart-count">{{ driverTripData.tripEventSummaryData.sleepCount }}</span>
+                  </div>
+                </div>
+                <div class="chart-label-area text-start ms-3">
+                  <span class="chart-label-text">Sleep</span>
                 </div>
               </div>
-              <div class="chart-label-area text-start ms-3">
-                <span class="chart-label-text">Micro-sleep</span>
-              </div>
-            </div>
-            <div class="d-flex align-items-center" *ngIf="driverTripData.tripEventSummaryData.sleepCount > 0">
-              <div class="chart-graph-area d-flex align-items-center flex-grow-1">
-                <div class="progress-bar-right" 
-                     [style.width]="(driverTripData.tripEventSummaryData.sleepCount / maxSummaryCount) * 100 + '%'">
-                  <span class="chart-count">{{ driverTripData.tripEventSummaryData.sleepCount }}</span>
+              <div class="d-flex align-items-center" *ngIf="driverTripData.tripEventSummaryData.distractionCount > 0">
+                <div class="chart-graph-area d-flex align-items-center flex-grow-1">
+                  <div class="progress-bar-right" 
+                      [style.width]="(driverTripData.tripEventSummaryData.distractionCount / maxSummaryCount) * 100 + '%'">
+                    <span class="chart-count">{{ driverTripData.tripEventSummaryData.distractionCount }}</span>
+                  </div>
                 </div>
-              </div>
-              <div class="chart-label-area text-start ms-3">
-                <span class="chart-label-text">Sleep</span>
-              </div>
-            </div>
-            <div class="d-flex align-items-center" *ngIf="driverTripData.tripEventSummaryData.distractionCount > 0">
-              <div class="chart-graph-area d-flex align-items-center flex-grow-1">
-                <div class="progress-bar-right" 
-                     [style.width]="(driverTripData.tripEventSummaryData.distractionCount / maxSummaryCount) * 100 + '%'">
-                  <span class="chart-count">{{ driverTripData.tripEventSummaryData.distractionCount }}</span>
+                <div class="chart-label-area text-start ms-3">
+                  <span class="chart-label-text">Distraction</span>
                 </div>
-              </div>
-              <div class="chart-label-area text-start ms-3">
-                <span class="chart-label-text">Distraction</span>
               </div>
             </div>
           </div>
-        </div>
+        </ng-container>
+
+        <ng-container *ngIf="selectedTripEvent && selectedTripEvent.eventImages && selectedTripEvent.eventImages.length > 0">
+            <div class="card bg-dark text-white p-4">
+                <h5 class="mb-4">Event Snapshot</h5>
+                <div class="event-snapshot-content text-center">
+                    <img [src]="selectedTripEvent.eventImages[0]" alt="Event Snapshot" class="img-fluid mb-3 rounded" style="max-height: 250px; object-fit: contain;">
+                    <p class="mb-1"><strong>Datetime:</strong> {{ selectedTripEvent.created | date:'medium' }}</p>
+                    <p class="mb-1"><strong>Location:</strong> (Lon: {{ selectedTripEvent.longitude | number:'1.2-2' }}, Lat: {{ selectedTripEvent.latitude | number:'1.2-2' }})</p>
+                    <p class="mb-1"><strong>Event Status:</strong> {{ selectedTripEvent.eventStatus }}</p>
+                    <p *ngIf="selectedTripEvent.eventStatus === 'Micro-sleep' || selectedTripEvent.eventStatus === 'Sleep'"><strong>Eye Glasses Status:</strong> <span class="text-danger">Not Detected</span></p>
+                    </div>
+            </div>
+        </ng-container>
       </div>
 
       <div class="col-md-5 mb-4">

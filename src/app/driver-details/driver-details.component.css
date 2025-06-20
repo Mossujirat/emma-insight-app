@@ -80,9 +80,12 @@
   background: rgba(255, 255, 255, 0.3);
 }
 
+/* Custom scrollbar styles remain unchanged */
 .trip-timeline {
   position: relative;
-  padding-left: 25px; /* Space for the timeline line and dots */
+  padding-left: 25px;
+  display: flex; /* Make the timeline itself a flex container */
+  flex-direction: column-reverse; /* CRITICAL: Display items from bottom to top */
 }
 
 .trip-timeline::before {
@@ -90,7 +93,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 15px; /* Position the vertical line */
+  left: 15px;
   width: 2px;
   background-color: rgba(255, 255, 255, 0.2);
 }
@@ -102,37 +105,44 @@
   padding-bottom: 5px;
   background-color: transparent !important;
   border-color: rgba(255, 255, 255, 0.1) !important;
+  cursor: pointer; /* Indicate clickability */
+  transition: background-color 0.2s ease, border-left 0.2s ease; /* Smooth transition */
+  border-left: 3px solid transparent; /* Default transparent border */
 }
 
-.trip-timeline .list-group-item:last-child {
-  border-bottom: none !important;
+/* Style for the active (clicked) timeline event */
+.trip-timeline .list-group-item.timeline-active-event {
+  background-color: rgba(255, 255, 255, 0.1); /* Slightly lighter background */
+  border-left: 20px solid #007bff; /* Highlight with a blue border */
+  padding-left: 10px; /* Adjust padding to account for border */
 }
 
+/* Adjust timeline dot positioning for flex-direction: column-reverse */
 .trip-timeline .timeline-dot {
   position: absolute;
   left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: auto; /* Remove top property */
+  bottom: 50%; /* Position from bottom */
+  transform: translateY(50%); /* Adjust transform for bottom positioning */
   width: 12px;
   height: 12px;
   border-radius: 50%;
   background-color: #007bff;
   border: 2px solid #28a745;
   z-index: 1;
-  margin-right: 15px; /* NEW: Added margin-right to push KM text */
+  margin-right: 15px;
 }
 
 .trip-timeline .timeline-content {
-  margin-left: 15px; /* Adjust this if needed relative to timeline-dot's margin-right */
-  display: flex; /* Ensure it's a flex container for its internal items */
-  align-items: center; /* Vertically align items within this content area */
+  margin-left: 15px;
+  display: flex;
+  align-items: center;
 }
 
 .timeline-km-text {
-  /* This is the text "0 KM", "30 KM" */
-  width: 70px; /* Increased width to provide more space for numbers and fixed position */
-  text-align: right; /* Ensure text aligns to the right within its new width */
-  flex-shrink: 0; /* Prevent it from shrinking */
+  width: 70px;
+  text-align: right;
+  flex-shrink: 0;
 }
 
 /* --- Detected Event Chart Styling --- */
@@ -200,4 +210,10 @@
 .detected-event-chart .progress {
     background-color: transparent !important; /* Ensure background is clear */
     height: auto !important; /* Let content define height */
+}
+
+/* --- Event Snapshot Section Styling --- */
+.event-snapshot-content img {
+    max-width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
