@@ -13,6 +13,18 @@
   border-radius: 10px;
 }
 
+/* NEW: Rule to make the main cards have equal height */
+.equal-height-card {
+  height: 420px; /* Adjust this value as needed */
+  display: flex;
+  flex-direction: column;
+}
+
+/* MODIFIED: Increased height for the second row of cards */
+.secondary-card-match {
+  height: 410px; /* Increased from 380px */
+}
+
 .list-group-item {
   background-color: transparent !important; /* Ensure bg matches theme */
   color: var(--text-color) !important; /* Ensure text matches theme */
@@ -28,19 +40,20 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* MODIFIED: Let map preview grow to fill parent card */
 .map-preview {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* CRITICAL: Hide anything that overflows, including potential blank borders */
-  height: 250px; /* CRITICAL: Fixed height for the map container (replaces min-height from HTML) */
+  overflow: hidden;
+  flex-grow: 1; /* This will make it fill the available height */
 }
 
 .map-preview #map { /* Target the Longdo Map container directly */
   border-radius: 8px; /* Apply border radius to map container */
   overflow: hidden; /* Important for map to respect border-radius */
-  width: 100%; /* Ensure #map fills its parent's width */
-  height: 100%; /* Ensure #map fills its parent's height (from .map-preview) */
+  width: 100%;
+  height: 100%;
 }
 
 /* Ensure progress bar colors match */
@@ -51,15 +64,9 @@
 .progress-bar.bg-secondary { background-color: #6c757d !important; }
 
 /* --- Current Trip Timeline Styling --- */
+/* MODIFIED: Let trip container grow to fill parent card */
 .current-trip-container {
-  max-height: 350px; /* Make this section scrollable */
-  overflow-y: auto;
-  padding-right: 10px; /* Add some padding for the scrollbar */
-}
-
-/* --- Current Trip Timeline Styling --- */
-.current-trip-container {
-  max-height: 350px;
+  flex-grow: 1; /* Make it fill the available space in the flex parent */
   overflow-y: auto;
   padding-right: 10px;
 }
@@ -158,8 +165,9 @@
   justify-content: flex-end; /* Align the bar itself to the left within this area */
 }
 
+/* MODIFIED: Increase height of the graph bars */
 .detected-event-chart .progress-bar-right {
-  height: 25px;
+  height: 45px; /* Increased from 35px */
   border-radius: 5px;
   display: flex;
   align-items: center; /* Vertically center content (the number) */
@@ -167,7 +175,7 @@
   
   /* flex-grow is not needed here; width is controlled by [style.width] in HTML */
   padding: 0 10px; /* Padding inside the bar for the number */
-  min-width: 25px; /* Ensure bar is visible even for small values */
+  min-width: 45px; /* Ensure bar is visible even for small values */
   color: #212529; /* Default text color for numbers inside bars */
 }
 
@@ -213,7 +221,17 @@
 }
 
 /* --- Event Snapshot Section Styling --- */
-.event-snapshot-content img {
-    max-width: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+.event-snapshot-content {
+  overflow-wrap: break-word; /* Prevent long text from overflowing */
+}
+
+/* NEW: Class for the snapshot image */
+.snapshot-image {
+  max-width: 100%;
+  max-height: 200px; /* Reduced from 250px */
+  object-fit: contain;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
