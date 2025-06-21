@@ -1,100 +1,174 @@
-<div class="row">
-  <div class="col-12 d-flex justify-content-between align-items-center mb-4">
-    <h3>Overall System Status</h3>
-    <div>
-      <button class="btn btn-success me-2"><i class="bi bi-download me-2"></i>Download</button>
+<div class="statistics-container" *ngIf="!isLoading; else loadingTemplate">
+  <div class="row mb-4">
+    <div class="col d-flex justify-content-between align-items-center">
+      <h3 class="page-title">Statistics</h3>
+      <button class="btn btn-download"><i class="bi bi-download me-2"></i>Download</button>
     </div>
   </div>
 
-  <div class="col-md-5 mb-4">
-    <div class="card bg-dark text-white p-4 h-100 d-flex flex-column justify-content-center align-items-center">
-      <div class="doughnut-chart-placeholder mb-4">
-        <img src="assets/chart-placeholder.png" alt="Doughnut Chart" class="img-fluid" style="max-width: 250px;">
-      </div>
-      <ul class="list-unstyled text-start">
-        <li><span class="dot-normal me-2"></span>Normal {{ normalStatus.percentage }}%</li>
-        <li><span class="dot-warning me-2"></span>Warning {{ warningStatus.percentage }}%</li>
-        <li><span class="dot-critical me-2"></span>Critical {{ criticalStatus.percentage }}%</li>
-      </ul>
+  <div class="row mb-4 align-items-center">
+    <div class="col-md-6">
+      <h4 class="section-title">Overall System Status</h4>
     </div>
-  </div>
-  <div class="col-md-7 mb-4">
-    <div class="card bg-dark text-white p-4 h-100 d-flex flex-column justify-content-around">
-      <div class="d-flex align-items-center mb-3">
-        <label for="dateFrom" class="me-2 text-white-50">From</label>
-        <input type="date" id="dateFrom" class="form-control me-2 bg-dark text-white border-secondary">
-        <i class="bi bi-calendar me-3 text-white-50"></i>
-        <label for="dateTo" class="me-2 text-white-50">To</label>
-        <input type="date" id="dateTo" class="form-control me-2 bg-dark text-white border-secondary">
-        <i class="bi bi-calendar me-3 text-white-50"></i>
-        <button class="btn btn-primary me-2">Done</button>
-        <button class="btn btn-outline-secondary">All</button>
-      </div>
-
-      <div class="row text-center my-4">
-        <div class="col">
-          <p class="text-white-50 mb-1">Warning Detected</p>
-          <h4 class="fw-bold text-warning">{{ warningDetected }}</h4>
-        </div>
-        <div class="col">
-          <p class="text-white-50 mb-1">Critical Detected</p>
-          <h4 class="fw-bold text-danger">{{ criticalDetected }}</h4>
-        </div>
-        <div class="col">
-          <p class="text-white-50 mb-1">Speeding Detected</p>
-          <h4 class="fw-bold">{{ speedingDetected }}</h4>
-        </div>
-      </div>
+    <div class="col-md-6 d-flex align-items-center justify-content-end">
+      <label for="dateFrom" class="me-2 text-white-50">From</label>
+      <input type="date" id="dateFrom" class="form-control me-3" [(ngModel)]="dateFrom" (ngModelChange)="applyDateFilter()">
+      <i class="bi bi-arrow-right-short fs-4 me-3"></i>
+      <label for="dateTo" class="me-2 text-white-50">To</label>
+      <input type="date" id="dateTo" class="form-control me-3" [(ngModel)]="dateTo" (ngModelChange)="applyDateFilter()">
+      <button class="btn btn-link text-white-50 text-decoration-none" (click)="clearDateFilter()">Clear</button>
     </div>
   </div>
 
-  <div class="col-12 mt-4">
-    <div class="card bg-dark text-white p-4">
-      <h4 class="mb-4">Rankings</h4>
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-          <button class="btn btn-success me-2">Normal</button>
-          <button class="btn btn-outline-warning me-2">Warning</button>
-          <button class="btn btn-outline-danger">Critical</button>
+  <div class="row mb-5">
+    <div class="col-md-4">
+      <div class="summary-item">
+        <div class="summary-icon-circle"></div>
+        <div class="summary-text">
+          <span class="text-white-50">All Vehicles</span>
+          <strong class="summary-value">{{ summary?.allVehicles }}</strong>
         </div>
-        <div class="d-flex">
-          <select class="form-select me-2 bg-dark text-white border-secondary">
-            <option>Sort by: Risk (High to Low)</option>
-            <option>Sort by: Quantity</option>
-          </select>
-          <div class="input-group">
-            <input type="text" class="form-control bg-dark text-white border-secondary" placeholder="Search...">
-            <span class="input-group-text bg-secondary text-white border-secondary"><i class="bi bi-search"></i></span>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="summary-item">
+        <div class="summary-icon-circle"></div>
+        <div class="summary-text">
+          <span class="text-white-50">All Trips</span>
+          <strong class="summary-value">{{ summary?.allTrips }}</strong>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="summary-item">
+        <div class="summary-icon-circle"></div>
+        <div class="summary-text">
+          <span class="text-white-50">Total Kilometers Driven</span>
+          <strong class="summary-value">{{ summary?.totalKilometers | number }}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-9">
+      <div class="card bg-dark text-white p-3 chart-card">
+        <canvas id="statisticsChart"></canvas>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card bg-dark text-white p-3 filter-panel">
+        <h6 class="filter-title">Vehicles</h6>
+        <div class="btn-group-filter mb-3">
+          <button *ngFor="let type of vehicleTypes"
+                  class="btn btn-sm"
+                  [ngClass]="selectedVehicleTypes.includes(type) ? 'btn-filter-active' : 'btn-filter-inactive'"
+                  (click)="toggleVehicleType(type)">
+            {{ type }}
+          </button>
+        </div>
+
+        <h6 class="filter-title">Event Filter</h6>
+        <div class="btn-group-filter mb-3">
+          <button *ngFor="let event of eventFilters"
+                  class="btn btn-sm"
+                  [ngClass]="activeGraphGroup === 'event' && selectedGraphFilters.includes(event) ? 'btn-filter-active' : 'btn-filter-inactive'"
+                  (click)="selectGraphFilter(event, 'event')">
+            {{ event }}
+          </button>
+        </div>
+
+        <h6 class="filter-title">Speed</h6>
+        <div class="btn-group-filter">
+          <button *ngFor="let speed of speedFilters"
+                  class="btn btn-sm"
+                  [ngClass]="activeGraphGroup === 'speed' && selectedGraphFilters.includes(speed) ? 'btn-filter-active' : 'btn-filter-inactive'"
+                  (click)="selectGraphFilter(speed, 'speed')">
+            {{ speed }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card bg-dark text-white p-4">
+        <h4 class="mb-4">Rankings</h4>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <button class="btn btn-outline-secondary active me-2">Normal</button>
+            <button class="btn btn-outline-warning me-2">Warning</button>
+            <button class="btn btn-outline-danger">Critical</button>
+          </div>
+          <div class="d-flex">
+            <select class="form-select me-2 bg-dark text-white border-secondary">
+              <option>Sort by: Risk (High to Low)</option>
+              <option>Sort by: Quantity</option>
+            </select>
+            <div class="input-group">
+              <input type="text" class="form-control bg-dark text-white border-secondary" placeholder="Search...">
+              <span class="input-group-text bg-secondary text-white border-secondary"><i class="bi bi-search"></i></span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="table-responsive">
-        <table class="table table-dark table-striped table-hover">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>ID</th>
-              <th>License Plate No.</th>
-              <th>Name</th>
-              <th>Vehicles</th>
-              <th>Warning / duration</th>
-              <th>Quantity</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let rank of rankings; let i = index">
-              <td>{{ rank.rank }}</td>
-              <td>{{ rank.id }}</td>
-              <td>{{ rank.licensePlateNo }}</td>
-              <td>{{ rank.name }}</td>
-              <td>{{ rank.vehicles }}</td>
-              <td>{{ rank.warningDuration }}</td>
-              <td>{{ rank.quantity }} times</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-scroll-container">
+          <table class="table table-dark table-hover">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>ID</th>
+                <th>License Plate No.</th>
+                <th>Name</th>
+                <th>Vehicles</th>
+                <th>Warning / duration</th>
+                <th>Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rank of rankings">
+                <td>{{ rank.rank }}</td>
+                <td>{{ rank.id }}</td>
+                <td>{{ rank.licensePlateNo }}</td>
+                <td>{{ rank.name }}</td>
+                <td>
+                  <span class="badge" [ngClass]="{
+                    'bg-bus': rank.vehicles === 'Bus',
+                    'bg-cargo': rank.vehicles === 'Cargo',
+                    'bg-taxi': rank.vehicles === 'Taxi'
+                  }">{{ rank.vehicles }}</span>
+                </td>
+                <td>{{ rank.warningDuration }}</td>
+                <td>{{ rank.quantity }} times</td>
+              </tr>
+              <tr *ngFor="let rank of rankings">
+                <td>{{ rank.rank + 5 }}</td>
+                <td>{{ rank.id }}</td>
+                <td>{{ rank.licensePlateNo }}</td>
+                <td>{{ rank.name }}</td>
+                <td>
+                  <span class="badge" [ngClass]="{
+                    'bg-bus': rank.vehicles === 'Bus',
+                    'bg-cargo': rank.vehicles === 'Cargo',
+                    'bg-taxi': rank.vehicles === 'Taxi'
+                  }">{{ rank.vehicles }}</span>
+                </td>
+                <td>{{ rank.warningDuration }}</td>
+                <td>{{ rank.quantity }} times</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #loadingTemplate>
+  <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</ng-template>
