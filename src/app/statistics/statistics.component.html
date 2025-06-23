@@ -142,21 +142,6 @@
                 <td>{{ rank.warningDuration }}</td>
                 <td>{{ rank.quantity }} times</td>
               </tr>
-              <tr *ngFor="let rank of rankings">
-                <td>{{ rank.rank + 5 }}</td>
-                <td>{{ rank.id }}</td>
-                <td>{{ rank.licensePlateNo }}</td>
-                <td>{{ rank.name }}</td>
-                <td>
-                  <span class="badge" [ngClass]="{
-                    'bg-bus': rank.vehicles === 'Bus',
-                    'bg-cargo': rank.vehicles === 'Cargo',
-                    'bg-taxi': rank.vehicles === 'Taxi'
-                  }">{{ rank.vehicles }}</span>
-                </td>
-                <td>{{ rank.warningDuration }}</td>
-                <td>{{ rank.quantity }} times</td>
-              </tr>
             </tbody>
           </table>
         </div>
