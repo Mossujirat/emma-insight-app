@@ -1,7 +1,3 @@
-// src/app/models/statistics.model.ts
-
-// --- Data Models for the new, efficient API structure ---
-
 // Represents event counts for each vehicle type
 export interface DailyEventData {
   [vehicleType: string]: number; // e.g., { "Bus": 5, "Cargo": 10, "Taxi": 3 }
@@ -23,6 +19,8 @@ export interface DailyStatistics {
 export interface StatisticModel {
   startDate: string;
   endDate: string;
+  minDate: string;
+  maxDate: string;
   summary: {
     allVehicles: number;
     allTrips: number;

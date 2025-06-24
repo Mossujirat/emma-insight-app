@@ -1,9 +1,11 @@
+// src/app/services/statistic-data.service.ts
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
-import { StatisticModel } from '../models/statistics.model'; // Import แค่ StatisticModel
+import { StatisticModel } from '../models/statistics.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,18 +16,17 @@ export class StatisticsDataService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  // แก้ไขให้ Service คืนค่าเป็น Observable<StatisticModel> ตรงๆ
   getStatisticsData(dateFrom?: string, dateTo?: string): Observable<StatisticModel> {
     const token = this.authService.getToken();
     if (!token) {
       return throwError(() => new Error('Authentication token not found.'));
     }
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+    
     let params = new HttpParams();
     if (dateFrom) params = params.append('dateFrom', dateFrom);
     if (dateTo) params = params.append('dateTo', dateTo);
 
-    // ไม่ต้องมี .pipe(map(...)) อีกต่อไป
     return this.http.get<StatisticModel>(`${this.apiUrl}/statistics`, { headers, params }).pipe(
       catchError(this.handleError.bind(this))
     );

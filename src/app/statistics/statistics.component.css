@@ -55,28 +55,30 @@
 
 /* New Summary Items */
 .summary-item {
-  display: flex;
-  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  display: flex;         /* *** สำคัญ: ทำให้ item ข้างในเรียงกันแนวนอน *** */
+  align-items: center;   /* จัดให้อยู่กึ่งกลางแนวตั้ง */
+  padding: 1rem;         /* เพิ่มระยะห่างภายใน card */
+  height: 100%;          /* ทำให้ card ทุกใบสูงเท่ากัน */
 }
 
-.summary-icon-circle {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #34d399 0%, rgba(16, 185, 129, 0) 65%);
-  margin-right: 1rem;
-  flex-shrink: 0;
+.summary-icon {
+  width: 50px;           /* กำหนดความกว้างของไอคอน */
+  height: 50px;          /* กำหนดความสูงของไอคอน */
+  margin-right: 1rem;    /* เพิ่มระยะห่างระหว่างไอคอนกับข้อความ */
+  flex-shrink: 0;        /* ป้องกันไม่ให้ไอคอนหดตัวเมื่อพื้นที่แคบ */
 }
 
 .summary-text {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* ทำให้ "All Vehicles" และตัวเลขเรียงกันแนวตั้ง */
 }
 
 .summary-text .summary-value {
-  font-size: 2.25rem;
+  font-size: 2rem;      /* ปรับขนาดตัวเลขตามความเหมาะสม */
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.2;
 }
 
 
