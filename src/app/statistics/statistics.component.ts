@@ -15,6 +15,7 @@ import Chart from 'chart.js/auto';
 export class StatisticsComponent implements OnInit, AfterViewChecked {
   summary: StatisticsSummary | null = null;
   rankings: Ranking[] = [];
+  sortedRankings: Ranking[] = [];
   isLoading: boolean = true;
   hasError: boolean = false; 
   private rawApiData: StatisticModel | null = null;
@@ -23,6 +24,10 @@ export class StatisticsComponent implements OnInit, AfterViewChecked {
   dateTo: string = '';
   minSelectableDate: string = '';
   maxSelectableDate: string = '';
+
+  activeRankingFilter: 'warning' | 'critical' = 'warning';
+  sortOrder: 'highToLow' | 'lowToHigh' = 'highToLow';
+  searchText: string = '';
 
   vehicleTypes = ['Bus', 'Cargo', 'Taxi'];
   selectedVehicleTypes: string[] = ['Bus', 'Cargo', 'Taxi'];
@@ -56,9 +61,15 @@ export class StatisticsComponent implements OnInit, AfterViewChecked {
         this.summary = data.summary;
         
         this.rankings = data.rankingTable.map(rankItem => ({
-            rank: rankItem.driverRanking, id: rankItem.driverId, licensePlateNo: rankItem.carLicenseNo,
-            name: rankItem.driverName, vehicles: rankItem.vehicleType,
-            warningDuration: `${rankItem.warningDuration} times/hour`, quantity: rankItem.quantity,
+            rank: rankItem.driverRanking, 
+            id: rankItem.driverId, 
+            licensePlateNo: rankItem.carLicenseNo,
+            name: rankItem.driverName, 
+            vehicles: rankItem.vehicleType,
+            warningDuration: rankItem.warningDuration,
+            criticalDuration: rankItem.criticalDuration,
+            durationDisplay: '', // จะถูกกำหนดค่าในภายหลัง
+            quantity: rankItem.quantity,
         }));
 
         if (!from && !to && this.rawApiData) {
@@ -70,6 +81,7 @@ export class StatisticsComponent implements OnInit, AfterViewChecked {
         
         this.isLoading = false; 
         this.chartRenderPending = true;
+        this.applyRankingSortAndFilter();
       },
       error: err => { // --- ทำงานเมื่อ API ล้มเหลว ---
         console.error('Failed to load statistics data:', err);
@@ -93,6 +105,49 @@ export class StatisticsComponent implements OnInit, AfterViewChecked {
       this.dateTo = this.rawApiData.maxDate;
     }
     this.loadData();
+  }
+
+  setRankingFilter(filter: 'warning' | 'critical'): void {
+    this.activeRankingFilter = filter;
+    this.applyRankingSortAndFilter();
+  }
+
+  // อัปเดตฟังก์ชัน applyRankingSortAndFilter ให้รองรับการค้นหา
+  applyRankingSortAndFilter(): void {
+    if (!this.rankings || this.rankings.length === 0) {
+      this.sortedRankings = [];
+      return;
+    }
+
+    // 1. เริ่มจากข้อมูลทั้งหมด
+    let tempRankings = [...this.rankings];
+
+    // 2. กรองข้อมูลด้วย searchText (Search Filter)
+    if (this.searchText && this.searchText.trim() !== '') {
+      const lowercasedSearchText = this.searchText.toLowerCase().trim();
+      tempRankings = tempRankings.filter(rank => 
+        rank.id.toLowerCase().includes(lowercasedSearchText) ||
+        rank.licensePlateNo.toLowerCase().includes(lowercasedSearchText) ||
+        rank.name.toLowerCase().includes(lowercasedSearchText)
+      );
+    }
+
+    // 3. จัดเรียงข้อมูล (Sorting) จากข้อมูลที่ผ่านการกรองแล้ว
+    const sortProperty = this.activeRankingFilter === 'warning' ? 'warningDuration' : 'criticalDuration';
+    
+    tempRankings.sort((a, b) => {
+      const valA = a[sortProperty];
+      const valB = b[sortProperty];
+      return this.sortOrder === 'highToLow' ? valB - valA : valA - valB;
+    });
+
+    // 4. อัปเดตข้อความที่จะแสดงผล
+    tempRankings.forEach(r => {
+      const duration = r[sortProperty];
+      r.durationDisplay = `${duration} times/hour`;
+    });
+    
+    this.sortedRankings = tempRankings;
   }
 
   toggleVehicleType(type: string): void {

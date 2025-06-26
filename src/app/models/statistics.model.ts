@@ -70,7 +70,9 @@ export interface Ranking {
   licensePlateNo: string;
   name: string;
   vehicles: string;
-  warningDuration: string;
+  warningDuration: number;
+  criticalDuration: number; 
+  durationDisplay: string;
   quantity: number;
 }
 
