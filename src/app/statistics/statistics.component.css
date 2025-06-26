@@ -3,7 +3,7 @@
   padding: 1.5rem;
   color: var(--text-color);
   /* Set height to enable scrolling for the whole page if it overflows */
-  height: calc(100vh - 70px); /* Adjust 70px based on your main header's height */
+  height: calc(100vh - 100px); /* Adjust 70px based on your main header's height */
   overflow-y: auto;
 }
 
@@ -188,4 +188,12 @@
 .table-scroll-container {
   scrollbar-width: thin; /* ทำให้ Scrollbar บางลง */
   scrollbar-color: #4b5568 #1f2937; /* [สีตัวเลื่อน] [สีพื้นหลัง] */
+}
+
+.driver-row {
+  cursor: pointer;
+}
+
+.driver-row:hover {
+  background-color: #f0f0f0;
 }

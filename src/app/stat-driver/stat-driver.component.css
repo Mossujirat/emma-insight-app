@@ -1,0 +1,270 @@
+.driver-stats-container {
+  padding: 2rem;
+  color: var(--text-color);
+  /* Set height to enable scrolling for the whole page if it overflows */
+  height: calc(100vh - 100px); /* Adjust 70px based on your main header's height */
+  overflow-y: auto;
+}
+
+/* Header */
+.header-section {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.btn-download {
+  background-color: #00ffc3;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1.5rem;
+  font-weight: bold;
+}
+
+.back-link {
+  color: #00ffc3;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: #27293d; */
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.driver-name {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.5rem;
+}
+
+.driver-details-text {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.date-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.date-input {
+  background-color: #1D1D1D;
+  border: 1px solid #1D1D1D;
+  color: white;
+  border-radius: 5px;
+  padding: 0.3rem 0.5rem;
+}
+
+.date-arrow {
+  font-size: 1.5rem;
+}
+
+.btn-confirm, .btn-clear {
+  border: 1px solid #4f526b;
+  background-color: #27293d;
+  color: white;
+  border-radius: 5px;
+}
+
+/* Dashboard Layout */
+.dashboard-cards-section {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chart-column {
+  flex: 3; /* Takes up more space */
+}
+
+.stats-column {
+  flex: 2; /* Takes up less space */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Chart Card */
+.chart-card {
+  background-color: #181818;
+  padding: 1.5rem;
+  border-radius: 10px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 250px; /* Adjust as needed */
+  flex-grow: 1;
+}
+
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.legend-color-box {
+  width: 12px;
+  height: 12px;
+}
+
+/* Legend Colors */
+.legend-yawning .legend-color-box { background-color: #FFC107; }
+.legend-eye .legend-color-box { background-color: #FFFFFF; }
+.legend-microsleep .legend-color-box { background-color: #FF6384; }
+.legend-sleep .legend-color-box { background-color: #36A2EB; }
+.legend-distraction .legend-color-box { background-color: #9966FF; }
+
+.detected-events-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #181818;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+}
+
+.event-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-event {
+  background-color: #4f526b;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 0.3rem 1rem;
+  font-size: 0.8rem;
+}
+
+.btn-event.active {
+  background-color: #00ffc3;
+  color: #181818;
+  font-weight: bold;
+}
+
+/* Stats Column */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.stat-card {
+  background-color: #181818;
+  padding: 1rem;
+  border-radius: 10px;
+  border-left: 3px solid #00ffc3;
+}
+
+.stat-card p {
+  margin: 0 0 0.5rem 0;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.text-green {
+  color: #00ffc3;
+}
+
+.stats-footer {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-stat {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #181818;
+  padding: 1rem;
+  border-radius: 10px;
+  flex-grow: 1;
+}
+
+.footer-stat i {
+  font-size: 2rem;
+  color: #00ffc3;
+}
+
+.footer-stat p, .footer-stat span {
+  margin: 0;
+}
+
+.footer-stat p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.footer-stat span {
+  font-weight: bold;
+}
+
+/* Trip Log Table */
+.trip-log-section {
+  background-color: #181818;
+  padding: 1.5rem;
+  border-radius: 10px;
+}
+
+.trip-log-title {
+  margin-bottom: 1rem;
+}
+
+.table {
+  border-bottom: 1px solid #4f526b;
+}
+
+.table th, .table td {
+  border-top: none;
+  border-bottom: 1px solid #4f526b;
+  padding: 1rem;
+}
+
+.table thead th {
+  border-bottom: 2px solid #4f526b;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: bold;
+}

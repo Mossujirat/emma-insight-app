@@ -1,0 +1,120 @@
+<div class="driver-stats-container">
+    <div class="header-section">
+        <div class="header-top">
+            <h3 class="page-title">Statistics</h3>
+            <button class="btn btn-download"><i class="bi bi-download me-2"></i>Download</button>
+        </div>
+        <div class="header-bottom">
+            <a class="back-link" (click)="goBack()"><i class="bi bi-chevron-left"></i> BACK</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+
+        <div class="filter-bar">
+            <div class="driver-info">
+                <h4 class="driver-name">{{ driver.name }}</h4>
+                <p class="driver-details-text">{{ driver.details }}</p>
+            </div>
+            <div class="date-filters">
+                <label for="dateFrom">From</label>
+                <input type="date" id="dateFrom" class="date-input">
+                <i class="bi bi-arrow-right-short date-arrow"></i>
+                <label for="dateTo">To</label>
+                <input type="date" id="dateTo" class="date-input">
+                <button class="btn btn-confirm">Confirm</button>
+                <button class="btn btn-clear">Clear</button>
+            </div>
+        </div>
+
+        <div class="dashboard-cards-section">
+            <div class="chart-column">
+                <div class="chart-card">
+                    <div class="chart-wrapper">
+                        <canvas id="mainDriverChart"></canvas>
+                    </div>
+                    <div class="chart-legend">
+                        <span *ngFor="let filter of detectedEventFilters" [ngClass]="'legend-item legend-' + filter.toLowerCase().replace('-', '')">
+                        <span class="legend-color-box"></span>
+                        {{ filter }}
+                        </span>
+                    </div>
+                    <div class="detected-events-bar">
+                        <span>Detected Event</span>
+                        <div class="event-buttons">
+                            <button *ngFor="let filter of detectedEventFilters"
+                                    class="btn btn-event"
+                                    [ngClass]="{ 'active': isFilterActive(filter) }"
+                                    (click)="toggleEventFilter(filter)">
+                                {{ filter }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-column">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <p>Speeding Detected</p>
+                        <span class="stat-value text-green">{{ summaryStats.speedingDetected | number:'2.0-0' }}</span>
+                    </div>
+                    <div class="stat-card">
+                        <p>Distance (Km)</p>
+                        <span class="stat-value text-green">{{ summaryStats.distance }}</span>
+                    </div>
+                    <div class="stat-card">
+                        <p>Average Speed (Km/h)</p>
+                        <span class="stat-value text-green">{{ summaryStats.avgSpeed }}</span>
+                    </div>
+                    <div class="stat-card">
+                        <p>Max Speed (Km/h)</p>
+                        <span class="stat-value text-green">{{ summaryStats.maxSpeed }}</span>
+                    </div>
+                </div>
+                <div class="stats-footer">
+                    <div class="footer-stat">
+                        <i class="bi bi-clock-history"></i>
+                        <div>
+                            <p>Time/Trip</p>
+                            <span>{{ summaryStats.timePerTrip }}</span>
+                        </div>
+                    </div>
+                    <div class="footer-stat">
+                        <i class="bi bi-car-front"></i>
+                        <div>
+                            <p>Total Driving Time</p>
+                            <span>{{ summaryStats.totalDrivingTime }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="trip-log-section">
+            <h4 class="trip-log-title">Trip Log</h4>
+            <div class="table-responsive">
+                <table class="table table-dark">
+                <thead>
+                    <tr>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>Distance</th>
+                    <th>Duration</th>
+                    <th>Avg. Speed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let log of tripLog">
+                    <td>{{ log.date }}</td>
+                    <td>{{ log.startTime }}</td>
+                    <td>{{ log.distance }}</td>
+                    <td>{{ log.duration }}</td>
+                    <td>{{ log.avgSpeed }}</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

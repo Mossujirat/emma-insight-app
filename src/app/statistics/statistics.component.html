@@ -141,7 +141,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let rank of sortedRankings">
+                  <tr *ngFor="let rank of sortedRankings" [routerLink]="['/dashboard/statistics', rank.id]" class="driver-row">
                     <td>{{ rank.rank }}</td>
                     <td>{{ rank.id }}</td>
                     <td>{{ rank.licensePlateNo }}</td>

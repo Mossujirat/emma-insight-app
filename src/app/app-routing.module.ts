@@ -3,12 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { LandingComponent } from './landing/landing.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { DashboardComponent } from './dashboard/dashboard.component'; // Dashboard Home (overview)
-import { StatisticsComponent } from './statistics/statistics.component'; // New Overall Statistics Page
-import { DriverDetailsComponent } from './driver-details/driver-details.component'; // New Driver Details Page
+import { DashboardComponent } from './dashboard/dashboard.component'; 
+import { StatisticsComponent } from './statistics/statistics.component'; 
+import { DriverDetailsComponent } from './driver-details/driver-details.component'; 
 import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PublicGuard } from './guards/public.guard';
+import { StatDriverComponent } from './stat-driver/stat-driver.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -30,6 +31,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: DashboardComponent }, // Main dashboard overview
       { path: 'statistics', component: StatisticsComponent }, // New overall statistics page
+      { path: 'statistics/:driverId', component: StatDriverComponent },
       { path: 'driver-details/:id', component: DriverDetailsComponent } // New route for driver details with a parameter
     ]
   },
