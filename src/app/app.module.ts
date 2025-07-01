@@ -16,6 +16,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { LongdoMapComponent } from './longdo-map/longdo-map.component';
 import { DriverDetailsComponent } from './driver-details/driver-details.component';
 import { StatDriverComponent } from './stat-driver/stat-driver.component';
+import { FormatSecondsPipe } from './pipes/format-seconds.pipe'; // Import the pipe
 
 @NgModule({
   declarations: [
@@ -30,12 +31,14 @@ import { StatDriverComponent } from './stat-driver/stat-driver.component';
     LongdoMapComponent,
     DriverDetailsComponent,
     StatDriverComponent
+    // The pipe is no longer declared here
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    FormatSecondsPipe // <-- Import the standalone pipe here
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi())

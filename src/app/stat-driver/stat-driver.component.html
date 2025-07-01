@@ -1,4 +1,4 @@
-<div class="driver-stats-container">
+<div class="driver-stats-container" *ngIf="!isLoading && !hasError && driverData; else statusTemplate">
     <div class="header-section">
         <div class="header-top">
             <h3 class="page-title">Statistics</h3>
@@ -10,19 +10,20 @@
     </div>
 
     <div class="main-content">
-
         <div class="filter-bar">
             <div class="driver-info">
-                <h4 class="driver-name">{{ driver.name }}</h4>
-                <p class="driver-details-text">{{ driver.details }}</p>
+                <h4 class="driver-name">{{ driverData.driverInfo.name }}</h4>
+                <p class="driver-details-text">
+                  {{ driverData.driverInfo.licensePlateNo }} ({{ driverData.driverInfo.vehicleType }})
+                </p>
             </div>
             <div class="date-filters">
                 <label for="dateFrom">From</label>
-                <input type="date" id="dateFrom" class="date-input">
+                <input type="date" id="dateFrom" class="date-input" [(ngModel)]="dateFrom">
                 <i class="bi bi-arrow-right-short date-arrow"></i>
                 <label for="dateTo">To</label>
-                <input type="date" id="dateTo" class="date-input">
-                <button class="btn btn-confirm">Confirm</button>
+                <input type="date" id="dateTo" class="date-input" [(ngModel)]="dateTo">
+                <button class="btn btn-confirm" (click)="confirmDateChange()">Confirm</button>
                 <button class="btn btn-clear">Clear</button>
             </div>
         </div>
@@ -31,12 +32,12 @@
             <div class="chart-column">
                 <div class="chart-card">
                     <div class="chart-wrapper">
-                        <canvas id="mainDriverChart"></canvas>
+                        <canvas #mainDriverChart id="mainDriverChart"></canvas>
                     </div>
                     <div class="chart-legend">
-                        <span *ngFor="let filter of detectedEventFilters" [ngClass]="'legend-item legend-' + filter.toLowerCase().replace('-', '')">
-                        <span class="legend-color-box"></span>
-                        {{ filter }}
+                        <span *ngFor="let filter of detectedEventFilters" [ngClass]="'legend-item legend-' + filter.toLowerCase().replace(' ', '')">
+                            <span class="legend-color-box"></span>
+                            {{ filter }}
                         </span>
                     </div>
                     <div class="detected-events-bar">
@@ -57,19 +58,19 @@
                 <div class="stats-grid">
                     <div class="stat-card">
                         <p>Speeding Detected</p>
-                        <span class="stat-value text-green">{{ summaryStats.speedingDetected | number:'2.0-0' }}</span>
+                        <span class="stat-value text-green">{{ driverData.summary.speedingDetected | number:'1.0-0' }}</span>
                     </div>
                     <div class="stat-card">
                         <p>Distance (Km)</p>
-                        <span class="stat-value text-green">{{ summaryStats.distance }}</span>
+                        <span class="stat-value text-green">{{ driverData.summary.totalDistance | number:'1.0-0' }}</span>
                     </div>
                     <div class="stat-card">
                         <p>Average Speed (Km/h)</p>
-                        <span class="stat-value text-green">{{ summaryStats.avgSpeed }}</span>
+                        <span class="stat-value text-green">{{ driverData.summary.avgSpeed | number:'1.0-0' }}</span>
                     </div>
                     <div class="stat-card">
                         <p>Max Speed (Km/h)</p>
-                        <span class="stat-value text-green">{{ summaryStats.maxSpeed }}</span>
+                        <span class="stat-value text-green">{{ driverData.summary.maxSpeed | number:'1.0-0' }}</span>
                     </div>
                 </div>
                 <div class="stats-footer">
@@ -77,21 +78,21 @@
                         <i class="bi bi-clock-history"></i>
                         <div>
                             <p>Time/Trip</p>
-                            <span>{{ summaryStats.timePerTrip }}</span>
+                            <span>Data not available</span>
                         </div>
                     </div>
                     <div class="footer-stat">
                         <i class="bi bi-car-front"></i>
                         <div>
                             <p>Total Driving Time</p>
-                            <span>{{ summaryStats.totalDrivingTime }}</span>
+                            <span>{{ driverData.summary.totalTime | formatSeconds }}</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="trip-log-section">
+        <div class="trip-log-section" *ngIf="driverData.dailyTripLog && driverData.dailyTripLog.length > 0">
             <h4 class="trip-log-title">Trip Log</h4>
             <div class="table-responsive">
                 <table class="table table-dark">
@@ -105,12 +106,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let log of tripLog">
+                    <tr *ngFor="let log of driverData.dailyTripLog">
                     <td>{{ log.date }}</td>
                     <td>{{ log.startTime }}</td>
-                    <td>{{ log.distance }}</td>
+                    <td>{{ log.distance }} Km</td>
                     <td>{{ log.duration }}</td>
-                    <td>{{ log.avgSpeed }}</td>
+                    <td>{{ log.avgSpeed }} Km/h</td>
                     </tr>
                 </tbody>
                 </table>
@@ -118,3 +119,19 @@
         </div>
     </div>
 </div>
+
+<ng-template #statusTemplate>
+    <div *ngIf="isLoading" class="d-flex flex-column justify-content-center align-items-center" style="height: 80vh;">
+        <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <h5>Loading Driver Statistics...</h5>
+    </div>
+    <div *ngIf="!isLoading && hasError" class="d-flex flex-column justify-content-center align-items-center text-center" style="height: 80vh;">
+        <h4 class="mb-3">Data Not Found</h4>
+        <p class="text-muted mb-4">Could not retrieve statistics for this driver.</p>
+        <button class="btn btn-primary" (click)="loadDriverData()">
+            <i class="bi bi-arrow-clockwise"></i> Refresh
+        </button>
+    </div>
+</ng-template>

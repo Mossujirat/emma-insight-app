@@ -9,8 +9,6 @@ export interface DailyStatistics {
   critical: DailyEventData;
   distraction: DailyEventData;
   speeding: DailyEventData; // From API
-  harshBraking: DailyEventData;
-  // --- แก้ไขตรงนี้ ---
   avgSpeed: DailyEventData; // Now an object
   maxSpeed: DailyEventData; // Now an object
 }
@@ -32,10 +30,6 @@ export interface StatisticModel {
   };
 }
 
-
-// --- Data Models that the Component uses (No changes needed here) ---
-// ... (ส่วนที่เหลือของไฟล์เหมือนเดิมทุกประการ) ...
-
 export interface RankDriverData {
   driverId: string;
   driverName: string;
@@ -54,11 +48,10 @@ export interface StatisticsSummary {
 }
 
 export interface GraphDataPoint {
-  month: string; 
+  date: string; 
   warning: number;
   distraction: number;
   critical: number;
-  harshBraking: number;
   speedingDetected: number;
   avgSpeed: number;
   maxSpeed: number;

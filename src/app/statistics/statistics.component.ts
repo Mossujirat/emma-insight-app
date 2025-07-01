@@ -31,7 +31,7 @@ export class StatisticsComponent implements OnInit, AfterViewChecked {
 
   vehicleTypes = ['Bus', 'Cargo', 'Taxi'];
   selectedVehicleTypes: string[] = ['Bus', 'Cargo', 'Taxi'];
-  eventFilters = ['Warning', 'Distraction', 'Critical', 'Harsh Braking', 'Speeding Detected'];
+  eventFilters = ['Warning', 'Distraction', 'Critical', 'Speeding Detected'];
   speedFilters = ['Avg. Speed', 'Max Speed'];
   activeGraphGroup: 'event' | 'speed' = 'event';
   selectedGraphFilters: string[] = [...this.eventFilters]; 
@@ -193,12 +193,11 @@ export class StatisticsComponent implements OnInit, AfterViewChecked {
         const date = new Date(dateString);
         const dayMonthLabel = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}`;
         graphData.push({
-          month: dayMonthLabel,
+          date: dayMonthLabel,
           warning: sumSelectedVehicleTypes(dailyStat.warning),
           critical: sumSelectedVehicleTypes(dailyStat.critical),
           distraction: sumSelectedVehicleTypes(dailyStat.distraction),
           speedingDetected: sumSelectedVehicleTypes(dailyStat.speeding),
-          harshBraking: sumSelectedVehicleTypes(dailyStat.harshBraking),
           avgSpeed: sumSelectedVehicleTypes(dailyStat.avgSpeed),
           maxSpeed: sumSelectedVehicleTypes(dailyStat.maxSpeed)
         });
@@ -212,7 +211,7 @@ export class StatisticsComponent implements OnInit, AfterViewChecked {
     if (!canvas) return;
     if (this.chart) this.chart.destroy();
 
-    const labels = graphData.map(d => d.month);
+    const labels = graphData.map(d => d.date);
     const yAxisLabel = this.activeGraphGroup === 'event' ? 'Total Events per 10 KM' : 'Speed (Km/h)';
 
     this.chart = new Chart(canvas, {
@@ -223,7 +222,6 @@ export class StatisticsComponent implements OnInit, AfterViewChecked {
           { label: 'Warning', data: graphData.map(d => d.warning), borderColor: '#facc15' },
           { label: 'Distraction', data: graphData.map(d => d.distraction), borderColor: '#fb923c' },
           { label: 'Critical', data: graphData.map(d => d.critical), borderColor: '#f87171' },
-          { label: 'Harsh Braking', data: graphData.map(d => d.harshBraking), borderColor: '#4b5563' },
           { label: 'Speeding Detected', data: graphData.map(d => d.speedingDetected), borderColor: '#60a5fa' },
           { label: 'Avg. Speed', data: graphData.map(d => d.avgSpeed), borderColor: '#34d399' },
           { label: 'Max Speed', data: graphData.map(d => d.maxSpeed), borderColor: '#a78bfa' },
@@ -231,7 +229,17 @@ export class StatisticsComponent implements OnInit, AfterViewChecked {
       },
       options: {
         responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
+        plugins: { 
+          legend: { 
+            display: true,
+            position: 'bottom', // This is what you need to change
+            labels: {
+              color: 'white',
+
+              filter: (item) => !item.hidden
+            }
+          } 
+        },
         scales: {
           x: { ticks: { maxTicksLimit: 7 } },
           y: { beginAtZero: true, title: { display: true, text: yAxisLabel } }
