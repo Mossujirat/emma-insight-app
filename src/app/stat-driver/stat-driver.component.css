@@ -27,7 +27,7 @@
 }
 
 .btn-download {
-  background-color: #00ffc3;
+  background-color: #10B981;
   color: #1a1a2e;
   border: none;
   border-radius: 20px;
@@ -36,7 +36,7 @@
 }
 
 .back-link {
-  color: #00ffc3;
+  color: #10B981;
   text-decoration: none;
   font-weight: bold;
   cursor: pointer;
@@ -107,7 +107,8 @@
 
 /* Chart Card */
 .chart-card {
-  background-color: #181818;
+  background-color: transparent;
+  border: 1px solid #374151;
   padding: 1.5rem;
   border-radius: 10px;
   height: 100%;
@@ -151,7 +152,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  background-color: #181818;
+  background-color: transparent;
   padding: 0.75rem;
   border-radius: 8px;
   margin-top: 1.5rem;
@@ -166,13 +167,13 @@
   background-color: #4f526b;
   color: white;
   border: none;
-  border-radius: 15px;
-  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  padding: 0.05rem 1rem;
   font-size: 0.8rem;
 }
 
 .btn-event.active {
-  background-color: #00ffc3;
+  background-color: #10B981;
   color: #181818;
   font-weight: bold;
 }
@@ -187,10 +188,11 @@
 }
 
 .stat-card {
-  background-color: #181818;
+  background-color: transparent;
+  border: 1px solid #374151;
   padding: 1rem;
   border-radius: 10px;
-  border-left: 3px solid #00ffc3;
+  /* border-left: 3px solid #10B981; */
 }
 
 .stat-card p {
@@ -204,7 +206,7 @@
 }
 
 .text-green {
-  color: #00ffc3;
+  color: #10B981;
 }
 
 .stats-footer {
@@ -216,7 +218,8 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  background-color: #181818;
+  background-color: transparent;
+  border: 1px solid #374151;
   padding: 1rem;
   border-radius: 10px;
   flex-grow: 1;
@@ -224,7 +227,7 @@
 
 .footer-stat i {
   font-size: 2rem;
-  color: #00ffc3;
+  color: #10B981;
 }
 
 .footer-stat p, .footer-stat span {
@@ -242,7 +245,7 @@
 
 /* Trip Log Table */
 .trip-log-section {
-  background-color: #181818;
+  background-color: transparent;
   padding: 1.5rem;
   border-radius: 10px;
 }
