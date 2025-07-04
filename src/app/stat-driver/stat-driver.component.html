@@ -19,12 +19,14 @@
             </div>
             <div class="date-filters">
                 <label for="dateFrom">From</label>
-                <input type="date" id="dateFrom" class="date-input" [(ngModel)]="dateFrom">
+                <input type="date" id="dateFrom" class="date-input" [(ngModel)]="dateFrom"
+                       [min]="minSelectableDate" [max]="dateTo || maxSelectableDate">
                 <i class="bi bi-arrow-right-short date-arrow"></i>
                 <label for="dateTo">To</label>
-                <input type="date" id="dateTo" class="date-input" [(ngModel)]="dateTo">
+                <input type="date" id="dateTo" class="date-input" [(ngModel)]="dateTo"
+                       [min]="dateFrom || minSelectableDate" [max]="maxSelectableDate">
                 <button class="btn btn-confirm" (click)="confirmDateChange()">Confirm</button>
-                <button class="btn btn-clear">Clear</button>
+                <button class="btn btn-clear" (click)="clearDateFilter()">Clear</button>
             </div>
         </div>
 
@@ -95,26 +97,28 @@
         <div class="trip-log-section" *ngIf="driverData.dailyTripLog && driverData.dailyTripLog.length > 0">
             <h4 class="trip-log-title">Trip Log</h4>
             <div class="table-responsive">
-                <table class="table table-dark">
-                <thead>
-                    <tr>
-                    <th>Date</th>
-                    <th>Start Time</th>
-                    <th>Distance</th>
-                    <th>Duration</th>
-                    <th>Avg. Speed</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let log of driverData.dailyTripLog">
-                    <td>{{ log.date }}</td>
-                    <td>{{ log.startTime }}</td>
-                    <td>{{ log.distance }} Km</td>
-                    <td>{{ log.duration }}</td>
-                    <td>{{ log.avgSpeed }} Km/h</td>
-                    </tr>
-                </tbody>
-                </table>
+                <div class="table-scroll-container">
+                    <table class="table table-dark">
+                    <thead>
+                        <tr>
+                        <th>Date</th>
+                        <th>Start Time</th>
+                        <th>Distance</th>
+                        <th>Duration</th>
+                        <th>Avg. Speed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let log of driverData.dailyTripLog">
+                        <td>{{ log.date }}</td>
+                        <td>{{ log.startTime }}</td>
+                        <td>{{ log.distance }} Km</td>
+                        <td>{{ log.duration }}</td>
+                        <td>{{ log.avgSpeed }} Km/h</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

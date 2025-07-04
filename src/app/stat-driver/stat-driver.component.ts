@@ -26,10 +26,12 @@ export class StatDriverComponent implements OnInit, AfterViewInit, OnDestroy {
   // Date Filters
   dateFrom: string = '';
   dateTo: string = '';
+  minSelectableDate: string = ''; // New: To store the minimum date available from API
+  maxSelectableDate: string = ''; // New: To store the maximum date available from API
 
   // Chart State
   public chart: Chart | undefined;
-  detectedEventFilters: string[] = ['Warning', 'Critical', 'Distraction', 'Speeding', 'Harsh Braking'];
+  detectedEventFilters: string[] = ['Warning', 'Critical', 'Distraction', 'Speeding'];
   activeEventFilters: string[] = [...this.detectedEventFilters];
 
   constructor(
@@ -80,6 +82,25 @@ export class StatDriverComponent implements OnInit, AfterViewInit, OnDestroy {
         next: (data) => {
           this.driverData = data;
           this.isLoading = false;
+
+          // Set initial date range from API if not already set by user's filter
+          if (data.minDate && data.maxDate) {
+            this.minSelectableDate = data.minDate;
+            this.maxSelectableDate = data.maxDate;
+            // Only set dateFrom and dateTo if they haven't been explicitly filtered
+            if (!from && !to) {
+              this.dateFrom = data.startDate || data.minDate;
+              this.dateTo = data.endDate || data.maxDate;
+            }
+          }
+          
+          // Sort dailyTripLog by date in descending order (latest first)
+          if (this.driverData.dailyTripLog) {
+            this.driverData.dailyTripLog.sort((a, b) => {
+              return new Date(b.date).getTime() - new Date(a.date).getTime();
+            });
+          }
+
           // Manually tell Angular to update the view now that data is loaded.
           // This makes the canvas element available via the *ngIf.
           this.cdr.detectChanges(); 
@@ -114,7 +135,6 @@ export class StatDriverComponent implements OnInit, AfterViewInit, OnDestroy {
         { label: 'Critical', data: allDates.map(date => dailyData[date].critical), borderColor: '#DC3545' },
         { label: 'Distraction', data: allDates.map(date => dailyData[date].distraction), borderColor: '#6F42C1' },
         { label: 'Speeding', data: allDates.map(date => dailyData[date].speeding), borderColor: '#17A2B8' },
-        { label: 'Harsh Braking', data: allDates.map(date => dailyData[date].harshBraking), borderColor: '#28A745' }
       ].map(ds => ({ ...ds, tension: 0.4, fill: false, pointRadius: 2, borderWidth: 2 }));
 
     this.chart = new Chart(ctx, {
@@ -143,7 +163,20 @@ export class StatDriverComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   
   confirmDateChange(): void {
-    this.loadDriverData(this.dateFrom, this.dateTo);
+    // Only call loadDriverData if dateFrom and dateTo are valid
+    if (this.dateFrom && this.dateTo) {
+      this.loadDriverData(this.dateFrom, this.dateTo);
+    } else {
+      // Optionally provide user feedback if dates are not selected
+      console.warn('Please select both From and To dates.');
+    }
+  }
+
+  clearDateFilter(): void {
+    // Reset dateFrom and dateTo to the min/max dates available from the API
+    this.dateFrom = this.minSelectableDate;
+    this.dateTo = this.maxSelectableDate;
+    this.loadDriverData(this.dateFrom, this.dateTo); // Reload data with the full range
   }
 
   goBack(): void {
