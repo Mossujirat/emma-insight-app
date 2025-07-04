@@ -71,11 +71,11 @@
 }
 
 .date-input {
-  background-color: #1D1D1D;
-  border: 1px solid #1D1D1D;
-  color: white;
+  border: 1px solid #1D1D1D; 
+  color: #1D1D1D; 
   border-radius: 5px;
   padding: 0.3rem 0.5rem;
+  filter: invert(1); 
 }
 
 .date-arrow {
