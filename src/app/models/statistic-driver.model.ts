@@ -19,8 +19,8 @@ export interface DriverSummary {
   avgSpeed: number;
   maxSpeed: number;
   totalTime: number; // in seconds
-  eventsPer100km: number;
-  speedingDetected: number; // Adding this based on your previous design
+  timePerTrip: number; // in seconds
+  speedingDetected: number;
 }
 
 /**
@@ -32,7 +32,6 @@ export interface DailyEventData {
   critical: number;
   distraction: number;
   speeding: number;
-  harshBraking: number;
   avgSpeed: number;
   maxSpeed: number;
 }

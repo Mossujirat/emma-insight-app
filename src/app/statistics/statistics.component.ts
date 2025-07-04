@@ -235,7 +235,6 @@ export class StatisticsComponent implements OnInit, AfterViewChecked {
             position: 'bottom', // This is what you need to change
             labels: {
               color: 'white',
-
               filter: (item) => !item.hidden
             }
           } 

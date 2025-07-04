@@ -36,12 +36,6 @@
                     <div class="chart-wrapper">
                         <canvas #mainDriverChart id="mainDriverChart"></canvas>
                     </div>
-                    <div class="chart-legend">
-                        <span *ngFor="let filter of detectedEventFilters" [ngClass]="'legend-item legend-' + filter.toLowerCase().replace(' ', '')">
-                            <span class="legend-color-box"></span>
-                            {{ filter }}
-                        </span>
-                    </div>
                     <div class="detected-events-bar">
                         <span>Detected Event</span>
                         <div class="event-buttons">
@@ -80,7 +74,7 @@
                         <i class="bi bi-clock-history"></i>
                         <div>
                             <p>Time/Trip</p>
-                            <span>Data not available</span>
+                            <span>{{ driverData.summary.timePerTrip | formatSeconds }}</span>
                         </div>
                     </div>
                     <div class="footer-stat">

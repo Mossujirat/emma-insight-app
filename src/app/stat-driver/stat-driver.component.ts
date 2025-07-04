@@ -1,3 +1,5 @@
+// src/app/stat-driver/stat-driver.component.ts
+
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -135,7 +137,7 @@ export class StatDriverComponent implements OnInit, AfterViewInit, OnDestroy {
         { label: 'Critical', data: allDates.map(date => dailyData[date].critical), borderColor: '#DC3545' },
         { label: 'Distraction', data: allDates.map(date => dailyData[date].distraction), borderColor: '#6F42C1' },
         { label: 'Speeding', data: allDates.map(date => dailyData[date].speeding), borderColor: '#17A2B8' },
-      ].map(ds => ({ ...ds, tension: 0.4, fill: false, pointRadius: 2, borderWidth: 2 }));
+      ].map(ds => ({ ...ds, tension: 0.4, backgroundColor: ds.borderColor, fill: false, pointRadius: 2, borderWidth: 2 }));
 
     this.chart = new Chart(ctx, {
       type: 'line',
@@ -143,7 +145,16 @@ export class StatDriverComponent implements OnInit, AfterViewInit, OnDestroy {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
+        plugins: { 
+          legend: { 
+            display: true,
+            position: 'bottom',
+            labels: {
+              color: 'white',
+              filter: (item) => !item.hidden
+            }
+          } 
+        },
         scales: {
           y: {
             beginAtZero: true,
@@ -151,10 +162,7 @@ export class StatDriverComponent implements OnInit, AfterViewInit, OnDestroy {
             grid: { color: 'rgba(255, 255, 255, 0.1)' },
             ticks: { color: 'rgba(255, 255, 255, 0.7)' }
           },
-          x: {
-            grid: { display: false },
-            ticks: { color: 'rgba(255, 255, 255, 0.7)' }
-          }
+          x: { ticks: { maxTicksLimit: 7 } },
         }
       }
     });
@@ -163,20 +171,19 @@ export class StatDriverComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   
   confirmDateChange(): void {
-    // Only call loadDriverData if dateFrom and dateTo are valid
     if (this.dateFrom && this.dateTo) {
       this.loadDriverData(this.dateFrom, this.dateTo);
     } else {
-      // Optionally provide user feedback if dates are not selected
       console.warn('Please select both From and To dates.');
     }
   }
 
   clearDateFilter(): void {
-    // Reset dateFrom and dateTo to the min/max dates available from the API
-    this.dateFrom = this.minSelectableDate;
-    this.dateTo = this.maxSelectableDate;
-    this.loadDriverData(this.dateFrom, this.dateTo); // Reload data with the full range
+    if (this.driverData) { 
+      this.dateFrom = this.driverData.minDate || ''; 
+      this.dateTo = this.driverData.maxDate || ''; 
+    }
+    this.loadDriverData(this.dateFrom, this.dateTo); 
   }
 
   goBack(): void {
