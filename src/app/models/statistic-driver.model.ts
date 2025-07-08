@@ -7,7 +7,7 @@ export interface DriverInfo {
   licensePlateNo: string;
   vehicleType: string;
   avatarUrl: string;
-  driverId: string; // Assuming driverId is available here or can be added
+  driverId: string;
 }
 
 /**
@@ -36,6 +36,15 @@ export interface DailyEventData {
   maxSpeed: number;
 }
 
+export interface DailyTripLog {
+  date: string;
+  tripId: string;
+  startTime: number; // In seconds
+  distance: number;
+  duration: number; // In seconds
+  avgSpeed: number;
+}
+
 /**
  * The main data model for the statistic driver page from the Mockoon API.
  */
@@ -43,10 +52,9 @@ export interface StatisticDriverModel {
   driverInfo: DriverInfo;
   summary: DriverSummary;
   dailyData: { [date: string]: DailyEventData };
-  // The following properties can be added if the API provides them, for date picker logic
   minDate?: string;
   maxDate?: string;
   startDate?: string;
   endDate?: string;
-  dailyTripLog?: any[]; // Placeholder for trip logs if they are part of this model
+  dailyTripLog?: DailyTripLog[];
 }

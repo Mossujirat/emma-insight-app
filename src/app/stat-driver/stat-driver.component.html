@@ -103,12 +103,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let log of driverData.dailyTripLog">
-                        <td>{{ log.date }}</td>
-                        <td>{{ log.startTime }}</td>
-                        <td>{{ log.distance }} Km</td>
-                        <td>{{ log.duration }}</td>
-                        <td>{{ log.avgSpeed }} Km/h</td>
+                        <tr *ngFor="let log of driverData.dailyTripLog"
+                            [routerLink]="['/dashboard/statistics', driverId, log.tripId]" 
+                            style="cursor: pointer;">
+                            <td>{{ log.date }}</td>
+                            <td>{{ log.startTime }}</td>
+                            <td>{{ log.distance }} Km</td>
+                            <td>{{ log.duration }}</td>
+                            <td>{{ log.avgSpeed }} Km/h</td>
                         </tr>
                     </tbody>
                     </table>

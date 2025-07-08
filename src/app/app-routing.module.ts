@@ -7,9 +7,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { StatisticsComponent } from './statistics/statistics.component'; 
 import { DriverDetailsComponent } from './driver-details/driver-details.component'; 
 import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
+import { TripDetailsComponent } from './trip-details/trip-details.component';
+import { StatDriverComponent } from './stat-driver/stat-driver.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PublicGuard } from './guards/public.guard';
-import { StatDriverComponent } from './stat-driver/stat-driver.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -29,10 +30,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: DashboardComponent }, // Main dashboard overview
-      { path: 'statistics', component: StatisticsComponent }, // New overall statistics page
+      { path: 'home', component: DashboardComponent },
+      { path: 'statistics', component: StatisticsComponent },
       { path: 'statistics/:driverId', component: StatDriverComponent },
-      { path: 'driver-details/:id', component: DriverDetailsComponent } // New route for driver details with a parameter
+      { path: 'statistics/:driverId/:tripId', component: TripDetailsComponent },
+      { path: 'driver-details/:id', component: DriverDetailsComponent },
     ]
   },
   { path: '**', redirectTo: '' }

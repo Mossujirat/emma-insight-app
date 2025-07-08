@@ -16,7 +16,19 @@ export class TripDataService {
   getDriverCurrentTrip(driverId: string): Observable<DriverCurrentTrip> {
     const token = this.authService.getToken();
     if (!token) {
-      console.error('TripDataService: No token found. User is not authenticated.');
+      return throwError(() => new Error('Authentication token not found.'));
+    }
+    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+    const url = `${this.apiUrl}/driver-trip-data/${driverId}`;
+    return this.http.get<DriverCurrentTrip>(url, { headers }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getDriverTrip(driverId: string, tripId: string): Observable<DriverCurrentTrip> {
+    const token = this.authService.getToken();
+    if (!token) {
+      console.error('TripDataService: No token found.');
       return throwError(() => new Error('Authentication token not found.'));
     }
 
@@ -25,20 +37,25 @@ export class TripDataService {
       'Content-Type': 'application/json'
     });
 
-    console.log(`TripDataService: Requesting trip data for driver: ${driverId} with token.`);
-    // Assuming a GET endpoint like /driver-trip-data/:driverId
-    return this.http.get<DriverCurrentTrip>(`${this.apiUrl}/driver-trip-data/${driverId}`, { headers }).pipe(
-      catchError(error => {
-        let errorMessage = `Failed to load trip data for driver ${driverId}.`;
-        if (error.status === 401 || error.status === 403) {
-          errorMessage = 'Unauthorized access. Please log in again.';
-          this.authService.logout(); // Auto-logout on unauthorized
-        } else if (error.error && error.error.message) {
-          errorMessage = error.error.message;
-        }
-        console.error('TripDataService: Error fetching data:', error);
-        return throwError(() => new Error(errorMessage));
-      })
+    // สร้าง URL ที่มีทั้ง driverId และ tripId
+    const url = `${this.apiUrl}/driver-trip-data/${driverId}/${tripId}`;
+    
+    console.log(`TripDataService: Requesting specific trip data for driver: ${driverId}, trip: ${tripId}`);
+    
+    return this.http.get<DriverCurrentTrip>(url, { headers }).pipe(
+      catchError(this.handleError) // ใช้ error handler ร่วมกันได้
     );
+  }
+
+  private handleError(error: any) {
+    let errorMessage = 'An unknown error occurred!';
+    if (error.status === 401 || error.status === 403) {
+      errorMessage = 'Unauthorized access. Please log in again.';
+      // Consider calling this.authService.logout() here if appropriate
+    } else if (error.error && error.error.message) {
+      errorMessage = error.error.message;
+    }
+    console.error('TripDataService Error:', errorMessage, error);
+    return throwError(() => new Error(errorMessage));
   }
 }

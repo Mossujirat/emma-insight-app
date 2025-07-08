@@ -16,7 +16,8 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { LongdoMapComponent } from './longdo-map/longdo-map.component';
 import { DriverDetailsComponent } from './driver-details/driver-details.component';
 import { StatDriverComponent } from './stat-driver/stat-driver.component';
-import { FormatSecondsPipe } from './pipes/format-seconds.pipe'; // Import the pipe
+import { FormatSecondsPipe } from './pipes/format-seconds.pipe';
+import { TripDetailsComponent } from './trip-details/trip-details.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { FormatSecondsPipe } from './pipes/format-seconds.pipe'; // Import the p
     StatisticsComponent,
     LongdoMapComponent,
     DriverDetailsComponent,
-    StatDriverComponent
+    StatDriverComponent,
+    TripDetailsComponent
     // The pipe is no longer declared here
   ],
   imports: [
