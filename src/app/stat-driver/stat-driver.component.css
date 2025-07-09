@@ -47,7 +47,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* background-color: #27293d; */
   padding: 1rem 1.5rem;
   border-radius: 10px;
   margin-bottom: 1.5rem;
@@ -69,23 +68,57 @@
   gap: 0.75rem;
 }
 
-.date-input {
-  border: 1px solid #1D1D1D; 
-  color: #1D1D1D; 
-  border-radius: 5px;
-  padding: 0.3rem 0.5rem;
-  filter: invert(1); 
+.form-control {
+  background-color: #212529 !important;
+  color: #ffffff;
+  max-width: 160px;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: #059669;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 2px;
+  opacity: 0.6;
+  filter: invert(0.8);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1
 }
 
 .date-arrow {
   font-size: 1.5rem;
 }
 
-.btn-confirm, .btn-clear {
-  border: 1px solid #4f526b;
-  background-color: #27293d;
+.btn-clear {
+  background-color: #DF911C;
   color: white;
-  border-radius: 5px;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 24px;
+  font-weight: 500;
+}
+
+.btn-clear:hover {
+  background-color: #CC8D2C;
+}
+
+.btn-confirm {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 24px;
+  font-weight: 500;
+}
+
+.btn-confirm:hover {
+  background-color: #059669;
 }
 
 /* Dashboard Layout */
@@ -168,7 +201,7 @@
   color: white;
   border: none;
   border-radius: 20px;
-  padding: 0.05rem 1rem;
+  padding: 0.3rem 1rem;
   font-size: 0.8rem;
 }
 
@@ -207,11 +240,6 @@
 
 .text-green {
   color: #10B981;
-}
-
-.stats-footer {
-  display: flex;
-  gap: 1.5rem;
 }
 
 .footer-stat {

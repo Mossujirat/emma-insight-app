@@ -17,16 +17,16 @@
                   {{ driverData.driverInfo.licensePlateNo }} ({{ driverData.driverInfo.vehicleType }})
                 </p>
             </div>
-            <div class="date-filters">
-                <label for="dateFrom">From</label>
-                <input type="date" id="dateFrom" class="date-input" [(ngModel)]="dateFrom"
+            <div class="col-md-6 d-flex align-items-center justify-content-end">
+                <label for="dateFrom" class="me-2 text-white-50">From</label>
+                <input type="date" id="dateFrom" class="form-control me-3" [(ngModel)]="dateFrom"
                        [min]="minSelectableDate" [max]="dateTo || maxSelectableDate">
-                <i class="bi bi-arrow-right-short date-arrow"></i>
-                <label for="dateTo">To</label>
-                <input type="date" id="dateTo" class="date-input" [(ngModel)]="dateTo"
+                <i class="bi bi-arrow-right-short fs-4 me-3"></i>
+                <label for="dateTo" class="me-2 text-white-50">To</label>
+                <input type="date" id="dateTo" class="form-control me-3" [(ngModel)]="dateTo"
                        [min]="dateFrom || minSelectableDate" [max]="maxSelectableDate">
-                <button class="btn btn-confirm" (click)="confirmDateChange()">Confirm</button>
-                <button class="btn btn-clear" (click)="clearDateFilter()">Clear</button>
+                <button class="btn btn-confirm me-2" (click)="confirmDateChange()">Confirm</button>
+                <button class="btn btn-clear me-2" (click)="clearDateFilter()">Clear</button>
             </div>
         </div>
 
@@ -40,7 +40,7 @@
                         <span>Detected Event</span>
                         <div class="event-buttons">
                             <button *ngFor="let filter of detectedEventFilters"
-                                    class="btn btn-event"
+                                    class="btn btn-event me-2"
                                     [ngClass]="{ 'active': isFilterActive(filter) }"
                                     (click)="toggleEventFilter(filter)">
                                 {{ filter }}
@@ -68,8 +68,6 @@
                         <p>Max Speed (Km/h)</p>
                         <span class="stat-value text-green">{{ driverData.summary.maxSpeed | number:'1.0-0' }}</span>
                     </div>
-                </div>
-                <div class="stats-footer">
                     <div class="footer-stat">
                         <i class="bi bi-clock-history"></i>
                         <div>
