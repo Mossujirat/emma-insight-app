@@ -27,9 +27,10 @@
 
 /* Styles for the main scrollable container */
 .dashboard-scroll-container {
+  padding: 2rem;
+  color: var(--text-color);
   max-height: calc(100vh - 100px); /* Example: 100vh minus some header/footer space */
   overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
-  padding-right: 15px; /* Add some padding to prevent scrollbar from overlapping content */
 }
 
 .card {

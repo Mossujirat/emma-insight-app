@@ -2,7 +2,6 @@
 .driver-stats-container {
   padding: 2rem;
   color: var(--text-color);
-  /* Set height to enable scrolling for the whole page if it overflows */
   height: calc(100vh - 100px); /* Adjust 70px based on your main header's height */
   overflow-y: auto;
 }
