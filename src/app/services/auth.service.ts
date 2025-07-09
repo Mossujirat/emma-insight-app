@@ -24,7 +24,7 @@ export class AuthService {
         // Map Mockoon's flat response to your { token: '...', user: { ... } } structure
         const user: User = {
           userId: response.userId,
-          username: response.username,
+          username: response.userName,
           email: response.userEmail,
         };
         return { token: response.token, user: user };
@@ -97,6 +97,7 @@ export class AuthService {
 
   getUserProfile(): User | null {
     const userProfileString = localStorage.getItem(this.USER_PROFILE_KEY);
+    console.log(userProfileString);
     if (userProfileString) {
       try {
         return JSON.parse(userProfileString) as User; // Cast to User interface

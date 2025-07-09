@@ -29,6 +29,7 @@ export class DashboardLayoutComponent implements OnInit {
       this.currentTheme = 'light';
     }
     this.loggedInUser = this.authService.getUserProfile();
+    console.log('Logged in user:', this.loggedInUser?.username);
     // Also apply to body if not already handled by app-component
     this.applyThemeToBody();
   }
