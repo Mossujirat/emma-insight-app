@@ -263,3 +263,7 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.spinner-border {
+  color: #10b981;
+}

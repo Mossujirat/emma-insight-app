@@ -27,7 +27,7 @@
 }
 
 .sidebar {
-  width: 250px;
+  width: 220px;
   flex-shrink: 0;
   transition: width 0.3s ease-in-out;
   display: flex; /* This is crucial: make sidebar a flex container */

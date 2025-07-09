@@ -338,3 +338,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   scrollbar-width: thin; /* Make scrollbar thinner */
   scrollbar-color: #4b5568 #1f2937; /* [thumb color] [track color] */
 }
+
+.spinner-border {
+  color: #10b981;
+}

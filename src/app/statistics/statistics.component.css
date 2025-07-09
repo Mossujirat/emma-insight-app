@@ -226,3 +226,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 .driver-row:hover {
   background-color: #f0f0f0;
 }
+
+.spinner-border {
+  color: #10b981;
+}

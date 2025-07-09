@@ -112,3 +112,7 @@
 .unified-status-card .status-item .text-secondary::before {
   color: #6c757d;
 }
+
+.spinner-border {
+  color: #10b981;
+}
