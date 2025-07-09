@@ -31,10 +31,10 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: DashboardComponent },
+      { path: 'home/:id', component: DriverDetailsComponent },
       { path: 'statistics', component: StatisticsComponent },
       { path: 'statistics/:driverId', component: StatDriverComponent },
       { path: 'statistics/:driverId/:tripId', component: TripDetailsComponent },
-      { path: 'driver-details/:id', component: DriverDetailsComponent },
     ]
   },
   { path: '**', redirectTo: '' }

@@ -69,7 +69,7 @@ export class DashboardComponent implements OnInit {
 
   viewDriverDetails(driverId: string): void {
     console.log(`Navigating to driver details for: ${driverId}`);
-    this.router.navigate(['/dashboard/driver-details', driverId]);
+    this.router.navigate(['/dashboard/home', driverId]);
   }
 
   toggleVehicleTypeFilter(type: string): void {

@@ -14,15 +14,42 @@
 }
 
 .btn-download {
-  background-color: #10b981; /* Teal-500 */
+  background-color: #10b981;
   color: white;
   border: none;
   border-radius: 20px;
   padding: 8px 24px;
   font-weight: 500;
 }
+
 .btn-download:hover {
-  background-color: #059669; /* Teal-600 */
+  background-color: #059669;
+}
+
+.btn-clear {
+  background-color: #DF911C;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 24px;
+  font-weight: 500;
+}
+
+.btn-clear:hover {
+  background-color: #CC8D2C;
+}
+
+.btn-confirm {
+  background-color: #10b981;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 24px;
+  font-weight: 500;
+}
+
+.btn-confirm:hover {
+  background-color: #059669;
 }
 
 /* Section Title & Date Filters */
@@ -33,26 +60,15 @@
 }
 
 .form-control {
-  color: #1D1D1D !important;
-  border: 1px solid #1D1D1D !important;
+  background-color: #212529 !important;
+  color: #ffffff;
   max-width: 160px;
-  filter: invert(1);
 }
 
 .form-control:focus {
   box-shadow: none;
-  border-color: #3b82f6 !important; /* Blue-500 */
+  border-color: #059669;
 }
-
-.btn-link {
-    font-size: 0.9rem;
-    padding: 0;
-    color: #9ca3af; /* Gray-400 */
-}
-.btn-link:hover {
-  color: white;
-}
-
 
 /* New Summary Items */
 .summary-item {
@@ -73,11 +89,11 @@
 
 .summary-text {
   display: flex;
-  flex-direction: column; /* ทำให้ "All Vehicles" และตัวเลขเรียงกันแนวตั้ง */
+  flex-direction: column; 
 }
 
 .summary-text .summary-value {
-  font-size: 2rem;      /* ปรับขนาดตัวเลขตามความเหมาะสม */
+  font-size: 2rem;      
   font-weight: 500;
   line-height: 1.2;
 }
@@ -87,8 +103,8 @@
 .chart-card {
   height: 450px;
   position: relative;
-  background-color: #1f2937; /* Gray-800 */
-  border: 1px solid #374151; /* Gray-700 */
+  background-color: #1f2937; 
+  border: 1px solid #374151; 
 }
 
 /* Filter Panel */
@@ -108,14 +124,14 @@
   gap: 0.5rem;
 }
 .btn-filter-inactive {
-  background-color: #374151; /* Gray-700 */
+  background-color: #374151;
   color: #e5e7eb;
-  border: 1px solid #4b5568; /* Gray-600 */
+  border: 1px solid #4b5568; 
 }
 .btn-filter-active {
-  background-color: #3b82f6; /* Blue-500 */
+  background-color: #10b981; 
   color: white;
-  border: 1px solid #3b82f6;
+  border: 1px solid #10b981;
 }
 
 /* Rankings Table */
