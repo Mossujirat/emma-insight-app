@@ -33,7 +33,7 @@ export class StatDriverComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Chart State
   public chart: Chart | undefined;
-  detectedEventFilters: string[] = ['Warning', 'Critical', 'Distraction', 'Speeding'];
+  detectedEventFilters: string[] = ['Yawning', 'Eye', 'Micro-Sleep', 'Sleep', "Distraction"];
   activeEventFilters: string[] = [...this.detectedEventFilters];
 
   constructor(
@@ -133,10 +133,11 @@ export class StatDriverComponent implements OnInit, AfterViewInit, OnDestroy {
     const labels = allDates.map(dateString => new Date(dateString).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
 
     const datasets = [
-        { label: 'Warning', data: allDates.map(date => dailyData[date].warning), borderColor: '#FFC107' },
-        { label: 'Critical', data: allDates.map(date => dailyData[date].critical), borderColor: '#DC3545' },
+        { label: 'Yawning', data: allDates.map(date => dailyData[date].yawning), borderColor: '#FFC107' },
+        { label: 'Eye', data: allDates.map(date => dailyData[date].eye), borderColor: '#DC3545' },
+        { label: 'Micro-Sleep', data: allDates.map(date => dailyData[date].microsleep), borderColor: '#17A2B8' },
+        { label: 'Sleep', data: allDates.map(date => dailyData[date].sleep), borderColor: '#17b83aff' },
         { label: 'Distraction', data: allDates.map(date => dailyData[date].distraction), borderColor: '#6F42C1' },
-        { label: 'Speeding', data: allDates.map(date => dailyData[date].speeding), borderColor: '#17A2B8' },
       ].map(ds => ({ ...ds, tension: 0.4, backgroundColor: ds.borderColor, fill: false, pointRadius: 2, borderWidth: 2 }));
 
     this.chart = new Chart(ctx, {

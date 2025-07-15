@@ -28,12 +28,11 @@ export interface DriverSummary {
  * This is part of the 'dailyData' object structure.
  */
 export interface DailyEventData {
-  warning: number;
-  critical: number;
+  yawning: number;
+  eye: number;
+  microsleep: number;
+  sleep: number;
   distraction: number;
-  speeding: number;
-  avgSpeed: number;
-  maxSpeed: number;
 }
 
 export interface DailyTripLog {
