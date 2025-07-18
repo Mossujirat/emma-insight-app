@@ -1,7 +1,7 @@
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh; min-width: 50vw;">
   <div class="form-container text-white">
-    <h2 class="text-center mb-4">Login</h2>
-    <p class="text-center mb-4">Welcome to EMMA INSIGHT please enter your login details before using</p>
+    <h2 class="text mb-4">Login</h2>
+    <p>Welcome to <span class="highlight-text">EMMA INSIGHT</span> plesse enter your login details before using</p>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="mb-3">
@@ -20,7 +20,7 @@
       <div class="mb-3">
         <label for="password" class="form-label d-flex justify-content-between">
           <span>Password</span>
-          <a routerLink="/forgot-password" class="text-white-50 text-decoration-none">Forgot Password?</a>
+          <a routerLink="/forgot-password" class="text-black-50 text-decoration-none">Forgot Password?</a>
         </label>
         <div class="input-group">
           <span class="input-group-text"><i class="bi bi-lock"></i></span>
@@ -37,8 +37,8 @@
       </div>
 
       <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="rememberMe">
-        <label class="form-check-label" for="rememberMe">Remember me</label>
+        <input type="checkbox" class="form-check-input custom-checkbox" id="rememberMe">
+        <label class="form-check-label text-black-50" for="rememberMe">Remember me</label>
       </div>
 
       <div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center">
@@ -46,11 +46,11 @@
       </div>
 
       <div class="d-grid gap-2 mb-3">
-        <button type="submit" class="btn btn-primary btn-lg" [disabled]="loginForm.invalid">Log In</button>
+        <button type="submit" class="btn btn-dark btn-lg" [disabled]="loginForm.invalid">Log In</button>
       </div>
 
       <p class="text-center mt-3">
-        New to Login? <a routerLink="/register" class="text-white text-decoration-none fw-bold">Register Here</a>
+        New to Login? <a routerLink="/register" class="highlight-text text-decoration-none fw-bold">Register Here</a>
       </p>
     </form>
   </div>

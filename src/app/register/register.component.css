@@ -1,0 +1,36 @@
+:host {
+    color: #000000;
+}
+
+h1, h2, h3, p, a {
+    color: #000000;
+}
+
+::placeholder {
+    color: #CCCCCC;
+    opacity: 1;
+}
+
+:-ms-input-placeholder {
+    color: #CCCCCC;
+}
+
+::-ms-input-placeholder {
+    color: #CCCCCC;
+}
+
+.highlight-text {
+    color: #2ECC71; 
+    font-weight: bold;
+}
+
+.form-label {
+    color: #000000;
+}
+
+.input-group {
+    background-color: #000000;
+    border-radius: 8px;
+    border: none;
+    overflow: hidden;
+}
