@@ -6,8 +6,8 @@
 }
 
 .card {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--card-border-color);
+  background-color: var(--card-bg-color);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
   border-radius: 10px;
@@ -76,15 +76,17 @@
   width: 8px;
 }
 .current-trip-container::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
+  background: var(--card-bg-color); /* Background of the scrollbar track */
+  border-radius: 5px;
 }
 .current-trip-container::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+  background-color: var(--card-bg-color);
+  border-radius: 10px;
+  border: 3px solid var(--card-border-color);
 }
 .current-trip-container::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background-color: var(--text-color);
+  opacity: 0.5;
 }
 
 /* Custom scrollbar styles remain unchanged */
@@ -102,7 +104,7 @@
   bottom: 0;
   left: 15px;
   width: 2px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: var(--card-bg-color);
 }
 
 .trip-timeline .list-group-item {
@@ -110,17 +112,17 @@
   padding-left: 0;
   padding-top: 5px;
   padding-bottom: 5px;
-  background-color: transparent !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
+  background-color: var(--card-bg-color);
+  border-color: var(--card-border-color);
   cursor: pointer; /* Indicate clickability */
   transition: background-color 0.2s ease, border-left 0.2s ease; /* Smooth transition */
-  border-left: 3px solid transparent; /* Default transparent border */
+  border-left: 3px solid var(--card-border-color); /* Default transparent border */
 }
 
 /* Style for the active (clicked) timeline event */
 .trip-timeline .list-group-item.timeline-active-event {
-  background-color: rgba(255, 255, 255, 0.1); /* Slightly lighter background */
-  border-left: 20px solid #007bff; /* Highlight with a blue border */
+  background-color: var(--card-bg-color); /* Slightly lighter background */
+  border-left: 20px solid var(--card-border-color); /* Highlight with a blue border */
   padding-left: 10px; /* Adjust padding to account for border */
 }
 
@@ -134,8 +136,8 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #007bff;
-  border: 2px solid #28a745;
+  background-color: var(--card-bg-color);
+  border: 2px solid var(--card-border-color);
   z-index: 1;
   margin-right: 15px;
 }
@@ -176,14 +178,14 @@
   /* flex-grow is not needed here; width is controlled by [style.width] in HTML */
   padding: 0 10px; /* Padding inside the bar for the number */
   min-width: 45px; /* Ensure bar is visible even for small values */
-  color: #212529; /* Default text color for numbers inside bars */
+  color: var(--text-color); /* Default text color for numbers inside bars */
 }
 
 .detected-event-chart .progress-bar-right .chart-count {
   /* This is the number (3, 8, etc.) *inside* the bar */
   flex-shrink: 0; /* Prevent number from shrinking */
   font-weight: bold;
-  color: #212529; /* Ensure text is dark for readability on pastel bars */
+  color: var(--text-color); /* Ensure text is dark for readability on pastel bars */
   /* No margin-right or other positioning; padding on parent bar handles spacing */
 }
 
@@ -230,8 +232,31 @@
   max-width: 100%;
   max-height: 200px; /* Reduced from 250px */
   object-fit: contain;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--card-border-color);
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+:host ::-webkit-scrollbar {
+  width: 12px;
+}
+
+:host ::-webkit-scrollbar-track {
+  /* ใช้สีเดียวกับเส้นขอบของ Card เพื่อความกลมกลืน */
+  background: var(--card-border-color); 
+  border-radius: 10px;
+}
+
+:host ::-webkit-scrollbar-thumb {
+  /* ใช้สีพื้นหลังของ Card และเพิ่มเส้นขอบเล็กน้อย */
+  background-color: var(--card-bg-color);
+  border-radius: 10px;
+  border: 3px solid var(--card-border-color);
+}
+
+:host ::-webkit-scrollbar-thumb:hover {
+  /* เมื่อเอาเมาส์ไปชี้ ให้สีเข้มขึ้นเล็กน้อย */
+  background-color: var(--text-color);
+  opacity: 0.5;
 }

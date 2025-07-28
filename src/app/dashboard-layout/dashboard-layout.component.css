@@ -22,6 +22,16 @@
   flex-shrink: 0; /* Prevent header from shrinking */
 }
 
+.navbar {
+  background-color: var(--nav-bar);
+}
+
+.btn-outline {
+    background-color: var(--nav-bar);
+    color: var(--text-color);
+    border-color: var(--btn-border-color);
+}
+
 .dashboard-header .navbar-brand span {
   color: var(--text-color); /* Ensure brand text matches theme */
 }
@@ -49,8 +59,8 @@
 
 .sidebar .nav-link:hover,
 .sidebar .nav-link.active-link {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #fff !important; /* White text on hover/active */
+  background-color: var(--nav-active);
+  color: var(--text-color); /* White text on hover/active */
 }
 
 .sidebar .nav-link i {

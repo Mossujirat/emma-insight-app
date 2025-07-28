@@ -7,6 +7,14 @@
   overflow-y: auto;
 }
 
+.card {
+  border: 1px solid var(--card-border-color);
+  background-color: var(--card-bg-color);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
+}
+
 /* Header */
 .page-title {
   font-size: 2.25rem;
@@ -56,12 +64,17 @@
 .section-title {
   font-weight: 500;
   font-size: 1.5rem;
-  color: #e5e7eb; /* Gray-200 */
+}
+
+.form-select {
+  color: var(--text-color);
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--input-border-color);
 }
 
 .form-control {
-  background-color: #212529 !important;
-  color: #ffffff;
+  /* background-color: #212529 !important; */
+  color: var(--text-color);
   max-width: 160px;
 }
 
@@ -90,6 +103,9 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   align-items: center;   /* จัดให้อยู่กึ่งกลางแนวตั้ง */
   padding: 1rem;         /* เพิ่มระยะห่างภายใน card */
   height: 100%;          /* ทำให้ card ทุกใบสูงเท่ากัน */
+  border: 1px solid var(--card-border-color);
+  background-color: var(--card-bg-color);
+  color: var(--text-color);
 }
 
 .summary-icon {
@@ -110,57 +126,94 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   line-height: 1.2;
 }
 
-
 /* Chart Card */
 .chart-card {
   height: 450px;
   position: relative;
-  background-color: #1f2937; 
-  border: 1px solid #374151; 
+  background-color: var(--card-bg-color); 
+  border: 1px solid var(--card-border-color); 
+  color: var(--text-color);
 }
 
 /* Filter Panel */
 .filter-panel {
   height: 450px;
-  background-color: #1f2937;
-  border: 1px solid #374151;
+  background-color: var(--card-bg-color); 
+  border: 1px solid var(--card-border-color); 
 }
+
 .filter-title {
   color: #9ca3af;
   margin-bottom: 0.75rem;
   font-size: 1rem;
 }
+
 .btn-group-filter {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
+
 .btn-filter-inactive {
   background-color: #374151;
   color: #e5e7eb;
   border: 1px solid #4b5568; 
 }
+
 .btn-filter-active {
   background-color: #10b981; 
   color: white;
   border: 1px solid #10b981;
 }
 
-/* Rankings Table */
-.rankings-card {
-  background-color: #1f2937;
-  border: 1px solid #374151;
+.table {
+  color: var(--text-color);
+  border-bottom: var(--card-border-color); /* เส้นขอบล่างของ Header */
+  /* width: 100%;
+  margin-bottom: 1rem; */
 }
 
-.table {
-  background-color: transparent !important;
+.table thead th {
+  color: var(--text-color);
+  background-color: var(--card-bg-color);
+  border-bottom: 2px solid var(--card-border-color);
+  /* vertical-align: bottom; */
 }
-.table-dark th, .table-dark td {
-  border-color: #374151;
-  vertical-align: middle;
+
+.table tbody tr {
+  border-bottom: 1px solid var(--card-border-color);
 }
-.table-hover tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.05) !important;
+
+.table-hover > tbody > tr:hover {
+  /* Override Bootstrap's default hover to use our theme colors */
+  --bs-table-hover-bg: var(--card-border-color);
+  --bs-table-hover-color: var(--text-color);
+}
+
+.table th,.table td {
+  background-color: transparent; /* ทำให้พื้นหลังของ cell โปร่งใส */
+  border-bottom-width: 0; /* เอาเส้นขอบล่างของ cell ออกไป ใช้ของ tr แทน */
+  color: var(--text-color);
+}
+
+.table-scroll-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.table-scroll-container::-webkit-scrollbar-track {
+  background: var(--card-border-color);
+  border-radius: 10px;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb {
+  background-color: var(--card-border-color);
+  border-radius: 10px;
+  border: 3px solid var(--card-border-color);
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-color);
+  opacity: 0.5;
 }
 
 .badge {
@@ -178,55 +231,31 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   background-color: #8b5cf6 !important;
 }
 
-/* Scrollable Table Container */
-.table-scroll-container {
-  max-height: 400px; 
-  overflow-y: auto;
-  position: relative; 
-}
-
-.table-scroll-container thead th {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  background-color: #1f2937; /* Match card background */
-  border-bottom: 2px solid #4b5568 !important;
-}
-
-/* Custom Scrollbar Styling (for WebKit browsers like Chrome, Edge, Safari) */
-.table-scroll-container::-webkit-scrollbar {
-  width: 10px; /* ความกว้างของ Scrollbar */
-}
-
-.table-scroll-container::-webkit-scrollbar-track {
-  background: #1f2937; /* สีพื้นหลังของราง Scrollbar (ให้เหมือนกับพื้นหลัง Card) */
-  border-radius: 5px;
-}
-
-.table-scroll-container::-webkit-scrollbar-thumb {
-  background-color: #4b5568; /* สีของตัวเลื่อน */
-  border-radius: 5px; /* ทำให้ขอบมน */
-  border: 2px solid #1f2937; /* สร้างเส้นขอบรอบตัวเลื่อนเพื่อให้ดูเล็กลง */
-}
-
-.table-scroll-container::-webkit-scrollbar-thumb:hover {
-  background-color: #6b7280; /* สีของตัวเลื่อนเมื่อเอาเมาส์ไปชี้ */
-}
-
-/* Custom Scrollbar Styling (for Firefox) */
-.table-scroll-container {
-  scrollbar-width: thin; /* ทำให้ Scrollbar บางลง */
-  scrollbar-color: #4b5568 #1f2937; /* [สีตัวเลื่อน] [สีพื้นหลัง] */
-}
-
 .driver-row {
   cursor: pointer;
 }
 
-.driver-row:hover {
-  background-color: #f0f0f0;
-}
-
 .spinner-border {
   color: #10b981;
+}
+
+/* ทำให้ CSS นี้มีผลกับทุก scrollbar ที่อยู่ใน Dashboard Component */
+:host ::-webkit-scrollbar {
+  width: 12px;
+}
+
+:host ::-webkit-scrollbar-track {
+  background: var(--card-border-color); 
+  border-radius: 10px;
+}
+
+:host ::-webkit-scrollbar-thumb {
+  background-color: var(--card-bg-color);
+  border-radius: 10px;
+  border: 3px solid var(--card-border-color);
+}
+
+:host ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-color);
+  opacity: 0.5;
 }

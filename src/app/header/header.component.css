@@ -1,0 +1,18 @@
+:host {
+  color: var(--text-color);
+}
+
+.navbar {
+    background-color: var(--nav-bar);
+}
+
+.btn {
+    background-color: var(--nav-bar);
+    color: var(--text-color);
+}
+
+.btn-outline {
+    background-color: var(--nav-bar);
+    color: var(--text-color);
+    border-color: var(--btn-border-color);
+}

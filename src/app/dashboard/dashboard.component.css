@@ -1,26 +1,38 @@
 /* Styles specific to the dashboard content */
 .card {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background-color: rgba(0, 0, 0, 0.2); /* Slightly transparent dark background */
+  border: 1px solid var(--card-border-color);
+  background-color: var(--card-bg-color);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
   border-radius: 10px;
+  color: var(--text-color);
 }
 
 .table {
-  background-color: transparent !important; /* Ensure table background is transparent for dark theme */
+  color: var(--text-color);
+  border-color: var(--card-border-color); /* สีเส้นขอบของตาราง */
 }
 
-.table-dark th, .table-dark td {
-  border-color: rgba(255, 255, 255, 0.1); /* Lighter borders for dark table */
+.table thead th {
+  color: var(--text-color);
+  background-color: var(--card-bg-color); /* ใช้สีพื้นหลังเดียวกับ Card */
+  border-bottom: 2px solid var(--card-border-color); /* เส้นขอบล่างของ Header */
 }
 
-.table-hover tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.05) !important; /* Lighter hover effect */
+.table tbody tr {
+  /* ทำให้สีของแถวสลับกันเล็กน้อยเพื่อให้อ่านง่ายขึ้น */
+  border-bottom: 1px solid var(--card-border-color);
 }
 
-/* Ensure text is readable in both themes */
-.card h5, .card span, .card p, .card label {
+.table-hover > tbody > tr:hover {
+  /* --bs-table-accent-bg เป็นตัวแปรของ Bootstrap, เราจะใช้สีของเราแทน */
+  --bs-table-hover-bg: var(--card-border-color);
+  --bs-table-hover-color: var(--text-color);
+}
+
+.table th,.table td {
+  background-color: transparent; /* ทำให้พื้นหลังของ cell โปร่งใส */
+  border-bottom-width: 0; /* เอาเส้นขอบล่างของ cell ออกไป ใช้ของ tr แทน */
   color: var(--text-color);
 }
 
@@ -29,25 +41,17 @@
   max-height: calc(100vh - 100px); /* Example: 100vh minus some header/footer space */
   overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
   padding-right: 15px; /* Add some padding to prevent scrollbar from overlapping content */
+  margin-bottom: 15px;
 }
-
 
 .map-section {
   height: 100%; /* Make map section take full height of its card */
 }
 
-.dashboard-scroll-container .col-md-3 > .d-flex.flex-column > .card {
-  margin-bottom: 15px; /* Adjust as needed */
-}
-/* Remove last margin-bottom to prevent extra space at the end */
-.dashboard-scroll-container .col-md-3 > .d-flex.flex-column > .card:last-child {
-  margin-bottom: 0;
-}
-
 /* New rule for the unified status card container */
 .unified-status-card {
-  border: 1px solid rgba(255, 255, 255, 0.1); /* The single border you want */
-  background-color: rgba(0, 0, 0, 0.2); /* Same frosted glass background */
+  border: 1px solid var(--card-border-color); /* The single border you want */
+  background-color: var(--card-bg-color); /* Same frosted glass background */
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
   border-radius: 10px; /* Rounded corners for the entire block */
@@ -58,35 +62,25 @@
 }
 
 .unified-status-card .status-item.status-active {
-  background-color: rgba(255, 255, 255, 0.1); /* Slightly lighter background */
-  border-left: 3px solid #007bff; /* Example: blue border on left */
+  background-color: var(--card-border-color); /* Slightly lighter background */
+  border-left: 3px solid #10b981; /* Example: blue border on left */
   padding-left: 17px; /* Adjust padding to make space for border */
   /* You can use other effects like box-shadow, brighter text, etc. */
 }
 
 .unified-status-card .status-item:not(.status-active):hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--card-bg-color);
 }
 
 /* Individual status items inside the unified card */
 .unified-status-card .status-item {
   cursor: pointer;
   transition: background-color 0.2s ease, border-left 0.2s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1); /* The single border you want */
+  border: 1px solid var(--card-border-color); /* The single border you want */
   border-radius: 10px; /* Rounded corners for the entire block */
   padding: 10px; /* Example padding, adjust as needed */
   margin-top: 5px; /* Minimal margin above the separator */
   margin-bottom: 5px; /* Minimal margin below the separator */
-}
-
-
-/* Styles for the status separator line (keep as is or fine-tune margins) */
-.status-separator.custom-separator {
-  border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.5); /* Very thin, light white line */
-  margin-top: 5px; /* Minimal margin above the separator */
-  margin-bottom: 5px; /* Minimal margin below the separator */
-  width: 100%; /* Make it span the full width of its container */
 }
 
 /* For the circles/dots next to Online, Warning, Critical, Offline (keep as is) */
@@ -113,6 +107,39 @@
   color: #6c757d;
 }
 
+/* Styles for the status separator line (keep as is or fine-tune margins) */
+.status-separator.custom-separator {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.5); /* Very thin, light white line */
+  margin-top: 5px; /* Minimal margin above the separator */
+  margin-bottom: 5px; /* Minimal margin below the separator */
+  width: 100%; /* Make it span the full width of its container */
+}
+
 .spinner-border {
   color: #10b981;
+}
+
+/* ทำให้ CSS นี้มีผลกับทุก scrollbar ที่อยู่ใน Dashboard Component */
+:host ::-webkit-scrollbar {
+  width: 12px;
+}
+
+:host ::-webkit-scrollbar-track {
+  /* ใช้สีเดียวกับเส้นขอบของ Card เพื่อความกลมกลืน */
+  background: var(--card-border-color); 
+  border-radius: 10px;
+}
+
+:host ::-webkit-scrollbar-thumb {
+  /* ใช้สีพื้นหลังของ Card และเพิ่มเส้นขอบเล็กน้อย */
+  background-color: var(--card-bg-color);
+  border-radius: 10px;
+  border: 3px solid var(--card-border-color);
+}
+
+:host ::-webkit-scrollbar-thumb:hover {
+  /* เมื่อเอาเมาส์ไปชี้ ให้สีเข้มขึ้นเล็กน้อย */
+  background-color: var(--text-color);
+  opacity: 0.5;
 }

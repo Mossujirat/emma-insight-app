@@ -151,7 +151,6 @@ export class StatDriverComponent implements OnInit, AfterViewInit, OnDestroy {
             display: true,
             position: 'bottom',
             labels: {
-              color: 'white',
               filter: (item) => !item.hidden
             }
           } 
@@ -159,9 +158,7 @@ export class StatDriverComponent implements OnInit, AfterViewInit, OnDestroy {
         scales: {
           y: {
             beginAtZero: true,
-            title: { display: true, text: 'Event Count', color: 'rgba(255, 255, 255, 0.7)' },
-            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-            ticks: { color: 'rgba(255, 255, 255, 0.7)' }
+            title: { display: true, text: 'Event Count'},
           },
           x: { ticks: { maxTicksLimit: 7 } },
         }

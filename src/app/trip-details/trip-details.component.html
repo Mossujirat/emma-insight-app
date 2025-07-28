@@ -13,17 +13,17 @@
       <div class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
-      <p class="mt-2 text-white-50">Loading driver trip data...</p>
+      <p class="mt-2 text-50">Loading driver trip data...</p>
     </div>
 
     <ng-container *ngIf="!loadingData && driverTripData">
       <div class="col-md-7 mb-4">
         
-        <div class="card bg-dark text-white p-4 mb-4 equal-height-card">
+        <div class="card p-4 mb-4 equal-height-card">
           <h5 class="mb-4">Trip : {{ driverTripData.updated | date:'short' }}</h5>
           <div class="current-trip-container">
-            <div class="list-group list-group-flush bg-dark text-white mb-4 trip-timeline">
-              <div class="list-group-item bg-transparent text-white border-bottom border-secondary d-flex align-items-center mb-2" 
+            <div class="list-group list-group-flush mb-4 trip-timeline">
+              <div class="list-group-item border-bottom border-secondary d-flex align-items-center mb-2" 
                           *ngFor="let tripEvent of driverTripData.tripEventDataList; let i = index"
                           (click)="selectTripEvent(tripEvent)"
                           [ngClass]="{'timeline-active-event': selectedTripEvent === tripEvent}">
@@ -36,11 +36,11 @@
                       {{ tripEvent.created | date:'shortTime' }}
                       <span class="ms-3">{{ tripEvent.diffTime }}</span>
                     </p>
-                    <small class="text-white-50">{{ tripEvent.eventStatus }}</small>
+                    <small class="text-50">{{ tripEvent.eventStatus }}</small>
                   </div>
                 </div>
               </div>
-              <div *ngIf="driverTripData.tripEventDataList.length === 0" class="text-center text-white-50 py-3">
+              <div *ngIf="driverTripData.tripEventDataList.length === 0" class="text-center text-50 py-3">
                 No trip events found.
               </div>
             </div>
@@ -48,7 +48,7 @@
         </div>
 
         <ng-container *ngIf="!selectedTripEvent || !selectedTripEvent.eventImages || selectedTripEvent.eventImages.length === 0">
-          <div class="card bg-dark text-white p-4 secondary-card-match">
+          <div class="card p-4 secondary-card-match">
             <h5 class="mb-4">Detected Event</h5>
             <div class="chart-placeholder detected-event-chart d-flex flex-column gap-3">
               <div class="d-flex align-items-center" *ngIf="driverTripData.tripEventSummaryData.yawningCount > 0">
@@ -108,7 +108,7 @@
         </ng-container>
 
         <ng-container *ngIf="selectedTripEvent && selectedTripEvent.eventImages && selectedTripEvent.eventImages.length > 0">
-            <div class="card bg-dark text-white p-4 secondary-card-match">
+            <div class="card p-4 secondary-card-match">
                 <h5 class="mb-4">Event Snapshot</h5>
                 <div class="event-snapshot-content">
                     <img [src]="selectedTripEvent.eventImages[0]" alt="Event Snapshot" class="img-fluid mb-3 rounded snapshot-image">
@@ -116,15 +116,15 @@
                     <div class="row">
                       <div class="col-lg-6 mb-2">
                         <strong>Datetime:</strong>
-                        <p class="mb-1 text-white-50 small">{{ selectedTripEvent.created | date:'medium' }}</p>
+                        <p class="mb-1 text-50 small">{{ selectedTripEvent.created | date:'medium' }}</p>
                       </div>
                       <div class="col-lg-6 mb-2">
                         <strong>Location:</strong>
-                        <p class="mb-1 text-white-50 small">(Lon: {{ selectedTripEvent.longitude | number:'1.2-2' }}, Lat: {{ selectedTripEvent.latitude | number:'1.2-2' }})</p>
+                        <p class="mb-1 text-50 small">(Lon: {{ selectedTripEvent.longitude | number:'1.2-2' }}, Lat: {{ selectedTripEvent.latitude | number:'1.2-2' }})</p>
                       </div>
                       <div class="col-lg-6 mb-2">
                         <strong>Event Status:</strong>
-                        <p class="mb-1 text-white-50">{{ selectedTripEvent.eventStatus }}</p>
+                        <p class="mb-1 text-50">{{ selectedTripEvent.eventStatus }}</p>
                       </div>
                       <div class="col-lg-6 mb-2" *ngIf="selectedTripEvent.eventStatus === 'Micro-sleep' || selectedTripEvent.eventStatus === 'Sleep'">
                         <strong>Eye Glasses Status:</strong>
@@ -138,7 +138,7 @@
       </div>
 
       <div class="col-md-5 mb-4">
-        <div class="card bg-dark text-white p-3 mb-4 equal-height-card"> 
+        <div class="card p-3 mb-4 equal-height-card"> 
           <div class="map-preview mb-4">
             <div style="width: 100%; height: 100%;">
               <app-longdo-map [drivers]="mapMarkers" [center]="mapCenter" [zoom]="mapZoom" [routePoints]="tripRouteLonLatPoints"></app-longdo-map>
@@ -148,29 +148,29 @@
 
         <div class="row"> 
           <div class="col-6 mb-3">
-            <div class="card bg-dark text-white p-3 d-flex flex-column justify-content-around secondary-card-match"> 
+            <div class="card p-3 d-flex flex-column justify-content-around secondary-card-match"> 
               <div class="text-center mb-3"> 
-                <small class="text-white-50">Speeding Detected</small>
+                <small class="text-50">Speeding Detected</small>
                 <p class="fs-3 fw-bold text-info">{{ driverTripData.noSpeedingDetected }}</p> 
               </div>
               <div class="text-center mb-3"> 
-                <small class="text-white-50">Max Speed</small>
+                <small class="text-50">Max Speed</small>
                 <p class="fs-3 fw-bold text-info">{{ driverTripData.maxSpeed }}
-                  <small class="text-white-50"> Km/h</small>
+                  <small class="text-50"> Km/h</small>
                 </p>
               </div>
               <div class="text-center"> 
-                <small class="text-white-50">Avg. Speed</small>
+                <small class="text-50">Avg. Speed</small>
                 <p class="fs-3 fw-bold text-info">{{ driverTripData.avgSpeed }}
-                  <small class="text-white-50"> Km/h</small>
+                  <small class="text-50"> Km/h</small>
                 </p>
               </div>
             </div>
           </div>
           <div class="col-6 mb-3">
-            <div class="card bg-dark text-white p-3 d-flex flex-column secondary-card-match"> 
+            <div class="card p-3 d-flex flex-column secondary-card-match"> 
               <div class="text-center mb-4"> 
-                <small class="text-white-50">Updated </small>
+                <small class="text-50">Updated </small>
                 <span class="fs-6 fw-bold text-success">{{ driverTripData.updated | date:'shortTime' }}</span> 
               </div>
               <div class="d-flex flex-column align-items-center mb-3"> 
@@ -180,13 +180,13 @@
                 <p class="mb-0 text-success" *ngIf="driverTripData.status === 'Normal'">Normal</p>
                 <p class="mb-0 text-warning" *ngIf="driverTripData.status === 'Warning'">Warning</p>
               </div>
-              <p class="mb-1"><small class="text-white-50">Account ID:</small> {{ driverTripData.driverId }}</p>
-              <p class="mb-1"><small class="text-white-50">Telephone:</small> {{ driverTripData.telephone }}</p>
-              <p class="mb-1"><small class="text-white-50">Vehicles:</small> {{ driverTripData.vehicleType }}</p>
-              <p class="mb-1"><small class="text-white-50">License Plate No.:</small> {{ driverTripData.carLicenseNo }}</p>
-              <div class="d-grid mt-auto">
+              <p class="mb-1"><small class="text-50">Account ID:</small> {{ driverTripData.driverId }}</p>
+              <p class="mb-1"><small class="text-50">Telephone:</small> {{ driverTripData.telephone }}</p>
+              <p class="mb-1"><small class="text-50">Vehicles:</small> {{ driverTripData.vehicleType }}</p>
+              <p class="mb-1"><small class="text-50">License Plate No.:</small> {{ driverTripData.carLicenseNo }}</p>
+              <!-- <div class="d-grid mt-auto">
                 <button class="btn btn-secondary btn-sm"><i class="bi bi-graph-up me-2"></i>Statistics</button>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -195,7 +195,7 @@
 
     <ng-container *ngIf="!loadingData && !driverTripData">
       <div class="col-12 text-center py-5">
-        <p class="text-white-50">No trip data found for this driver.</p>
+        <p class="text-50">No trip data found for this driver.</p>
       </div>
     </ng-container>
   </div>
