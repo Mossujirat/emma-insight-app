@@ -94,6 +94,6 @@ app-register {
     color: var(--text-color);
 }
 
-a, h1, h2, h3, h4, h5, span {
+a, h1, h2, h3, h4, h5, span, strong {
     color: var(--text-color);
 }

@@ -286,6 +286,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 }
 
 .table th, .table td {
+  color: var(--text-color);
   border-top: none;
   background-color: var(--card-bg-color);
   border-bottom: 1px solid var(--card-border-color);

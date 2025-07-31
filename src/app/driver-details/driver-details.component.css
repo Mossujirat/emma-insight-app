@@ -5,6 +5,10 @@
   padding-right: 15px; /* Add some padding to prevent scrollbar from overlapping content */
 }
 
+.mb-1, .text-50 {
+  color: var(--text-color)
+}
+
 .card {
   border: 1px solid var(--card-border-color);
   background-color: var(--card-bg-color);

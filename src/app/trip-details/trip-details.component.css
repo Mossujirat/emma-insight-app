@@ -5,6 +5,10 @@
   margin-bottom: 1.5rem;
 }
 
+.mb-1, .text-50 {
+  color: var(--text-color)
+}
+
 .header-top {
   display: flex;
   justify-content: space-between;
