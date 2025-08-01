@@ -37,17 +37,18 @@
             </li>
         </ul>
 
-        <ul class="nav flex-column mt-auto border-top border-secondary pt-3"> <li class="nav-item">
-            <a class="nav-link text d-flex align-items-center" href="#">
-                <i class="bi bi-plus-circle me-2 fs-5"></i>
-                <span *ngIf="!isSidebarCollapsed">Add Device</span>
-            </a>
+        <ul class="nav flex-column mt-auto border-top border-secondary pt-3"> 
+            <li class="nav-item">
+                <a class="nav-link text d-flex align-items-center" routerLink="/dashboard/device-list" routerLinkActive="active-link">
+                    <i class="bi bi-plus-circle-fill me-2 fs-5"></i>
+                    <span *ngIf="!isSidebarCollapsed">Add Device</span>
+                </a>
             </li>
             <li class="nav-item">
-            <a class="nav-link text d-flex align-items-center" (click)="logout()">
-                <i class="bi bi-box-arrow-right me-2 fs-5"></i>
-                <span *ngIf="!isSidebarCollapsed">Logout</span>
-            </a>
+                <a class="nav-link text d-flex align-items-center" (click)="logout()">
+                    <i class="bi bi-box-arrow-right me-2 fs-5"></i>
+                    <span *ngIf="!isSidebarCollapsed">Logout</span>
+                </a>
             </li>
         </ul>
         </nav>

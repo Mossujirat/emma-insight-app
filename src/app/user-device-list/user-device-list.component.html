@@ -1,0 +1,56 @@
+<div class="container-fluid page-container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="page-title">User & Device List</h3>
+    <button class="btn btn-add-device">
+      <i class="bi bi-plus-lg me-2"></i>Add Device
+    </button>
+  </div>
+
+  <div class="d-flex justify-content-end align-items-center mb-4">
+    <div class="sort-control me-3">
+      <label for="sort-by" class="me-2">Sort:</label>
+      <select id="sort-by" class="form-select form-select-sm" [(ngModel)]="sortOrder" (ngModelChange)="applyFilters()">
+        <option value="highToLow">Date (High to Low)</option>
+        <option value="lowToHigh">Date (Low to High)</option>
+        <option value="deviceIdAsc">Device ID (A-Z)</option>
+        <option value="deviceIdDesc">Device ID (Z-A)</option>
+      </select>
+    </div>
+    <div class="search-control">
+      <input type="text" class="form-control form-control-sm" placeholder="Search ..." [(ngModel)]="searchTerm" (ngModelChange)="applyFilters()">
+      <i class="bi bi-search search-icon"></i>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">License Plate ID</th>
+          <th scope="col">Phone Call</th>
+          <th scope="col">Car Type</th>
+          <th scope="col">Device ID</th>
+          <th scope="col"></th> </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let device of filteredDevices">
+          <td>{{ device.id }}</td>
+          <td>{{ device.name }}</td>
+          <td>{{ device.licensePlateId }}</td>
+          <td>{{ device.phone }}</td>
+          <td>
+            <span class="badge" [ngClass]="{'bg-bus': device.carType === 'BUS', 'bg-cargo': device.carType === 'CARGO'}">
+              {{ device.carType }}
+            </span>
+          </td>
+          <td>{{ device.deviceId }}</td>
+          <td class="text-end">
+            <button class="btn btn-edit">Edit</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

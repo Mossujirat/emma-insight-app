@@ -9,6 +9,7 @@ import { DriverDetailsComponent } from './driver-details/driver-details.componen
 import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
 import { TripDetailsComponent } from './trip-details/trip-details.component';
 import { StatDriverComponent } from './stat-driver/stat-driver.component';
+import { UserDeviceListComponent } from './user-device-list/user-device-list.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PublicGuard } from './guards/public.guard';
 
@@ -35,6 +36,7 @@ const routes: Routes = [
       { path: 'statistics', component: StatisticsComponent },
       { path: 'statistics/:driverId', component: StatDriverComponent },
       { path: 'statistics/:driverId/:tripId', component: TripDetailsComponent },
+      { path: 'device-list', component: UserDeviceListComponent },
     ]
   },
   { path: '**', redirectTo: '' }
