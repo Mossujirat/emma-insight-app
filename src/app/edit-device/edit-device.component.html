@@ -1,0 +1,74 @@
+<div class="container-fluid page-container">
+    <div class="d-flex align-items-center mb-5">
+        <button (click)="goBack()" class="btn btn-back me-3">
+            <i class="bi bi-arrow-left"></i> Back
+        </button>
+        <h3 class="page-title mb-0">Edit Device Info</h3>
+    </div>
+
+    <form *ngIf="editDeviceForm" [formGroup]="editDeviceForm" (ngSubmit)="onSubmit()" class="edit-device-form">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-4">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" id="name" class="form-control" placeholder="Enter driver's name" formControlName="name">
+                </div>
+
+                <div class="mb-4">
+                    <label for="deviceId" class="form-label">Device ID</label>
+                    <input type="text" id="deviceId" class="form-control" placeholder="Enter Device ID" formControlName="deviceId"
+                           [class.is-invalid]="formControls['deviceId']?.invalid && (formControls['deviceId']?.dirty || formControls['deviceId']?.touched)">
+                    <div *ngIf="formControls['deviceId']?.invalid && (formControls['deviceId']?.dirty || formControls['deviceId']?.touched)" class="invalid-feedback">
+                        <div *ngIf="formControls['deviceId']?.errors?.['required']">Device ID is required.</div>
+                        <div *ngIf="formControls['deviceId']?.errors?.['valueTaken']">This Device ID is already in use.</div>
+                    </div>
+                    <div *ngIf="formControls['deviceId']?.pending" class="form-text">
+                        Checking availability...
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input type="text" id="phone" class="form-control" placeholder="Enter phone number" formControlName="phone">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-4">
+                    <label class="form-label">Vehicles</label>
+                    <div class="vehicle-buttons">
+                        <button *ngFor="let type of vehicleTypes"
+                                type="button"
+                                class="btn btn-vehicle"
+                                [class.active]="editDeviceForm.get('carType')?.value === type"
+                                (click)="selectVehicle(type)">
+                            {{ type | titlecase }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="licensePlateId" class="form-label">License Plate No.</label>
+                    <input type="text" id="licensePlateId" class="form-control" placeholder="Enter license plate no." formControlName="licensePlateId"
+                           [class.is-invalid]="formControls['licensePlateId']?.invalid && (formControls['licensePlateId']?.dirty || formControls['licensePlateId']?.touched)">
+                     <div *ngIf="formControls['licensePlateId']?.invalid && (formControls['licensePlateId']?.dirty || formControls['licensePlateId']?.touched)" class="invalid-feedback">
+                        <div *ngIf="formControls['licensePlateId']?.errors?.['required']">License Plate No. is required.</div>
+                        <div *ngIf="formControls['licensePlateId']?.errors?.['valueTaken']">This License Plate is already in use.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+            <button type="submit" class="btn btn-done" [disabled]="editDeviceForm.invalid || editDeviceForm.pending">
+                Done
+            </button>
+        </div>
+
+        <div *ngIf="successMessage" class="alert alert-success mt-4">
+            {{ successMessage }}
+        </div>
+        <div *ngIf="errorMessage" class="alert alert-danger mt-4">
+            {{ errorMessage }}
+        </div>
+    </form>
+</div>

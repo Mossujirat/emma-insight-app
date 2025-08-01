@@ -48,10 +48,19 @@
             </div>
 
             <div class="mb-4">
-            <label for="licensePlateNo" class="form-label">License Plate No.</label>
-            <input type="text" id="licensePlateNo" class="form-control" placeholder="Enter your License Plate No." formControlName="licensePlateId">
+                <label for="licensePlateId" class="form-label">License Plate No.</label>
+                <input type="text" id="licensePlateId" class="form-control" placeholder="Enter your License Plate No." formControlName="licensePlateId"
+                        [class.is-invalid]="licensePlateId?.invalid && (licensePlateId?.dirty || licensePlateId?.touched)">
+                
+                <div *ngIf="licensePlateId?.invalid && (licensePlateId?.dirty || licensePlateId?.touched)" class="invalid-feedback">
+                    <div *ngIf="licensePlateId?.errors?.['required']">กรุณากรอกหมายเลขทะเบียนรถ</div>
+                    <div *ngIf="licensePlateId?.errors?.['licensePlateTaken']">หมายเลขทะเบียนนี้ถูกใช้แล้ว</div>
+                </div>
+                <div *ngIf="licensePlateId?.pending" class="form-text">
+                    กำลังตรวจสอบ...
+                </div>
+                </div>
             </div>
-        </div>
         </div>
 
         <div class="d-flex justify-content-end mt-4">

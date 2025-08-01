@@ -11,6 +11,7 @@ import { TripDetailsComponent } from './trip-details/trip-details.component';
 import { StatDriverComponent } from './stat-driver/stat-driver.component';
 import { UserDeviceListComponent } from './user-device-list/user-device-list.component';
 import { AddDeviceComponent } from './add-device/add-device.component';
+import { EditDeviceComponent } from './edit-device/edit-device.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PublicGuard } from './guards/public.guard';
 
@@ -39,6 +40,7 @@ const routes: Routes = [
       { path: 'statistics/:driverId/:tripId', component: TripDetailsComponent },
       { path: 'device-list', component: UserDeviceListComponent },
       { path: 'add-device', component: AddDeviceComponent },
+      { path: 'edit-device/:id', component: EditDeviceComponent },
     ]
   },
   { path: '**', redirectTo: '' }

@@ -33,7 +33,11 @@ export class AddDeviceComponent implements OnInit {
         [this.deviceIdValidator()]
       ],
       phone: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      licensePlateId: ['', Validators.required],
+      licensePlateId: [
+        '', 
+        [Validators.required],
+        [this.licensePlateValidator()]
+      ],
       carType: ['BUS', Validators.required]
     });
   }
@@ -56,9 +60,29 @@ export class AddDeviceComponent implements OnInit {
     };
   }
 
+  licensePlateValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return timer(500).pipe(
+        switchMap(() => {
+          if (!control.value) {
+            return of(null);
+          }
+          return this.deviceService.isLicensePlateTaken(control.value).pipe(
+            map(isTaken => (isTaken ? { licensePlateTaken: true } : null)),
+            catchError(() => of(null))
+          );
+        })
+      );
+    };
+  }
+
   // Helper getter for the template
   get deviceId() {
     return this.addDeviceForm.get('deviceId');
+  }
+
+  get licensePlateId() {
+    return this.addDeviceForm.get('licensePlateId');
   }
 
   selectVehicle(type: Device['carType']): void {

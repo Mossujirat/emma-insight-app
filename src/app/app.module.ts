@@ -20,6 +20,7 @@ import { FormatSecondsPipe } from './pipes/format-seconds.pipe';
 import { TripDetailsComponent } from './trip-details/trip-details.component';
 import { UserDeviceListComponent } from './user-device-list/user-device-list.component';
 import { AddDeviceComponent } from './add-device/add-device.component';
+import { EditDeviceComponent } from './edit-device/edit-device.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { AddDeviceComponent } from './add-device/add-device.component';
     StatDriverComponent,
     TripDetailsComponent,
     UserDeviceListComponent,
-    AddDeviceComponent
+    AddDeviceComponent,
+    EditDeviceComponent
     // The pipe is no longer declared here
   ],
   imports: [

@@ -22,20 +22,34 @@ export class DeviceService {
     return this.devices$.asObservable();
   }
 
-  // เพิ่มเมธอดนี้เพื่อตรวจสอบ Device ID ซ้ำ
+  getDeviceById(id: string): Observable<Device | undefined> {
+    const device = this.devices.find(d => d.id === id);
+    return of(device);
+  }
+
   isDeviceIdTaken(deviceId: string): Observable<boolean> {
     const isTaken = this.devices.some(d => d.deviceId.toLowerCase() === deviceId.toLowerCase());
-    // จำลองการดีเลย์ของ network
+    return of(isTaken).pipe(delay(500));
+  }
+
+  isLicensePlateTaken(licensePlateId: string): Observable<boolean> {
+    const isTaken = this.devices.some(d => d.licensePlateId.toLowerCase() === licensePlateId.toLowerCase());
+    // Simulate network delay
+    return of(isTaken).pipe(delay(500));
+  }
+
+  isValueTaken(fieldName: 'deviceId' | 'licensePlateId', value: string, currentDeviceId: string): Observable<boolean> {
+    const isTaken = this.devices.some(
+      d => d.id !== currentDeviceId && d[fieldName].toLowerCase() === value.toLowerCase()
+    );
     return of(isTaken).pipe(delay(500));
   }
 
   addDevice(deviceData: Omit<Device, 'id' | 'date'>): void {
-    const isTaken = this.devices.some(d => d.deviceId.toLowerCase() === deviceData.deviceId.toLowerCase());
-    if (isTaken) {
+    if (this.devices.some(d => d.deviceId.toLowerCase() === deviceData.deviceId.toLowerCase())) {
       console.error('This Device ID is already taken.');
       return; 
     }
-
     const newId = this.generateNewId(deviceData.carType);
     const newDevice: Device = {
       ...deviceData,
@@ -44,6 +58,14 @@ export class DeviceService {
     };
     this.devices.unshift(newDevice);
     this.devices$.next([...this.devices]);
+  }
+
+  updateDevice(updatedDevice: Device): void {
+    const index = this.devices.findIndex(d => d.id === updatedDevice.id);
+    if (index !== -1) {
+      this.devices[index] = { ...this.devices[index], ...updatedDevice };
+      this.devices$.next([...this.devices]);
+    }
   }
 
   private generateNewId(carType: 'BUS' | 'CARGO' | 'TAXI'): string {
