@@ -8,10 +8,10 @@
 
             <div class="d-flex align-items-center">
             <span class="text me-3">{{ loggedInUser?.username }}</span>
-            <button class="btn btn-outline me-2">
+            <!-- <button class="btn btn-outline me-2">
                 <i class="bi bi-bell-fill"></i> </button>
             <button class="btn btn-outline me-2">
-                <i class="bi bi-gear-fill"></i> </button>
+                <i class="bi bi-gear-fill"></i> </button> -->
             <button class="btn btn-dark" (click)="toggleTheme()">
                 <i class="bi bi-sun" *ngIf="currentTheme === 'light'"></i>
                 <i class="bi bi-moon-fill" *ngIf="currentTheme === 'dark'"></i>
@@ -39,8 +39,8 @@
 
         <ul class="nav flex-column mt-auto border-top border-secondary pt-3"> <li class="nav-item">
             <a class="nav-link text d-flex align-items-center" href="#">
-                <i class="bi bi-question-circle-fill me-2 fs-5"></i>
-                <span *ngIf="!isSidebarCollapsed">Help</span>
+                <i class="bi bi-plus-circle me-2 fs-5"></i>
+                <span *ngIf="!isSidebarCollapsed">Add Device</span>
             </a>
             </li>
             <li class="nav-item">
