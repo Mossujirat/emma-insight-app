@@ -19,6 +19,7 @@ import { StatDriverComponent } from './stat-driver/stat-driver.component';
 import { FormatSecondsPipe } from './pipes/format-seconds.pipe';
 import { TripDetailsComponent } from './trip-details/trip-details.component';
 import { UserDeviceListComponent } from './user-device-list/user-device-list.component';
+import { AddDeviceComponent } from './add-device/add-device.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { UserDeviceListComponent } from './user-device-list/user-device-list.com
     DriverDetailsComponent,
     StatDriverComponent,
     TripDetailsComponent,
-    UserDeviceListComponent
+    UserDeviceListComponent,
+    AddDeviceComponent
     // The pipe is no longer declared here
   ],
   imports: [
