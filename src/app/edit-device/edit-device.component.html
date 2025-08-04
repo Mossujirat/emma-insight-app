@@ -17,12 +17,12 @@
                 <div class="mb-4">
                     <label for="deviceId" class="form-label">Device ID</label>
                     <input type="text" id="deviceId" class="form-control" placeholder="Enter Device ID" formControlName="deviceId"
-                           [class.is-invalid]="formControls['deviceId']?.invalid && (formControls['deviceId']?.dirty || formControls['deviceId']?.touched)">
-                    <div *ngIf="formControls['deviceId']?.invalid && (formControls['deviceId']?.dirty || formControls['deviceId']?.touched)" class="invalid-feedback">
-                        <div *ngIf="formControls['deviceId']?.errors?.['required']">Device ID is required.</div>
-                        <div *ngIf="formControls['deviceId']?.errors?.['valueTaken']">This Device ID is already in use.</div>
+                           [class.is-invalid]="formControls['deviceId'].invalid && (formControls['deviceId'].dirty || formControls['deviceId'].touched)">
+                    <div *ngIf="formControls['deviceId'].invalid && (formControls['deviceId'].dirty || formControls['deviceId'].touched)" class="invalid-feedback">
+                        <div *ngIf="formControls['deviceId'].errors?.['required']">Device ID is required.</div>
+                        <div *ngIf="formControls['deviceId'].errors?.['valueTaken']">This Device ID is already in use.</div>
                     </div>
-                    <div *ngIf="formControls['deviceId']?.pending" class="form-text">
+                    <div *ngIf="formControls['deviceId'].pending" class="form-text">
                         Checking availability...
                     </div>
                 </div>
@@ -49,10 +49,10 @@
                 <div class="mb-4">
                     <label for="licensePlateId" class="form-label">License Plate No.</label>
                     <input type="text" id="licensePlateId" class="form-control" placeholder="Enter license plate no." formControlName="licensePlateId"
-                           [class.is-invalid]="formControls['licensePlateId']?.invalid && (formControls['licensePlateId']?.dirty || formControls['licensePlateId']?.touched)">
-                     <div *ngIf="formControls['licensePlateId']?.invalid && (formControls['licensePlateId']?.dirty || formControls['licensePlateId']?.touched)" class="invalid-feedback">
-                        <div *ngIf="formControls['licensePlateId']?.errors?.['required']">License Plate No. is required.</div>
-                        <div *ngIf="formControls['licensePlateId']?.errors?.['valueTaken']">This License Plate is already in use.</div>
+                           [class.is-invalid]="formControls['licensePlateId'].invalid && (formControls['licensePlateId'].dirty || formControls['licensePlateId'].touched)">
+                     <div *ngIf="formControls['licensePlateId'].invalid && (formControls['licensePlateId'].dirty || formControls['licensePlateId'].touched)" class="invalid-feedback">
+                        <div *ngIf="formControls['licensePlateId'].errors?.['required']">License Plate No. is required.</div>
+                        <div *ngIf="formControls['licensePlateId'].errors?.['valueTaken']">This License Plate is already in use.</div>
                     </div>
                 </div>
             </div>
