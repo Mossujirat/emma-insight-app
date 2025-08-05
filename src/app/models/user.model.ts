@@ -1,7 +1,6 @@
 export interface User {
   // Properties required for registration
-  userId: string;
-  email: string;
+  name: string;
   username: string;
   password?: string;
   token?: string;
@@ -9,13 +8,13 @@ export interface User {
 
 // You might also define an interface specifically for login credentials if they are different
 export interface LoginCredentials {
-  email: string;
+  username: string;
   password: string;
 }
 
 // And for registration data sent to the backend (excluding confirmPassword usually)
 export interface RegistrationData {
-  email: string;
+  name: string;
   username: string;
   password: string;
 }

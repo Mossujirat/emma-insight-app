@@ -53,8 +53,8 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      username: ['', [Validators.required, Validators.minLength(3)]],
+      username: ['', [Validators.required, Validators.email]],
+      name: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
     }, {
@@ -81,11 +81,11 @@ export class RegisterComponent implements OnInit {
     this.authService.register(this.registerForm.value).subscribe({
       next: () => {
         // console.log('Registration successful!');
-        // this.successMessage = 'Registration successful! You can now log in.';
-        // this.registerForm.reset(); // Clear the form
+        this.successMessage = 'Registration successful! You can now log in.';
+        this.registerForm.reset(); // Clear the form
         console.log('Registration successful! Auto-logging in...');
         // No need for a success message on the page if immediately redirected
-        this.router.navigate(['/dashboard']); // Redirect directly to dashboard
+        // this.router.navigate(['/dashboard']); // Redirect directly to dashboard
       },
       error: (error) => {
         console.error('Registration failed:', error);

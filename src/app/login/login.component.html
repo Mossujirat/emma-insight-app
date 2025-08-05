@@ -5,15 +5,15 @@
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="mb-3">
-        <label for="email" class="form-label">Email or username</label>
+        <label for="email" class="form-label">Username</label>
         <div class="input-group">
           <span class="input-group-text"><i class="bi bi-person"></i></span>
-          <input type="text" class="form-control" id="email" formControlName="email" placeholder="Enter your username"
-                [ngClass]="{ 'is-invalid': f['email'].touched && f['email'].invalid }">
+          <input type="text" class="form-control" id="email" formControlName="username" placeholder="Enter your email"
+                [ngClass]="{ 'is-invalid': f['username'].touched && f['username'].invalid }">
         </div>
-        <div *ngIf="f['email'].touched && f['email'].invalid" class="invalid-feedback">
-          <div *ngIf="f['email'].errors?.['required']">Email is required.</div>
-          <div *ngIf="f['email'].errors?.['email']">Email must be a valid email address.</div>
+        <div *ngIf="f['username'].touched && f['username'].invalid" class="invalid-feedback">
+          <div *ngIf="f['username'].errors?.['required']">Email is required.</div>
+          <div *ngIf="f['username'].errors?.['email']">Email must be a valid email address.</div>
         </div>
       </div>
 

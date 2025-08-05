@@ -5,28 +5,28 @@
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <div class="mb-3">
-        <label for="regEmail" class="form-label">Email</label>
+        <label for="regUsername" class="form-label">Name</label>
         <div class="input-group">
-          <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-          <input type="email" class="form-control" id="regEmail" formControlName="email" placeholder="Enter your Email"
-                [ngClass]="{ 'is-invalid': f['email'].touched && f['email'].invalid }">
+          <span class="input-group-text"><i class="bi bi-person"></i></span>
+          <input type="text" class="form-control" id="regUsername" formControlName="name" placeholder="Enter your name"
+                [ngClass]="{ 'is-invalid': f['name'].touched && f['name'].invalid }">
         </div>
-        <div *ngIf="f['email'].touched && f['email'].invalid" class="invalid-feedback">
-          <div *ngIf="f['email'].errors?.['required']">Email is required.</div>
-          <div *ngIf="f['email'].errors?.['email']">Email must be a valid email address.</div>
+        <div *ngIf="f['name'].touched && f['name'].invalid" class="invalid-feedback">
+          <div *ngIf="f['name'].errors?.['required']">Username is required.</div>
+          <div *ngIf="f['name'].errors?.['minlength']">Username must be at least 3 characters.</div>
         </div>
       </div>
 
       <div class="mb-3">
-        <label for="regUsername" class="form-label">Username</label>
+        <label for="regEmail" class="form-label">Username</label>
         <div class="input-group">
-          <span class="input-group-text"><i class="bi bi-person"></i></span>
-          <input type="text" class="form-control" id="regUsername" formControlName="username" placeholder="Enter your username"
+          <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+          <input type="email" class="form-control" id="regEmail" formControlName="username" placeholder="Enter your Email"
                 [ngClass]="{ 'is-invalid': f['username'].touched && f['username'].invalid }">
         </div>
         <div *ngIf="f['username'].touched && f['username'].invalid" class="invalid-feedback">
-          <div *ngIf="f['username'].errors?.['required']">Username is required.</div>
-          <div *ngIf="f['username'].errors?.['minlength']">Username must be at least 3 characters.</div>
+          <div *ngIf="f['username'].errors?.['required']">Email is required.</div>
+          <div *ngIf="f['username'].errors?.['email']">Email must be a valid email address.</div>
         </div>
       </div>
 
