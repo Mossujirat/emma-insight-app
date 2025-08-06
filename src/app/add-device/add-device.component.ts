@@ -99,11 +99,17 @@ export class AddDeviceComponent implements OnInit {
       return;
     }
 
-    this.deviceService.addDevice(this.addDeviceForm.value);
-    this.successMessage = 'Device added successfully!';
-
-    setTimeout(() => {
-      this.router.navigate(['/dashboard/device-list']);
-    }, 1500);
+    this.deviceService.addDevice(this.addDeviceForm.value).subscribe({
+      next: () => {
+        this.successMessage = 'Device added successfully!';
+        setTimeout(() => {
+          this.router.navigate(['/dashboard/device-list']);
+        }, 1500);
+      },
+      error: (err) => {
+        console.error('Failed to add device', err);
+        // สามารถแสดง error message บนหน้าจอได้
+      }
+    });
   }
 }

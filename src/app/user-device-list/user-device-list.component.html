@@ -47,7 +47,8 @@
             </td>
             <td>{{ device.deviceId }}</td>
             <td class="text-end">
-                <button class="btn btn-edit" [routerLink]="['/dashboard/edit-device', device.id]">Edit</button>
+                <button class="btn btn-edit me-2" [routerLink]="['/dashboard/edit-device', device.id]">Edit</button>
+                <button class="btn btn-outline-danger btn-sm" (click)="deleteDevice(device.id, $event)">Delete</button>
             </td>
             </tr>
         </tbody>

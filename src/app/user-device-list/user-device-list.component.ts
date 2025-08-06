@@ -19,7 +19,12 @@ export class UserDeviceListComponent implements OnInit {
 
   ngOnInit(): void {
     this.deviceService.getDevices().subscribe(devices => {
-      this.allDevices = devices;
+      this.allDevices = devices.map(device => {
+        return {
+          ...device,
+          date: new Date(device.date) 
+        };
+      });
       this.applyFilters();
     });
   }
@@ -51,5 +56,23 @@ export class UserDeviceListComponent implements OnInit {
     });
 
     this.filteredDevices = devices;
+  }
+
+  deleteDevice(id: string, event: MouseEvent): void {
+    event.stopPropagation(); // ป้องกันไม่ให้ router link ของแถวทำงาน
+    
+    // ใส่คำยืนยันก่อนลบ
+    if (confirm('Are you sure you want to delete this device?')) {
+      this.deviceService.deleteDevice(id).subscribe({
+        next: () => {
+          console.log(`Device with id: ${id} deleted successfully`);
+          // ไม่ต้องทำอะไรเพิ่มที่นี่ เพราะ list จะ re-render อัตโนมัติจาก BehaviorSubject
+        },
+        error: (err) => {
+          console.error(`Failed to delete device with id: ${id}`, err);
+          // สามารถแสดง alert แจ้งเตือน error ได้
+        }
+      });
+    }
   }
 }

@@ -42,7 +42,7 @@
 }
 
 .form-select, .form-control {
-  background-color: transparent;
+  background-color: var(--card-bg-color);
   border: none;
   color: var(--text-color);
   box-shadow: none;
@@ -50,7 +50,7 @@
 }
 
 .form-select:focus, .form-control:focus {
-  background-color: transparent;
+  background-color: var(--card-bg-color);
   color: var(--text-color);
 }
 

@@ -97,16 +97,23 @@ export class EditDeviceComponent implements OnInit {
     }
 
     if (this.device) {
-        const updatedData: Device = {
-            ...this.device,
-            ...this.editDeviceForm.value
-        };
-      this.deviceService.updateDevice(updatedData);
-      this.successMessage = 'Device updated successfully!';
+      const updatedData: Device = {
+          ...this.device,
+          ...this.editDeviceForm.value
+      };
 
-      setTimeout(() => {
-        this.router.navigate(['/dashboard/device-list']);
-      }, 1500);
+      this.deviceService.updateDevice(updatedData).subscribe({
+        next: () => {
+          this.successMessage = 'Device updated successfully!';
+          setTimeout(() => {
+            this.router.navigate(['/dashboard/device-list']);
+          }, 1500);
+        },
+        error: (err) => {
+          console.error('Failed to update device', err);
+          this.errorMessage = 'Failed to update device. Please try again.';
+        }
+      });
     }
   }
 }
