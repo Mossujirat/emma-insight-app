@@ -1,5 +1,6 @@
 export interface User {
   // Properties required for registration
+  userid: string;
   name: string;
   username: string;
   password?: string;

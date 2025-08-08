@@ -1,9 +1,9 @@
 export interface Device {
-  id: string;
-  name: string;
-  licensePlateId: string;
-  phone: string;
-  carType: 'BUS' | 'CARGO' | 'TAXI';
-  deviceId: string;
-  date: Date;
+  id: number;
+  car_id: string;
+  device_id: string;
+  Drivername: string;
+  license: string;
+  phonecall: string;
+  cartype: 'BUS' | 'CARGO' | 'TAXI';
 }

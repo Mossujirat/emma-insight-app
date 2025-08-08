@@ -4,6 +4,7 @@ import { Observable, of, throwError } from 'rxjs'; // Import Observable, of, thr
 import { delay, tap, map, catchError } from 'rxjs/operators'; // Import delay and tap
 import { LoginCredentials, RegistrationData, User} from '../models/user.model'; // Import the new interfaces
 import { environment } from '../../environments/environment';
+// import { environment } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +19,14 @@ export class AuthService {
 
   login(credentials: LoginCredentials): Observable<any> {
     console.log('AuthService: Sending login request to Mockoon backend:', credentials);
-    // Ensure the endpoint matches your Mockoon setup (e.g., /userlogin or /login)
     return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
       // Use map to transform the Mockoon response structure to what your service expects
       map((response : any) => {
-        // Map Mockoon's flat response to your { token: '...', user: { ... } } structure
+        console.log(response);
         const user: User = {
-          name: response.name,
-          username: response.username,
+          userid: response.user.userid,
+          name: response.user.name,
+          username: response.user.username,
         };
         return { token: response.token, user: user };
       }),

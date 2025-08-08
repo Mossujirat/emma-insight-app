@@ -16,7 +16,7 @@ import { Device } from '../models/device.model';
 export class AddDeviceComponent implements OnInit {
   addDeviceForm!: FormGroup;
   successMessage = '';
-  vehicleTypes: Device['carType'][] = ['BUS', 'CARGO', 'TAXI'];
+  vehicleTypes: Device['cartype'][] = ['BUS', 'CARGO', 'TAXI'];
 
   constructor(
     private fb: FormBuilder,
@@ -26,19 +26,19 @@ export class AddDeviceComponent implements OnInit {
 
   ngOnInit(): void {
     this.addDeviceForm = this.fb.group({
-      name: ['', Validators.required],
-      deviceId: [
+      Drivername: ['', Validators.required],
+      device_id: [
         '',
         [Validators.required],
         [this.deviceIdValidator()]
       ],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      licensePlateId: [
+      phonecall: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      license: [
         '', 
         [Validators.required],
         [this.licensePlateValidator()]
       ],
-      carType: ['BUS', Validators.required]
+      cartype: ['BUS', Validators.required]
     });
   }
 
@@ -77,15 +77,15 @@ export class AddDeviceComponent implements OnInit {
   }
 
   // Helper getter for the template
-  get deviceId() {
-    return this.addDeviceForm.get('deviceId');
+  get device_id() {
+    return this.addDeviceForm.get('device_id');
   }
 
-  get licensePlateId() {
-    return this.addDeviceForm.get('licensePlateId');
+  get license() {
+    return this.addDeviceForm.get('license');
   }
 
-  selectVehicle(type: Device['carType']): void {
+  selectVehicle(type: Device['cartype']): void {
     this.addDeviceForm.patchValue({ carType: type });
   }
 

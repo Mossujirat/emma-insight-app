@@ -13,16 +13,17 @@ export class UserDeviceListComponent implements OnInit {
   allDevices: Device[] = [];
   filteredDevices: Device[] = [];
   searchTerm: string = '';
-  sortOrder: 'highToLow' | 'lowToHigh' | 'deviceIdAsc' | 'deviceIdDesc' = 'highToLow';
+  sortOrder:  'deviceIdAsc' | 'deviceIdDesc' = 'deviceIdAsc';
 
   constructor(private deviceService: DeviceService) { }
 
   ngOnInit(): void {
+    this.deviceService.refreshDevices().subscribe();
+    
     this.deviceService.getDevices().subscribe(devices => {
       this.allDevices = devices.map(device => {
         return {
           ...device,
-          date: new Date(device.date) 
         };
       });
       this.applyFilters();
@@ -35,21 +36,17 @@ export class UserDeviceListComponent implements OnInit {
     if (this.searchTerm) {
       const lowercasedSearchTerm = this.searchTerm.toLowerCase();
       devices = devices.filter(device => 
-        device.name.toLowerCase().includes(lowercasedSearchTerm) ||
-        device.licensePlateId.toLowerCase().includes(lowercasedSearchTerm)
+        device.Drivername.toLowerCase().includes(lowercasedSearchTerm) ||
+        device.license.toLowerCase().includes(lowercasedSearchTerm)
       );
     }
 
     devices.sort((a, b) => {
       switch (this.sortOrder) {
-        case 'highToLow':
-          return b.date.getTime() - a.date.getTime();
-        case 'lowToHigh':
-          return a.date.getTime() - b.date.getTime();
         case 'deviceIdAsc':
-          return a.deviceId.localeCompare(b.deviceId);
+          return a.device_id.localeCompare(b.device_id);
         case 'deviceIdDesc':
-          return b.deviceId.localeCompare(a.deviceId);
+          return b.device_id.localeCompare(a.device_id);
         default:
           return 0;
       }
@@ -58,7 +55,7 @@ export class UserDeviceListComponent implements OnInit {
     this.filteredDevices = devices;
   }
 
-  deleteDevice(id: string, event: MouseEvent): void {
+  deleteDevice(id: number, event: MouseEvent): void {
     event.stopPropagation(); // ป้องกันไม่ให้ router link ของแถวทำงาน
     
     // ใส่คำยืนยันก่อนลบ

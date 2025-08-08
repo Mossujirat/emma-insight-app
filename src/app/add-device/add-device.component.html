@@ -11,26 +11,26 @@
         <div class="col-md-6">
             <div class="mb-4">
             <label for="name" class="form-label">Name</label>
-            <input type="text" id="name" class="form-control" placeholder="Enter your username" formControlName="name">
+            <input type="text" id="name" class="form-control" placeholder="Enter your username" formControlName="Drivername">
             </div>
 
             <div class="mb-4">
             <label for="deviceId" class="form-label">Device ID</label>
-            <input type="text" id="deviceId" class="form-control" placeholder="Enter your Device ID" formControlName="deviceId"
-                    [class.is-invalid]="deviceId?.invalid && (deviceId?.dirty || deviceId?.touched)">
+            <input type="text" id="deviceId" class="form-control" placeholder="Enter your Device ID" formControlName="device_id"
+                    [class.is-invalid]="device_id?.invalid && (device_id?.dirty || device_id?.touched)">
             
-            <div *ngIf="deviceId?.invalid && (deviceId?.dirty || deviceId?.touched)" class="invalid-feedback">
-                <div *ngIf="deviceId?.errors?.['required']">กรุณากรอก Device ID</div>
-                <div *ngIf="deviceId?.errors?.['deviceIdTaken']">Device ID นี้ถูกใช้แล้ว กรุณาใช้รหัสอื่น</div>
+            <div *ngIf="device_id?.invalid && (device_id?.dirty || device_id?.touched)" class="invalid-feedback">
+                <div *ngIf="device_id?.errors?.['required']">Please enter the Device ID</div>
+                <div *ngIf="device_id?.errors?.['deviceIdTaken']">This Device ID is already in use. Please use a different one</div>
             </div>
-            <div *ngIf="deviceId?.pending" class="form-text">
-                กำลังตรวจสอบ...
+            <div *ngIf="device_id?.pending" class="form-text">
+                Checking...
             </div>
             </div>
 
             <div class="mb-4">
             <label for="phone" class="form-label">Phone Number</label>
-            <input type="text" id="phone" class="form-control" placeholder="Enter your Phone Number" formControlName="phone">
+            <input type="text" id="phone" class="form-control" placeholder="Enter your Phone Number" formControlName="phonecall">
             </div>
         </div>
         <div class="col-md-6">
@@ -40,7 +40,7 @@
                 <button *ngFor="let type of vehicleTypes"
                         type="button"
                         class="btn btn-vehicle"
-                        [class.active]="addDeviceForm.get('carType')?.value === type"
+                        [class.active]="addDeviceForm.get('cartype')?.value === type"
                         (click)="selectVehicle(type)">
                 {{ type | titlecase }}
                 </button>
@@ -49,15 +49,15 @@
 
             <div class="mb-4">
                 <label for="licensePlateId" class="form-label">License Plate No.</label>
-                <input type="text" id="licensePlateId" class="form-control" placeholder="Enter your License Plate No." formControlName="licensePlateId"
-                        [class.is-invalid]="licensePlateId?.invalid && (licensePlateId?.dirty || licensePlateId?.touched)">
+                <input type="text" id="licensePlateId" class="form-control" placeholder="Enter your License Plate No." formControlName="license"
+                        [class.is-invalid]="license?.invalid && (license?.dirty || license?.touched)">
                 
-                <div *ngIf="licensePlateId?.invalid && (licensePlateId?.dirty || licensePlateId?.touched)" class="invalid-feedback">
-                    <div *ngIf="licensePlateId?.errors?.['required']">กรุณากรอกหมายเลขทะเบียนรถ</div>
-                    <div *ngIf="licensePlateId?.errors?.['licensePlateTaken']">หมายเลขทะเบียนนี้ถูกใช้แล้ว</div>
+                <div *ngIf="license?.invalid && (license?.dirty || license?.touched)" class="invalid-feedback">
+                    <div *ngIf="license?.errors?.['required']">Please enter the vehicle registration number</div>
+                    <div *ngIf="license?.errors?.['licensePlateTaken']">This registration number has already been used</div>
                 </div>
-                <div *ngIf="licensePlateId?.pending" class="form-text">
-                    กำลังตรวจสอบ...
+                <div *ngIf="license?.pending" class="form-text">
+                    Checking...
                 </div>
                 </div>
             </div>

@@ -10,8 +10,6 @@
         <div class="sort-control me-3">
         <label for="sort-by" class="me-2">Sort:</label>
         <select id="sort-by" class="form-select form-select-sm" [(ngModel)]="sortOrder" (ngModelChange)="applyFilters()">
-            <option value="highToLow">Date (High to Low)</option>
-            <option value="lowToHigh">Date (Low to High)</option>
             <option value="deviceIdAsc">Device ID (A-Z)</option>
             <option value="deviceIdDesc">Device ID (Z-A)</option>
         </select>
@@ -36,18 +34,18 @@
         </thead>
         <tbody>
             <tr *ngFor="let device of filteredDevices">
-            <td>{{ device.id }}</td>
-            <td>{{ device.name }}</td>
-            <td>{{ device.licensePlateId }}</td>
-            <td>{{ device.phone }}</td>
+            <td>{{ device.car_id }}</td>
+            <td>{{ device.Drivername }}</td>
+            <td>{{ device.license }}</td>
+            <td>{{ device.phonecall }}</td>
             <td>
-                <span class="badge" [ngClass]="{'bg-bus': device.carType === 'BUS', 'bg-cargo': device.carType === 'CARGO'}">
-                {{ device.carType }}
+                <span class="badge" [ngClass]="{'bg-bus': device.cartype === 'BUS', 'bg-cargo': device.cartype === 'CARGO'}">
+                {{ device.cartype }}
                 </span>
             </td>
-            <td>{{ device.deviceId }}</td>
+            <td>{{ device.device_id }}</td>
             <td class="text-end">
-                <button class="btn btn-edit me-2" [routerLink]="['/dashboard/edit-device', device.id]">Edit</button>
+                <button class="btn btn-edit me-2" [routerLink]="['/dashboard/edit-device', device.car_id]">Edit</button>
                 <button class="btn btn-outline-danger btn-sm" (click)="deleteDevice(device.id, $event)">Delete</button>
             </td>
             </tr>

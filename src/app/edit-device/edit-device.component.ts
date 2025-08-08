@@ -18,7 +18,7 @@ export class EditDeviceComponent implements OnInit {
   deviceId: string | null = null;
   successMessage = '';
   errorMessage = '';
-  vehicleTypes: Device['carType'][] = ['BUS', 'CARGO', 'TAXI'];
+  vehicleTypes: Device['cartype'][] = ['BUS', 'CARGO', 'TAXI'];
 
   constructor(
     private fb: FormBuilder,
@@ -29,6 +29,7 @@ export class EditDeviceComponent implements OnInit {
 
   ngOnInit(): void {
     this.deviceId = this.route.snapshot.paramMap.get('id');
+    console.log(this.deviceId);
     if (!this.deviceId) {
       this.errorMessage = "Device ID not found in URL.";
       return;
@@ -46,23 +47,23 @@ export class EditDeviceComponent implements OnInit {
 
   initializeForm(): void {
     this.editDeviceForm = this.fb.group({
-      name: [this.device?.name, Validators.required],
+      name: [this.device?.Drivername, Validators.required],
       deviceId: [
-        this.device?.deviceId,
+        this.device?.device_id,
         [Validators.required],
-        [this.uniqueValidator('deviceId')]
+        [this.uniqueValidator('device_id')]
       ],
-      phone: [this.device?.phone, [Validators.required, Validators.pattern('^[0-9]*$')]],
+      phone: [this.device?.phonecall, [Validators.required, Validators.pattern('^[0-9]*$')]],
       licensePlateId: [
-        this.device?.licensePlateId,
+        this.device?.license,
         [Validators.required],
-        [this.uniqueValidator('licensePlateId')]
+        [this.uniqueValidator('license')]
       ],
-      carType: [this.device?.carType, Validators.required]
+      carType: [this.device?.cartype, Validators.required]
     });
   }
 
-  uniqueValidator(fieldName: 'deviceId' | 'licensePlateId'): AsyncValidatorFn {
+  uniqueValidator(fieldName: 'device_id' | 'license'): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       if (!control.value || !this.device) {
         return of(null);
@@ -70,7 +71,7 @@ export class EditDeviceComponent implements OnInit {
       return of(control.value).pipe(
         delay(500),
         switchMap(value => 
-          this.deviceService.isValueTaken(fieldName, value, this.device!.id).pipe(
+          this.deviceService.isValueTaken(fieldName, value, this.device!.device_id).pipe(
             map(isTaken => (isTaken ? { valueTaken: true } : null))
           )
         )
@@ -82,7 +83,7 @@ export class EditDeviceComponent implements OnInit {
     return this.editDeviceForm.controls;
   }
 
-  selectVehicle(type: Device['carType']): void {
+  selectVehicle(type: Device['cartype']): void {
     this.editDeviceForm.patchValue({ carType: type });
   }
 
