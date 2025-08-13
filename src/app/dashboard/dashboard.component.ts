@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { DashboardDataService } from '../services/dashboard-data.service'; // Import DashboardDataService
-import { SummaryDriverData, Driver } from '../models/driver.model'; // Import data models
+import { SummaryDriverData, Driver } from '../models/driver.model'; 
+import { Subject, timer } from 'rxjs';
+import { switchMap, takeUntil } from 'rxjs/operators';
 
 // Define a type for map coordinates for clarity
 interface MapCoordinates {
@@ -23,11 +25,9 @@ export class DashboardComponent implements OnInit {
   filteredMapDrivers: Driver[] = [];
   loadingData: boolean = true; 
 
-  // Filter state properties
   vehicleTypes: string[] = ['All', 'Bus', 'Cargo', 'Taxi']; 
   selectedVehicleTypes: string[] = ['All']; 
 
-  // Filter state properties for Status (now single-select)
   driverStatuses: string[] = ['All', 'Online', 'Warning', 'Critical', 'Offline'];
   selectedStatus: string = 'All'; 
 
@@ -38,6 +38,8 @@ export class DashboardComponent implements OnInit {
 
   selectedMapStatus: string = 'All';
 
+  private unsubscribe$ = new Subject<void>();
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -45,26 +47,32 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadDashboardData();
+    // Polling every 20 seconds (20000 milliseconds)
+    timer(0, 20000) // Start immediately, then every 20 seconds
+      .pipe(
+        switchMap(() => this.dashboardDataService.getSummaryDriverData()),
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe({
+        next: (data: SummaryDriverData) => {
+          this.summaryData = data;
+          this.driverList = data.driverList;
+          this.loadingData = false;
+          console.log('Dashboard data reloaded successfully:', data);
+          this.applyFilters();
+          this.filterMapDrivers(this.selectedMapStatus);
+        },
+        error: (error) => {
+          console.error('Failed to reload dashboard data:', error);
+          this.loadingData = false;
+          // Optionally display an error message on the UI
+        }
+      });
   }
 
-  loadDashboardData(): void {
-    this.loadingData = true;
-    this.dashboardDataService.getSummaryDriverData().subscribe({
-      next: (data: SummaryDriverData) => {
-        this.summaryData = data;
-        this.driverList = data.driverList; // Populate driver list for the table
-        this.loadingData = false;
-        console.log('Dashboard data loaded successfully:', data);
-        this.applyFilters();
-        this.filterMapDrivers(this.selectedMapStatus);
-      },
-      error: (error) => {
-        console.error('Failed to load dashboard data:', error);
-        this.loadingData = false;
-        // Optionally display an error message on the UI
-      }
-    });
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   viewDriverDetails(driverId: string): void {

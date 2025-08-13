@@ -77,7 +77,7 @@ export class DeviceService {
   }
 
   updateDevice(updatedDevice: Device): Observable<Device> {
-    return this.http.put<Device>(`${this.apiUrl}/devices/${updatedDevice.id}`, updatedDevice, { headers: this.getAuthHeaders() }).pipe(
+    return this.http.post<any>(`${this.apiUrl}/devices/${updatedDevice.id}`, updatedDevice, { headers: this.getAuthHeaders() }).pipe(
       tap(returnedDevice => {
         const index = this.devices.findIndex(d => d.id === returnedDevice.id);
         if (index !== -1) {

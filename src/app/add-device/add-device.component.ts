@@ -86,7 +86,7 @@ export class AddDeviceComponent implements OnInit {
   }
 
   selectVehicle(type: Device['cartype']): void {
-    this.addDeviceForm.patchValue({ carType: type });
+    this.addDeviceForm.patchValue({ cartype: type });
   }
 
   goBack(): void {

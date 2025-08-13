@@ -137,12 +137,13 @@
                 <td>
                   <span class="badge"
                         [ngClass]="{
-                          'bg-danger': driver.status === 'Critical',
-                          'bg-success': driver.status === 'Normal',
-                          'bg-warning': driver.status === 'Sleep'}">
-                    {{ driver.status }}
+                          'bg-secondary': driver.available === 'Offline',
+                          'bg-danger': driver.available && driver.status === 'Critical',
+                          'bg-success': driver.available && driver.status === 'Normal',
+                          'bg-warning': driver.available && driver.status === 'Warning'
+                        }">
+                    {{ driver.available ? driver.status : 'Offline' }}
                   </span>
-                  <span *ngIf="driver.status === 'Critical'"> Sleep</span>
                 </td>
               </tr>
             </tbody>

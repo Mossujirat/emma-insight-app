@@ -47,19 +47,19 @@ export class EditDeviceComponent implements OnInit {
 
   initializeForm(): void {
     this.editDeviceForm = this.fb.group({
-      name: [this.device?.Drivername, Validators.required],
-      deviceId: [
+      Drivername: [this.device?.Drivername, Validators.required],
+      device_id: [
         this.device?.device_id,
         [Validators.required],
         [this.uniqueValidator('device_id')]
       ],
-      phone: [this.device?.phonecall, [Validators.required, Validators.pattern('^[0-9]*$')]],
-      licensePlateId: [
+      phonecall: [this.device?.phonecall, [Validators.required, Validators.pattern('^[0-9]*$')]],
+      license: [
         this.device?.license,
         [Validators.required],
         [this.uniqueValidator('license')]
       ],
-      carType: [this.device?.cartype, Validators.required]
+      cartype: [this.device?.cartype, Validators.required]
     });
   }
 
@@ -84,7 +84,7 @@ export class EditDeviceComponent implements OnInit {
   }
 
   selectVehicle(type: Device['cartype']): void {
-    this.editDeviceForm.patchValue({ carType: type });
+    this.editDeviceForm.patchValue({ cartype: type });
   }
 
   goBack(): void {
@@ -102,6 +102,8 @@ export class EditDeviceComponent implements OnInit {
           ...this.device,
           ...this.editDeviceForm.value
       };
+
+      console.log(updatedData);
 
       this.deviceService.updateDevice(updatedData).subscribe({
         next: () => {
