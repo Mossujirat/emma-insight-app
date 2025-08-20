@@ -39,7 +39,7 @@
             <td>{{ device.license }}</td>
             <td>{{ device.phonecall }}</td>
             <td>
-                <span class="badge" [ngClass]="{'bg-bus': device.cartype === 'BUS', 'bg-cargo': device.cartype === 'CARGO'}">
+                <span class="badge" [ngClass]="{'bg-bus': device.cartype === 'BUS', 'bg-cargo': device.cartype === 'CARGO', 'bg-taxi': device.cartype === 'TAXI'}">
                 {{ device.cartype }}
                 </span>
             </td>

@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
   filteredMapDrivers: Driver[] = [];
   loadingData: boolean = true; 
 
-  vehicleTypes: string[] = ['All', 'Bus', 'Cargo', 'Taxi']; 
+  vehicleTypes: string[] = ['All', 'bus', 'cargo', 'taxi']; 
   selectedVehicleTypes: string[] = ['All']; 
 
   driverStatuses: string[] = ['All', 'Online', 'Warning', 'Critical', 'Offline'];
@@ -121,7 +121,7 @@ export class DashboardComponent implements OnInit {
     // Apply Vehicle Type Filter (remains multi-select)
     if (!this.selectedVehicleTypes.includes('All') && this.selectedVehicleTypes.length > 0) {
       tempFilteredList = tempFilteredList.filter(driver =>
-        this.selectedVehicleTypes.includes(driver.vehicleType)
+        this.selectedVehicleTypes.includes(driver.vehicleType.toLowerCase())
       );
     }
 

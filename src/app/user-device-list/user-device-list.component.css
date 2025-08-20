@@ -108,6 +108,10 @@
   background-color: #f59e0b !important;
 }
 
+.bg-taxi {
+  background-color: #1ebd60 !important;
+}
+
 .btn-edit {
   background: transparent;
   border: 1px solid var(--card-border-color);

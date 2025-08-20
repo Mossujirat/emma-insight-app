@@ -138,11 +138,11 @@
                   <span class="badge"
                         [ngClass]="{
                           'bg-secondary': driver.available === 'Offline',
-                          'bg-danger': driver.available && driver.status === 'Critical',
-                          'bg-success': driver.available && driver.status === 'Normal',
-                          'bg-warning': driver.available && driver.status === 'Warning'
+                          'bg-danger': driver.available === 'Online' && driver.status === 'Critical',
+                          'bg-success': driver.available === 'Online' && driver.status === 'Normal',
+                          'bg-warning': driver.available === 'Online' && driver.status === 'Warning'
                         }">
-                    {{ driver.available ? driver.status : 'Offline' }}
+                    {{ driver.available === 'Offline' ? 'Offline' : driver.status }}
                   </span>
                 </td>
               </tr>
