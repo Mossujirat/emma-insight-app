@@ -61,6 +61,10 @@ export class DashboardComponent implements OnInit {
           console.log('Dashboard data reloaded successfully:', data);
           this.applyFilters();
           this.filterMapDrivers(this.selectedMapStatus);
+          // Center map if this status is not selected
+          if (this.selectedMapStatus == "All") {
+            this.centerMapOnStatus("All");
+          }
         },
         error: (error) => {
           console.error('Failed to reload dashboard data:', error);
@@ -187,6 +191,8 @@ export class DashboardComponent implements OnInit {
 
   // Modified: Center map based on clicked status, and toggle selectedMapStatus
   centerMapOnStatus(status: string): void {
+    console.log(this.selectedMapStatus);
+    console.log(status);
     // Toggle logic: If the same button is clicked again, deselect it (go back to 'All')
     if (this.selectedMapStatus === status) {
       this.selectedMapStatus = 'All'; // Deselect current, show all

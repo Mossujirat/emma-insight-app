@@ -24,10 +24,19 @@
   border-bottom: 1px solid var(--card-border-color);
 }
 
-.table-hover > tbody > tr:hover {
-  /* --bs-table-accent-bg เป็นตัวแปรของ Bootstrap, เราจะใช้สีของเราแทน */
+.table-hover > tbody > tr.clickable-row:hover {
   --bs-table-hover-bg: var(--card-border-color);
   --bs-table-hover-color: var(--text-color);
+  cursor: pointer;
+}
+
+.table > tbody > tr.disabled-row {
+  cursor: not-allowed;
+  opacity: 0.6; /* ทำให้แถวดูจางลง */
+}
+
+.table > tbody > tr.disabled-row:hover {
+  background-color: transparent; /* ไม่ต้องมี hover effect */
 }
 
 .table th,.table td {

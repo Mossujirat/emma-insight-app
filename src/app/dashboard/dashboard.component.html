@@ -128,7 +128,9 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let driver of filteredDriverList" (click)="viewDriverDetails(driver.driverId)" style="cursor: pointer;">
+              <tr *ngFor="let driver of filteredDriverList"
+                  (click)="driver.available !== 'Offline' && viewDriverDetails(driver.driverId)"
+                  [ngClass]="{'clickable-row': driver.available !== 'Offline', 'disabled-row': driver.available === 'Offline'}">
                 <td>{{ driver.driverId }}</td>
                 <td>{{ driver.carLicenseNo }}</td>
                 <td>{{ driver.driverName }}</td>

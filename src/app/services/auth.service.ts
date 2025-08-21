@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; // We'll just declare this for future use, not actively use it yet
+import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs'; // Import Observable, of, throwError
 import { delay, tap, map, catchError } from 'rxjs/operators'; // Import delay and tap
 import { LoginCredentials, RegistrationData, User} from '../models/user.model'; // Import the new interfaces
@@ -14,8 +15,7 @@ export class AuthService {
   private readonly USER_PROFILE_KEY = 'userProfile';
   private apiUrl = environment.apiUrl;
 
-  // We are not actively using HttpClient yet, but it's good to have it ready for a real backend
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   login(credentials: LoginCredentials): Observable<any> {
     console.log('AuthService: Sending login request to Mockoon backend:', credentials);
@@ -117,6 +117,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_PROFILE_KEY);
+    this.router.navigate(['/login'], { replaceUrl: true });
     console.log('AuthService: User logged out.');
   }
 }

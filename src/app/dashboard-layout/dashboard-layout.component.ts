@@ -40,7 +40,6 @@ export class DashboardLayoutComponent implements OnInit {
 
   logout(): void {
     this.authService.logout();
-    this.router.navigate(['/login'], { replaceUrl: true });
   }
 
   // Theme toggle for dashboard header - syncs with app-wide theme
