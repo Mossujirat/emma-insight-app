@@ -113,8 +113,8 @@
                 <select class="form-select me-2  border-secondary" 
                         [(ngModel)]="sortOrder" 
                         (ngModelChange)="applyRankingSortAndFilter()">
-                  <option value="highToLow">Sort by: Rank (High to Low)</option>
-                  <option value="lowToHigh">Sort by: Rank (Low to High)</option>
+                  <option value="highToLow">Sort by: High to Low</option>
+                  <option value="lowToHigh">Sort by: Low to High</option>
                 </select>
                 <div class="input-group">
                   <input type="text" 
@@ -131,7 +131,6 @@
               <table class="table table-striped table-hover">
                 <thead>
                   <tr>
-                    <th>Rank</th>
                     <th>ID</th>
                     <th>License Plate No.</th>
                     <th>Name</th>
@@ -142,7 +141,6 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let rank of sortedRankings" [routerLink]="['/dashboard/statistics', rank.id]" class="driver-row">
-                    <td>{{ rank.rank }}</td>
                     <td>{{ rank.id }}</td>
                     <td>{{ rank.licensePlateNo }}</td>
                     <td>{{ rank.name }}</td>
@@ -154,7 +152,9 @@
                       }">{{ rank.vehicles }}</span>
                     </td>
                     <td>{{ rank.durationDisplay }}</td>
-                    <td>{{ rank.quantity }} times</td>
+                    <td>
+                      {{ activeRankingFilter === 'warning' ? rank.quantitywarning : rank.quantitycritical }} times
+                    </td>
                   </tr>
                 </tbody>
               </table>

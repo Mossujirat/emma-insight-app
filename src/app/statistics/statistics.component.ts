@@ -61,7 +61,6 @@ export class StatisticsComponent implements OnInit, AfterViewChecked {
         this.summary = data.summary;
         
         this.rankings = data.rankingTable.map(rankItem => ({
-            rank: rankItem.driverRanking, 
             id: rankItem.driverId, 
             licensePlateNo: rankItem.carLicenseNo,
             name: rankItem.driverName, 
@@ -69,7 +68,8 @@ export class StatisticsComponent implements OnInit, AfterViewChecked {
             warningDuration: rankItem.warningDuration,
             criticalDuration: rankItem.criticalDuration,
             durationDisplay: '', // จะถูกกำหนดค่าในภายหลัง
-            quantity: rankItem.quantity,
+            quantitywarning: rankItem.quantitywarning,
+            quantitycritical: rankItem.quantitycritical
         }));
 
         if (!from && !to && this.rawApiData) {

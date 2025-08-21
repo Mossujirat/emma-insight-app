@@ -35,10 +35,10 @@ export interface RankDriverData {
   driverName: string;
   vehicleType: string;
   carLicenseNo: string;
-  driverRanking: number;
   warningDuration: number;
   criticalDuration: number;
-  quantity: number;
+  quantitywarning: number;
+  quantitycritical: number;
 }
 
 export interface StatisticsSummary {
@@ -58,7 +58,6 @@ export interface GraphDataPoint {
 }
 
 export interface Ranking {
-  rank: number;
   id: string;
   licensePlateNo: string;
   name: string;
@@ -66,7 +65,8 @@ export interface Ranking {
   warningDuration: number;
   criticalDuration: number; 
   durationDisplay: string;
-  quantity: number;
+  quantitywarning: number;
+  quantitycritical: number;
 }
 
 export interface StatisticsData {
