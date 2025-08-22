@@ -36,12 +36,10 @@ export interface DailyEventData {
 }
 
 export interface DailyTripLog {
-  date: string;
   tripId: string;
-  startTime: number; // In seconds
-  distance: number;
-  duration: number; // In seconds
-  avgSpeed: number;
+  startTime: string;
+  duration: number;
+  event: number;
 }
 
 /**

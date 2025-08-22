@@ -99,7 +99,7 @@ export class StatDriverComponent implements OnInit, AfterViewInit, OnDestroy {
           // Sort dailyTripLog by date in descending order (latest first)
           if (this.driverData.dailyTripLog) {
             this.driverData.dailyTripLog.sort((a, b) => {
-              return new Date(b.date).getTime() - new Date(a.date).getTime();
+              return new Date(b.startTime).getTime() - new Date(a.startTime).getTime();
             });
           }
 
