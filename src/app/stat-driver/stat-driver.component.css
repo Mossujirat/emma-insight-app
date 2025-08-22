@@ -281,14 +281,9 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   margin-bottom: 1rem;
 }
 
-.table {
-  border-bottom: 1px solid var(--card-border-color);
-}
-
 .table th, .table td {
   color: var(--text-color);
   border-top: none;
-  background-color: var(--card-bg-color);
   border-bottom: 1px solid var(--card-border-color);
   padding: 1rem;
 }
@@ -310,7 +305,7 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
   position: sticky; /* Make headers sticky */
   top: 0; /* Stick to the top of the scrollable container */
   z-index: 1; /* Ensure header stays on top of scrolling content */
-  background-color: var(--card-bg-color); /* Match card background to hide scrolling content behind it */
+  background-color: var(--background-color); /* Match card background to hide scrolling content behind it */
 }
 
 /* Custom Scrollbar Styling (for WebKit browsers like Chrome, Edge, Safari) */

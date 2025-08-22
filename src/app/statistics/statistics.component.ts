@@ -212,7 +212,7 @@ export class StatisticsComponent implements OnInit, AfterViewChecked {
     if (this.chart) this.chart.destroy();
 
     const labels = graphData.map(d => d.date);
-    const yAxisLabel = this.activeGraphGroup === 'event' ? 'Total Events per 10 KM' : 'Speed (Km/h)';
+    const yAxisLabel = this.activeGraphGroup === 'event' ? 'Total Events' : 'Speed (Km/h)';
 
     this.chart = new Chart(canvas, {
       type: 'line',
