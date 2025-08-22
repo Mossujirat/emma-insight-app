@@ -101,7 +101,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let log of driverData.dailyTripLog"
-                            [routerLink]="['/dashboard/statistics', driverId, log.tripId]" 
+                            [routerLink]="['/dashboard/statistics', driverId, log.tid]" 
                             style="cursor: pointer;">
                             <td>{{ log.tripId }}</td>
                             <td>{{ log.startTime }}</td>

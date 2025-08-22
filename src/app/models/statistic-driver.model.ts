@@ -36,6 +36,7 @@ export interface DailyEventData {
 }
 
 export interface DailyTripLog {
+  tid: number;
   tripId: string;
   startTime: string;
   duration: number;

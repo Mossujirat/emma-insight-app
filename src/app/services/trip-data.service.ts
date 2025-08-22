@@ -25,7 +25,7 @@ export class TripDataService {
     );
   }
 
-  getDriverTrip(driverId: string, tripId: string): Observable<DriverCurrentTrip> {
+  getDriverTrip(driverId: string, tid: string): Observable<DriverCurrentTrip> {
     const token = this.authService.getToken();
     if (!token) {
       console.error('TripDataService: No token found.');
@@ -38,9 +38,9 @@ export class TripDataService {
     });
 
     // สร้าง URL ที่มีทั้ง driverId และ tripId
-    const url = `${this.apiUrl}/driver-trip-data/${driverId}/${tripId}`;
+    const url = `${this.apiUrl}/driver-trip-data/${driverId}/${tid}`;
     
-    console.log(`TripDataService: Requesting specific trip data for driver: ${driverId}, trip: ${tripId}`);
+    console.log(`TripDataService: Requesting specific trip data for driver: ${driverId}, trip: ${tid}`);
     
     return this.http.get<DriverCurrentTrip>(url, { headers }).pipe(
       catchError(this.handleError) // ใช้ error handler ร่วมกันได้

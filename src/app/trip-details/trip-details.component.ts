@@ -19,7 +19,7 @@ interface LongdoMapCoordinates {
 
 export class TripDetailsComponent {
   driverId: string | null = null;
-  tripId: string | null = null;
+  tid: string | null = null;
   driverTripData: DriverCurrentTrip | null = null;
   loadingData: boolean = true;
 
@@ -47,11 +47,10 @@ export class TripDetailsComponent {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.driverId = params.get('driverId');
-      this.tripId = params.get('tripId');
+      this.tid = params.get('tid');
 
-      if (this.driverId && this.tripId) {
-        // ✨ เรียกใช้ฟังก์ชันใหม่จาก Service
-        this.loadDriverTripData(this.driverId, this.tripId);
+      if (this.driverId && this.tid) {
+        this.loadDriverTripData(this.driverId, this.tid);
       } else {
         console.error('Driver ID or Trip ID not found in route parameters.');
         this.loadingData = false;
