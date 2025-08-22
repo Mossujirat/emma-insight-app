@@ -37,7 +37,7 @@ const routes: Routes = [
       { path: 'home/:id', component: DriverDetailsComponent },
       { path: 'statistics', component: StatisticsComponent },
       { path: 'statistics/:driverId', component: StatDriverComponent },
-      { path: 'statistics/:driverId/:tripId', component: TripDetailsComponent },
+      { path: 'statistics/:driverId/:tid', component: TripDetailsComponent },
       { path: 'device-list', component: UserDeviceListComponent },
       { path: 'add-device', component: AddDeviceComponent },
       { path: 'edit-device/:id', component: EditDeviceComponent },
