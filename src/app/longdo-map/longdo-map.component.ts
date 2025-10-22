@@ -20,7 +20,7 @@ interface LongdoMapCoordinates {
 export class LongdoMapComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() drivers: Driver[] | null = [];
   @Input() center: LongdoMapCoordinates | null = null; // NEW: Input for map center
-  @Input() zoom: number = 12; // NEW: Input for map zoom
+  @Input() zoom: number = 9; // NEW: Input for map zoom
   @Input() routePoints: LonLatPoint[] | null = [];
 
   private map: any;
@@ -81,7 +81,7 @@ export class LongdoMapComponent implements OnInit, AfterViewInit, OnChanges {
     if (!this.map) {
       this.map = new longdo.Map({
         placeholder: mapContainer,
-        zoom: 12,
+        zoom: 9,
         center: { lon: 100.523186, lat: 13.736717 }, // Bangkok, Thailand
       });
 

@@ -4,4 +4,8 @@
   height: 100%;
   border-radius: 8px; /* Match card border-radius */
   overflow: hidden; /* Ensure map fits within rounded corners */
+  /* Override CSS variable เฉพาะสำหรับส่วนนี้ */
+  --text-color: initial; /* หรือ #000000 หรือสีเริ่มต้นอื่นๆ ที่ต้องการ */
+  /* หรือกำหนดสีโดยตรง (อาจจำเป็นสำหรับบาง elements) */
+  color: initial; /* หรือ #000000 */
 }

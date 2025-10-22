@@ -270,6 +270,10 @@
   color: #10b981;
 }
 
+.strong {
+  color: var(--text-color);
+}
+
 /* ทำให้ CSS นี้มีผลกับทุก scrollbar ที่อยู่ใน Dashboard Component */
 :host ::-webkit-scrollbar {
   width: 12px;

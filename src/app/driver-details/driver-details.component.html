@@ -24,7 +24,7 @@
           <div class="current-trip-container">
             <div class="list-group list-group-flush bg text mb-4 trip-timeline">
               <div class="list-group-item bg-transparent text border-bottom border-secondary d-flex align-items-center mb-2" 
-                          *ngFor="let tripEvent of driverTripData.tripEventDataList; let i = index"
+                          *ngFor="let tripEvent of displayedTripEvents; let i = index"
                           (click)="selectTripEvent(tripEvent)"
                           [ngClass]="{'timeline-active-event': selectedTripEvent === tripEvent}">
                 <div class="timeline-dot"></div>
@@ -40,7 +40,7 @@
                   </div>
                 </div>
               </div>
-              <div *ngIf="driverTripData.tripEventDataList.length === 0" class="text-center text-50 py-3">
+              <div *ngIf="displayedTripEvents.length === 0" class="text-center text-50 py-3">
                 No trip events found.
               </div>
             </div>
@@ -111,7 +111,7 @@
             <div class="card bg text p-4 secondary-card-match">
                 <h5 class="mb-4">Event Snapshot</h5>
                 <div class="event-snapshot-content">
-                    <img [src]="selectedTripEvent.eventImages[0]" alt="Event Snapshot" class="img-fluid mb-3 rounded snapshot-image">
+                    <img *ngIf="selectedTripEvent.eventStatus !== 'Start'" [src]="selectedTripEvent.eventImages[0]" alt="Event Snapshot" class="img-fluid mb-3 rounded snapshot-image">
                     
                     <div class="row">
                       <div class="col-lg-6 mb-2">

@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
   searchTerm: string = '';
 
   mapCenter: MapCoordinates = { lon: 100.55, lat: 13.75 };
-  mapZoom: number = 12; 
+  mapZoom: number = 10; 
 
   selectedMapStatus: string = 'All';
 
@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     // Polling every 20 seconds (20000 milliseconds)
-    timer(0, 20000) // Start immediately, then every 20 seconds
+    timer(0, 5000) // Start immediately, then every 20 seconds
       .pipe(
         switchMap(() => this.dashboardDataService.getSummaryDriverData()),
         takeUntil(this.unsubscribe$)
@@ -71,7 +71,8 @@ export class DashboardComponent implements OnInit {
           this.loadingData = false;
           // Optionally display an error message on the UI
         }
-      });
+      }
+    );
   }
 
   ngOnDestroy(): void {
@@ -214,13 +215,13 @@ export class DashboardComponent implements OnInit {
         lon: totalLon / this.filteredMapDrivers.length,
         lat: totalLat / this.filteredMapDrivers.length
       };
-      this.mapZoom = 12; // Zoom in a bit when focusing on a specific group
+      this.mapZoom = 10; // Zoom in a bit when focusing on a specific group
       console.log(`Map centered on ${this.selectedMapStatus} drivers:`, this.mapCenter);
     } else {
       console.log(`No ${this.selectedMapStatus} drivers found to center map.`);
       // Revert to overall center/zoom if no drivers match selected status
       this.mapCenter = { lon: this.summaryData?.overallLongitude || 100.55, lat: this.summaryData?.overallLatitude || 13.75 };
-      this.mapZoom = 12; // Revert to broader view
+      this.mapZoom = 10; // Revert to broader view
     }
   }
 }

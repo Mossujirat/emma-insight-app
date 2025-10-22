@@ -63,7 +63,6 @@ export class DriverDetailsComponent implements OnInit {
         this.loadingData = false;
         console.log('Driver trip data loaded successfully:', data);
         this.calculateMaxSummaryCount(); // Calculate max count after data loads
-        this.updateMapForTripEvents(); // Update map after data loads
 
         // Populate displayedTripEvents and select the *first* one by default (which is the oldest now)
         if (this.driverTripData.tripEventDataList) {
@@ -72,6 +71,8 @@ export class DriverDetailsComponent implements OnInit {
             return new Date(a.created).getTime() - new Date(b.created).getTime();
           });
         }
+
+        this.updateMapForTripEvents(); // Update map after data loads
       },
       error: (error) => {
         console.error('Failed to load driver trip data:', error);
@@ -105,7 +106,7 @@ export class DriverDetailsComponent implements OnInit {
     }
 
     // Transform TripEventDataList into a format suitable for LongdoMapComponent's @Input drivers
-    this.mapMarkers = this.driverTripData.tripEventDataList.map(event => ({
+    this.mapMarkers = this.displayedTripEvents.map(event => ({
       driverId: this.driverTripData?.driverId || '',
       driverName: this.driverTripData?.driverName || '',
       carLicenseNo: this.driverTripData?.carLicenseNo || '',
@@ -118,7 +119,7 @@ export class DriverDetailsComponent implements OnInit {
     }));
 
     // Extract longitude and latitude for route points
-    this.tripRouteLonLatPoints = this.driverTripData.tripEventDataList
+    this.tripRouteLonLatPoints = this.displayedTripEvents
       .filter(event => event.longitude !== null && event.latitude !== null) // Only include points with valid coords
       .map(event => ({ lon: event.longitude, lat: event.latitude }));
 
