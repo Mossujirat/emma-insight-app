@@ -161,6 +161,43 @@ export class DashboardComponent implements OnInit {
                (driver.driverName && driver.driverName.toLowerCase().includes(searchLower));
       });
     }
+
+    // --- เพิ่มส่วนนี้: เรียงลำดับตาม Status ---
+    const statusOrder = {
+      'Critical': 1,
+      'Warning': 2,
+      'Normal': 3, // Assuming 'Online' but not 'Warning' or 'Critical' means 'Normal'
+      'Offline': 4
+    };
+
+    tempFilteredList.sort((a, b) => {
+      // กำหนดค่าลำดับความสำคัญสำหรับ a
+      let orderA = statusOrder['Offline']; // ค่า default คือ Offline
+      if (a.available === 'Online') {
+        if (a.status === 'Critical') {
+          orderA = statusOrder['Critical'];
+        } else if (a.status === 'Warning') {
+          orderA = statusOrder['Warning'];
+        } else {
+          orderA = statusOrder['Normal']; // ถ้า Online และไม่ใช่ Critical หรือ Warning ถือว่าเป็น Normal
+        }
+      }
+
+      // กำหนดค่าลำดับความสำคัญสำหรับ b
+      let orderB = statusOrder['Offline']; // ค่า default คือ Offline
+      if (b.available === 'Online') {
+        if (b.status === 'Critical') {
+          orderB = statusOrder['Critical'];
+        } else if (b.status === 'Warning') {
+          orderB = statusOrder['Warning'];
+        } else {
+          orderB = statusOrder['Normal'];
+        }
+      }
+
+      // เรียงลำดับจากน้อยไปมาก (Critical มาก่อน)
+      return orderA - orderB;
+    });
     
     this.filteredDriverList = tempFilteredList;
   }
@@ -180,9 +217,9 @@ export class DashboardComponent implements OnInit {
     } else {
       driversForMap = this.driverList.filter(driver => {
         if (driver.currentLongitude === null || driver.currentLatitude === null) return false;
-        if (status === 'Online' && driver.available === 'Online') return true;
-        if (status === 'Warning' && driver.status === 'Warning') return true;
-        if (status === 'Critical' && driver.status === 'Critical') return true;
+        if (status === 'Normal' && driver.available === 'Online' && driver.status === 'Normal') return true;
+        if (status === 'Warning' && driver.available === 'Online' && driver.status === 'Warning') return true;
+        if (status === 'Critical' && driver.available === 'Online' && driver.status === 'Critical') return true;
         if (status === 'Offline' && driver.available === 'Offline') return true;
         return false;
       });
@@ -203,25 +240,22 @@ export class DashboardComponent implements OnInit {
     
     this.filterMapDrivers(this.selectedMapStatus); // Filter map drivers based on new selection
 
+    // Rely on LongdoMapComponent auto-fit: passing filtered drivers will re-fit view
     if (this.filteredMapDrivers.length > 0) {
-      let totalLon = 0;
-      let totalLat = 0;
-      this.filteredMapDrivers.forEach(driver => {
-        totalLon += driver.currentLongitude || 0;
-        totalLat += driver.currentLatitude || 0;
-      });
-
-      this.mapCenter = {
-        lon: totalLon / this.filteredMapDrivers.length,
-        lat: totalLat / this.filteredMapDrivers.length
-      };
-      this.mapZoom = 10; // Zoom in a bit when focusing on a specific group
-      console.log(`Map centered on ${this.selectedMapStatus} drivers:`, this.mapCenter);
+      console.log(`Map will auto-fit ${this.selectedMapStatus} drivers:`, this.filteredMapDrivers.length);
     } else {
-      console.log(`No ${this.selectedMapStatus} drivers found to center map.`);
-      // Revert to overall center/zoom if no drivers match selected status
-      this.mapCenter = { lon: this.summaryData?.overallLongitude || 100.55, lat: this.summaryData?.overallLatitude || 13.75 };
-      this.mapZoom = 10; // Revert to broader view
+      console.log(`No ${this.selectedMapStatus} drivers found to show on map.`);
     }
+  }
+
+  // Decide a reasonable zoom level based on marker count
+  private getZoomForPointCount(count: number): number {
+    if (count <= 0) return 10;   // default broader view
+    if (count === 1) return 15;  // zoom in to single point
+    if (count <= 4) return 13;   // small cluster
+    if (count <= 9) return 12;   // neighborhood
+    if (count <= 19) return 11;  // city area
+    if (count <= 49) return 10;  // metro
+    return 9;                    // many points, wider view
   }
 }

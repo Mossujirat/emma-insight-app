@@ -32,10 +32,10 @@
         </div>
         <ng-container *ngIf="!loadingData && summaryData">
           <div class="status-item d-flex justify-content-between align-items-center pb-2"
-              [ngClass]="{'status-active': selectedMapStatus === 'Online'}"
-              (click)="centerMapOnStatus('Online')">
-            <span>Online</span>
-            <span class="fs-4 fw-bold text-success">{{ summaryData.noOnline }}</span>
+              [ngClass]="{'status-active': selectedMapStatus === 'Normal'}"
+              (click)="centerMapOnStatus('Normal')">
+            <span>Normal</span>
+            <span class="fs-4 fw-bold text-success">{{ summaryData.noOnline - summaryData.noWarning - summaryData.noCritical }}</span>
           </div>
           <div class="status-item d-flex justify-content-between align-items-center py-2"
               [ngClass]="{'status-active': selectedMapStatus === 'Warning'}"

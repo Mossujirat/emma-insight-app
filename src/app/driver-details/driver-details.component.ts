@@ -27,6 +27,7 @@ export class DriverDetailsComponent implements OnInit {
   mapZoom: number = 9;
   mapMarkers: Driver[] = []; 
   tripRouteLonLatPoints: LonLatPoint[] = [];
+  pinnedStops: LonLatPoint[] = []; // user-pinned additional stops (in order)
 
   // Property to hold the maximum count for bar graph scaling
   maxSummaryCount: number = 1;
@@ -34,8 +35,8 @@ export class DriverDetailsComponent implements OnInit {
   displayedTripEvents: TripEventData[] = []; // Property for reversed trip events
   selectedTripEvent: TripEventData | null = null; // To track selected trip event
 
-  private overallTripCenter: LongdoMapCoordinates = { lon: 0, lat: 0 }; // Store overall trip center
-  private defaultMapZoom: number = 9; // Store default zoom for trip view
+  private overallTripCenter: LongdoMapCoordinates = { lon: 0, lat: 0 }; // kept for future use (not driving map now)
+  private defaultMapZoom: number = 9; // unused after enabling auto-fit
 
   constructor(
     private route: ActivatedRoute,
@@ -132,12 +133,10 @@ export class DriverDetailsComponent implements OnInit {
             totalLat += p.lat;
         });
         this.overallTripCenter = { lon: totalLon / this.tripRouteLonLatPoints.length, lat: totalLat / this.tripRouteLonLatPoints.length };
-        this.defaultMapZoom = 12; // Set default zoom for the whole trip
     } else {
         this.overallTripCenter = { lon: 100.523186, lat: 13.736717 };
-        this.defaultMapZoom = 9;
     }
-    
+
     // Set initial map center to overall trip center
     this.mapCenter = this.overallTripCenter;
     this.mapZoom = this.defaultMapZoom;
@@ -160,20 +159,34 @@ export class DriverDetailsComponent implements OnInit {
     // Check if the same event is clicked again (to deselect)
     if (this.selectedTripEvent === event) {
       this.selectedTripEvent = null; // Deselect
-      console.log('Trip event deselected. Moving map to overall trip center.');
-      // Move map back to overall trip center
-      this.mapCenter = this.overallTripCenter;
-      this.mapZoom = this.defaultMapZoom;
+      console.log('Trip event deselected. Keeping auto-fit view.');
     } else {
       this.selectedTripEvent = event; // Select new event
       console.log('Trip event selected:', event);
-      // Move map to selected event's location
+      // When an event is selected, override center/zoom to focus on that point
       if (event.longitude !== null && event.latitude !== null) {
         this.mapCenter = { lon: event.longitude, lat: event.latitude };
         this.mapZoom = 15; // Zoom in closer for specific event
       } else {
         console.warn('Selected event has no coordinates to move map to.');
       }
+    }
+  }
+
+  // Public helpers to manage pinned stops
+  addPinnedStop(stop: LonLatPoint, index?: number): void {
+    if (index === undefined || index === null || index < 0 || index > this.pinnedStops.length) {
+      this.pinnedStops.push(stop);
+    } else {
+      this.pinnedStops.splice(index, 0, stop);
+    }
+    this.updateMapForTripEvents();
+  }
+
+  removePinnedStop(index: number): void {
+    if (index >= 0 && index < this.pinnedStops.length) {
+      this.pinnedStops.splice(index, 1);
+      this.updateMapForTripEvents();
     }
   }
 }

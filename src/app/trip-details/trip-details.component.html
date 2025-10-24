@@ -111,7 +111,7 @@
             <div class="card p-4 secondary-card-match">
                 <h5 class="mb-4">Event Snapshot</h5>
                 <div class="event-snapshot-content">
-                    <img [src]="selectedTripEvent.eventImages[0]" alt="Event Snapshot" class="img-fluid mb-3 rounded snapshot-image">
+                    <img *ngIf="selectedTripEvent.eventStatus !== 'Start' && selectedTripEvent.eventStatus !== 'End'" [src]="selectedTripEvent.eventImages[0]" alt="Event Snapshot" class="img-fluid mb-3 rounded snapshot-image">
                     
                     <div class="row">
                       <div class="col-lg-6 mb-2">
@@ -141,7 +141,7 @@
         <div class="card p-3 mb-4 equal-height-card"> 
           <div class="map-preview mb-4">
             <div style="width: 100%; height: 100%;">
-              <app-longdo-map [drivers]="mapMarkers" [center]="mapCenter" [zoom]="mapZoom" [routePoints]="tripRouteLonLatPoints"></app-longdo-map>
+              <app-longdo-map [drivers]="mapMarkers" [center]="mapCenter" [zoom]="mapZoom" [routePoints]="tripRouteLonLatPoints" [autoFit]="!selectedTripEvent"></app-longdo-map>
             </div>
           </div>
         </div>
